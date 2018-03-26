@@ -11,6 +11,11 @@ export default {
       extraBabelPlugins: ['dva-hmr'],
     },
   },
+  proxy: {
+    "/api/*": {
+      target: "http://www.superdata-tech.com/",
+    },
+  },
   alias: {
     'components': path.resolve(__dirname, 'src/components/'),
   },

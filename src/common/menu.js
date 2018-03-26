@@ -16,9 +16,38 @@ const menuData = [{
     // hideInMenu: true,
   }],
 }, {
+  name: '主页',
+  icon: 'dashboard',
+  path: 'home',
+}, {
+  name: '人员',
+  icon: 'dashboard',
+  path: 'person',
+}, {
+  name: '车辆',
+  icon: 'dashboard',
+  path: 'cl',
+}, {
+  name: '派车单',
+  icon: 'dashboard',
+  path: 'pai',
+}, {
+  name: '部门',
+  icon: 'dashboard',
+  path: 'bumen',
+}, {
+  name: '财务',
+  icon: 'dashboard',
+  path: 'caiwu',
+}, {
+  name: '设置',
+  icon: 'dashboard',
+  path: 'shezhi',
+}, {
   name: '表单页',
   icon: 'form',
   path: 'form',
+  hideInMenu: true,
   children: [{
     name: '基础表单',
     path: 'basic-form',
@@ -34,6 +63,7 @@ const menuData = [{
   name: '列表页',
   icon: 'table',
   path: 'list',
+  hideInMenu: true,
   children: [{
     name: '查询表格',
     path: 'table-list',
@@ -61,6 +91,7 @@ const menuData = [{
   name: '详情页',
   icon: 'profile',
   path: 'profile',
+  hideInMenu: true,
   children: [{
     name: '基础详情页',
     path: 'basic',
@@ -73,6 +104,7 @@ const menuData = [{
   name: '结果页',
   icon: 'check-circle-o',
   path: 'result',
+  hideInMenu: true,
   children: [{
     name: '成功',
     path: 'success',
@@ -84,6 +116,7 @@ const menuData = [{
   name: '异常页',
   icon: 'warning',
   path: 'exception',
+  hideInMenu: true,
   children: [{
     name: '403',
     path: '403',
@@ -96,7 +129,6 @@ const menuData = [{
   }, {
     name: '触发异常',
     path: 'trigger',
-    hideInMenu: true,
   }],
 }, {
   name: '账户',

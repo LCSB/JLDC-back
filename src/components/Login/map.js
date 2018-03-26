@@ -8,10 +8,11 @@ const map = {
     props: {
       size: 'large',
       prefix: <Icon type="user" className={styles.prefixIcon} />,
-      placeholder: 'admin',
     },
     rules: [{
-      required: true, message: 'Please enter username!',
+      required: true, message: '请输入账号',
+    }, {
+      pattern: /^1\d{10}$/, message: '手机号格式错误',
     }],
   },
   Password: {
@@ -20,10 +21,9 @@ const map = {
       size: 'large',
       prefix: <Icon type="lock" className={styles.prefixIcon} />,
       type: 'password',
-      placeholder: '888888',
     },
     rules: [{
-      required: true, message: 'Please enter password!',
+      required: true, message: '请输入密码',
     }],
   },
   Mobile: {

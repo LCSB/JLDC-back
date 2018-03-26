@@ -64,7 +64,6 @@ export default function request(url, options) {
       };
     }
   }
-
   return fetch(url, newOptions)
     .then(checkStatus)
     .then((response) => {

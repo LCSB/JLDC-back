@@ -1,5 +1,6 @@
 import { stringify } from 'qs';
 import request from '../utils/request';
+import { getAuthority } from '../utils/authority';
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');
@@ -60,10 +61,23 @@ export async function queryFakeList(params) {
   return request(`/api/fake_list?${stringify(params)}`);
 }
 
+// 登陆
 export async function fakeAccountLogin(params) {
-  return request('/api/login/account', {
+  return request(`/api/admin/auth/auth_admin?phone=${params.phone}&password=${params.password}`, {
     method: 'POST',
-    body: params,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  });
+}
+
+// 查找用户
+export async function getAllUserList() {
+  return request('/api/admin/sysuser/sys_user_get_all', {
+    method: 'POST',
+    headers: {
+      'x-token': getAuthority(),
+    },
   });
 }
 

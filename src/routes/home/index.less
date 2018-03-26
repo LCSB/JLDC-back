@@ -1,0 +1,32 @@
+@import "~antd/lib/style/themes/default.less";
+@import "../../utils/utils.less";
+
+.home {
+  .homeNotify {
+    width: 40%;
+    .homeStatus {
+      display: flex;
+      justify-content: space-around;
+
+      :global {
+        .ant-divider {
+          height: 100px;
+        }
+      }
+
+      .homeRy {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .title {
+          font-size: 14px;
+        }
+
+        .num {
+          font-size: 22px;
+          margin: 10px 0;
+        }
+      }
+    }
+  }
+}
