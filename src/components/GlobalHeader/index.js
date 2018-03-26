@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Menu, Icon, Tag, Dropdown, Divider } from 'antd';
+import { Menu, Icon, Tag, Dropdown, Divider, Avatar } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import Debounce from 'lodash-decorators/debounce';
@@ -53,8 +53,9 @@ export default class GlobalHeader extends PureComponent {
   render() {
     const {
       collapsed, isMobile, logo,
-      onMenuClick,
+      onMenuClick, currentUser,
     } = this.props;
+    // console.log(currentUser);
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         {/* <Menu.Item disabled><Icon type="user" />个人中心</Menu.Item>
@@ -134,12 +135,20 @@ export default class GlobalHeader extends PureComponent {
               emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
             />
           </NoticeIcon> */}
-          <Dropdown overlay={menu}>
-            <span className={`${styles.action} ${styles.account}`}>
-              {/* <Avatar size="small" className={styles.avatar} src={currentUser.avatar} /> */}
-              <span className={styles.name}>测试</span>
-            </span>
-          </Dropdown>
+          {
+            currentUser.sys_user &&
+            (
+              <Dropdown overlay={menu}>
+                <div className={`${styles.action} ${styles.account}`}>
+                  <Avatar size="small" className={styles.avatar} src={currentUser.sys_user.income} />
+                  <div className={styles.userMes}>
+                    <span className={styles.name}>{currentUser.sys_user.name}</span>
+                    <span>{currentUser.sys_user.phone}</span>
+                  </div>
+                </div>
+              </Dropdown>
+            )
+          }
         </div>
       </div>
     );

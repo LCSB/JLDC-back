@@ -18,7 +18,9 @@ export default class AllPerson extends PureComponent {
     });
   }
   render() {
-    const { userList, ListLoading } = this.props;
+    const {
+      userList, ListLoading, orgById, orgFilter,
+    } = this.props;
     const columns = [{
       title: '姓名',
       dataIndex: 'name',
@@ -35,6 +37,13 @@ export default class AllPerson extends PureComponent {
       title: '部门',
       dataIndex: 'depart_id',
       width: 200,
+      filters: orgFilter,
+      onFilter: (value, record) => parseInt(record.depart_id, 10) === parseInt(value, 10),
+      render: (value) => {
+        return (
+          <span>{orgById[value]}</span>
+        );
+      },
     }, {
       title: '用车权限',
       dataIndex: 'age',
@@ -59,6 +68,8 @@ export default class AllPerson extends PureComponent {
         <div className={styles.AllHeader}>
           <Search
             placeholder="姓名/手机号/警号"
+            size="default"
+            style={{ width: 400 }}
             enterButton
           />
           <Button
@@ -67,7 +78,7 @@ export default class AllPerson extends PureComponent {
             新增人员
           </Button>
         </div>
-        <div>
+        <div className={styles.perosnNum}>
           共{userList.length}人
         </div>
         <Table

@@ -71,9 +71,40 @@ export async function fakeAccountLogin(params) {
   });
 }
 
+// 获取用户系统信息
+export async function getSysUser() {
+  return request('/api/admin/sysuser/current_user_ext_get', {
+    method: 'POST',
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
 // 查找用户
 export async function getAllUserList() {
   return request('/api/admin/sysuser/sys_user_get_all', {
+    method: 'POST',
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 删除用户
+export async function deleteSysUser(params) {
+  return request('/admin/sysuser/sys_user_delete', {
+    method: 'POST',
+    body: params,
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 获取所有单位列表
+export async function getAllOrgList() {
+  return request('/api/admin/organization/organization_all', {
     method: 'POST',
     headers: {
       'x-token': getAuthority(),

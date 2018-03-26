@@ -34,7 +34,7 @@ const menuData = [{
 }, {
   name: '部门',
   icon: 'dashboard',
-  path: 'bumen',
+  path: 'org',
 }, {
   name: '财务',
   icon: 'dashboard',

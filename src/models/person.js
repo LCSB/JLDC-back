@@ -1,4 +1,4 @@
-import { getAllUserList } from '../services/api';
+import { getAllUserList, getAllOrgList } from '../services/api';
 
 export default {
   namespace: 'person',
@@ -6,9 +6,19 @@ export default {
   state: {
     userList: [],
     ListLoading: false,
+    orgList: [],
   },
 
   effects: {
+    *getOrgList(_, { call, put }) {
+      const response = yield call(getAllOrgList);
+      if (response && response.organization_list instanceof Array) {
+        yield put({
+          type: 'saveOrgList',
+          orgList: response.organization_list,
+        });
+      }
+    },
     *getAllList(_, { call, put }) {
       yield put({
         type: 'changeListLoad',
@@ -29,6 +39,12 @@ export default {
   },
 
   reducers: {
+    saveOrgList(state, { orgList }) {
+      return {
+        ...state,
+        orgList,
+      };
+    },
     changeListLoad(state, { ListLoading }) {
       return {
         ...state,
