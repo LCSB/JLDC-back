@@ -4,6 +4,7 @@ const menuData = [{
   name: 'dashboard',
   icon: 'dashboard',
   path: 'dashboard',
+  hideInMenu: true,
   children: [{
     name: '分析页',
     path: 'analysis',
@@ -42,7 +43,7 @@ const menuData = [{
 }, {
   name: '设置',
   icon: 'dashboard',
-  path: 'shezhi',
+  path: 'roleSet',
 }, {
   name: '表单页',
   icon: 'form',

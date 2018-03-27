@@ -112,6 +112,16 @@ export async function getAllOrgList() {
   });
 }
 
+// 获取所有权限
+export async function getAllRoleList() {
+  return request('/api/admin/sysuser/sysuser_role_get_all', {
+    method: 'POST',
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
 export async function fakeRegister(params) {
   return request('/api/register', {
     method: 'POST',

@@ -82,6 +82,9 @@ export const getRouterData = (app) => {
     '/org': {
       component: dynamicWrapper(app, ['org'], () => import('../routes/OrgMerge')),
     },
+    '/roleSet': {
+      component: dynamicWrapper(app, ['role'], () => import('../routes/RoleSet')),
+    },
     '/dashboard/analysis': {
       component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),
     },
