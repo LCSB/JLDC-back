@@ -7,14 +7,12 @@ const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 const { Option } = Select;
 // const { TextArea } = Input;
-@Form.create()
 export default class Modalconfig extends PureComponent {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, fieldsValue) => {
       if (!err) {
         const { dispatch } = this.props;
-        this.props.cancelModal();
         if (this.props.modalType === '添加') {
           dispatch({
             // type: 'car/addCar',
@@ -37,6 +35,7 @@ export default class Modalconfig extends PureComponent {
         //     }
         //   });
         // }
+        this.props.cancelModal();
       }
     });
   }

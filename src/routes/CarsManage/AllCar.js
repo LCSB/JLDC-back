@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import {
-  Table, Button, Input, Divider, Popconfirm,
+  Table, Button, Input, Divider, Popconfirm, Form,
 } from 'antd';
 import CarModal from './Carconfig';
 import CarTypeModal from './CarTypeConfig';
@@ -13,6 +13,7 @@ const { Search } = Input;
   carList: car.carList,
   carLoad: car.carListLoading,
 }))
+@Form.create()
 export default class AllPerson extends PureComponent {
   state = {
     carVisible: false,
@@ -62,6 +63,7 @@ export default class AllPerson extends PureComponent {
   }
 
   cancelModal = () => {
+    this.props.form.resetFields();
     this.setState({
       carVisible: false,
       record: {},
@@ -75,6 +77,7 @@ export default class AllPerson extends PureComponent {
   }
 
   cancelTypeModal = () => {
+    this.props.form.resetFields();
     this.setState({
       carTypeVisible: false,
     });
@@ -183,10 +186,12 @@ export default class AllPerson extends PureComponent {
           dispatch={this.props.dispatch}
           cancelModal={this.cancelModal}
           orgList={orgList}
+          form={this.props.form}
         />
         <CarTypeModal
           carTypeVisible={this.state.carTypeVisible}
           cancelTypeModal={this.cancelTypeModal}
+          form={this.props.form}
         />
       </div>
     );

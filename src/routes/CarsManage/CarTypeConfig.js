@@ -7,7 +7,7 @@ const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 // const { Option } = Select;
 // const { TextArea } = Input;
-@Form.create()
+
 export default class Modalconfig extends PureComponent {
   handleSubmit = (e) => {
     e.preventDefault();
