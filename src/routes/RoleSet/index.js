@@ -37,6 +37,15 @@ export default class OrgMerge extends PureComponent {
       moadlType: '添加',
     });
   }
+
+  detailRole = (record) => {
+    this.setState({
+      roleVisible: true,
+      moadlType: '详情',
+      record,
+    });
+  }
+
   render() {
     const { roleList, ListLoading } = this.props;
     const columns = [{
@@ -98,8 +107,12 @@ export default class OrgMerge extends PureComponent {
       align: 'center',
       render: (record) => {
         return (
-          <div>
-            <span>详情</span>
+          <div className="tableBtns">
+            <span
+              onClick={this.detailRole.bind(this, record)}
+            >
+              详情
+            </span>
             <Divider type="vertical" />
             <span onClick={this.resiveRole.bind(this, record)}>编辑</span>
             <Divider type="vertical" />

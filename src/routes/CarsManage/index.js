@@ -3,8 +3,8 @@ import { connect } from 'dva';
 import {
   Tabs,
 } from 'antd';
-import AllPerson from './AllPerson';
-import WeChat from './WeChat';
+import AllCar from './AllCar';
+
 import styles from './index.less';
 
 const { TabPane } = Tabs;
@@ -31,19 +31,16 @@ export default class PersonMerge extends PureComponent {
       return val;
     });
     return (
-      <div className={styles.personMerge}>
-        <Tabs defaultActiveKey="全部人员">
-          <TabPane tab="全部人员" key="全部人员">
-            <AllPerson
+      <div className={styles.carsManage}>
+        <Tabs defaultActiveKey="全部车辆">
+          <TabPane tab="全部车辆" key="全部车辆">
+            <AllCar
               orgList={orgList}
               orgById={orgById}
               orgFilter={orgFilter}
             />
           </TabPane>
-          <TabPane tab="微信绑定人员" key="微信绑定人员">
-            <WeChat />
-          </TabPane>
-          <TabPane tab="调度人员" key="调度人员">调度人员</TabPane>
+          <TabPane tab="出车状态" key="出车状态">微信绑定人员</TabPane>
         </Tabs>
       </div>
     );

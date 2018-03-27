@@ -79,6 +79,9 @@ export const getRouterData = (app) => {
     '/person': {
       component: dynamicWrapper(app, ['person'], () => import('../routes/PersonMerge')),
     },
+    '/car': {
+      component: dynamicWrapper(app, ['car'], () => import('../routes/CarsManage')),
+    },
     '/org': {
       component: dynamicWrapper(app, ['org'], () => import('../routes/OrgMerge')),
     },

@@ -71,7 +71,7 @@ export async function fakeAccountLogin(params) {
   });
 }
 
-// 获取用户系统信息
+// 获取登陆用户系统信息
 export async function getSysUser() {
   return request('/api/admin/sysuser/current_user_ext_get', {
     method: 'POST',
@@ -91,11 +91,74 @@ export async function getAllUserList() {
   });
 }
 
-// 删除用户
-export async function deleteSysUser(params) {
-  return request('/admin/sysuser/sys_user_delete', {
+// 添加用户
+export async function addUser(params) {
+  return request('/api/admin/sysuser/sys_user_add', {
     method: 'POST',
     body: params,
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 修改用户
+export async function reviseUser(params) {
+  return request(`/api/admin/sysuser/sys_user_update?id=${params.id}`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 删除用户
+export async function deleteSysUser(params) {
+  return request(`/api/admin/sysuser/sys_user_delete?id=${params}`, {
+    method: 'POST',
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 获取微信用户
+export async function getWeChatList() {
+  return request('/api/admin/user/user_get_all', {
+    method: 'POST',
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 改变微信用户状态
+export async function reviseWeChat(params) {
+  return request(`/api/admin/user/user_update?id=${params.id}`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 删除微信用户
+export async function deleteWeChat(params) {
+  return request(`/api/admin/user/user_delete?id=${params}`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 获取车辆信息
+export async function getAllcarList() {
+  return request('/api/admin/vehicle/vehicle_get_all', {
+    method: 'POST',
     headers: {
       'x-token': getAuthority(),
     },

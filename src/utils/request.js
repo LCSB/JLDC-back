@@ -72,6 +72,16 @@ export default function request(url, options) {
       }
       return response.json();
     })
+    .then((response) => {
+      if (response && response.error.code === 10006) {
+        const { dispatch } = store;
+        dispatch({
+          type: 'login/logout',
+        });
+        return response;
+      }
+      return response;
+    })
     .catch((e) => {
       const { dispatch } = store;
       const status = e.name;

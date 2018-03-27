@@ -1,96 +1,109 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import {
-  Table, Button, Input, Divider, Popconfirm, Form,
+  Table, Button, Input, Divider, Popconfirm,
 } from 'antd';
-import AllModal from './AllPersonConfig';
+import CarModal from './Carconfig';
+import CarTypeModal from './CarTypeConfig';
 import styles from './index.less';
 
 const { Search } = Input;
 
-@connect(({ person }) => ({
-  userList: person.userList,
-  ListLoading: person.ListLoading,
+@connect(({ car }) => ({
+  carList: car.carList,
+  carLoad: car.carListLoading,
 }))
-@Form.create()
 export default class AllPerson extends PureComponent {
   state = {
-    userVisible: false,
-    moadlType: '',
+    carVisible: false,
+    modalType: '',
     record: {},
+    carTypeVisible: false,
   }
   componentWillMount() {
     this.props.dispatch({
-      type: 'person/getAllList',
+      type: 'car/getAllCarList',
     });
   }
 
-  addPerson = () => {
+  addCar = () => {
     this.setState({
-      userVisible: true,
-      moadlType: '添加',
+      carVisible: true,
+      modalType: '添加',
     });
   }
 
   revsieUser = (record) => {
     this.setState({
-      userVisible: true,
-      moadlType: '修改',
+      carVisible: true,
+      modalType: '修改',
       record,
     });
   }
 
   detailUser = (record) => {
     this.setState({
-      userVisible: true,
-      moadlType: '详情',
+      carVisible: true,
+      modalType: '详情',
       record,
     });
   }
 
-  deleteUser = (record) => {
+  deleteCar = (record) => {
     this.props.dispatch({
-      type: 'person/deleteUser',
+      type: 'car/deleteCar',
       payload: record.id,
       callback: () => {
         this.props.dispatch({
-          type: 'person/getAllList',
+          type: 'car/getAllCarList',
         });
       },
     });
   }
 
   cancelModal = () => {
-    this.props.form.resetFields();
     this.setState({
-      userVisible: false,
+      carVisible: false,
       record: {},
     });
   }
+
+  addCarType = () => {
+    this.setState({
+      carTypeVisible: true,
+    });
+  }
+
+  cancelTypeModal = () => {
+    this.setState({
+      carTypeVisible: false,
+    });
+  }
+
   render() {
     const {
-      userList, ListLoading, orgById, orgFilter, orgList,
+      carList, carLoad, orgById, orgFilter, orgList,
     } = this.props;
-    const pagination = {
-      pageSize: 6,
-      total: userList.length,
-    };
     const columns = [{
-      title: '姓名',
-      dataIndex: 'name',
+      title: '车牌号',
+      dataIndex: 'vehicle_number',
       width: 200,
     }, {
-      title: '手机号',
-      dataIndex: 'phone',
+      title: '车型用途',
+      dataIndex: 'vehicle_type',
       width: 200,
     }, {
-      title: '警号',
-      dataIndex: 'police_number',
+      title: '座位数',
+      dataIndex: 'seat_number',
+      width: 200,
+    }, {
+      title: '采购时间',
+      dataIndex: 'purchasing_time',
       width: 200,
     }, {
       title: '部门',
       dataIndex: 'depart_id',
-      width: 200,
+      width: 150,
       filters: orgFilter,
       onFilter: (value, record) => parseInt(record.depart_id, 10) === parseInt(value, 10),
       render: (value) => {
@@ -99,8 +112,8 @@ export default class AllPerson extends PureComponent {
         );
       },
     }, {
-      title: '用车权限',
-      dataIndex: 'age',
+      title: '车辆状态',
+      dataIndex: 'vehicle_status',
       width: 150,
     }, {
       title: '操作',
@@ -111,7 +124,7 @@ export default class AllPerson extends PureComponent {
             <span
               onClick={this.detailUser.bind(this, record)}
             >
-              详情
+              查看
             </span>
             <Divider type="vertical" />
             <span
@@ -121,8 +134,8 @@ export default class AllPerson extends PureComponent {
             </span>
             <Divider type="vertical" />
             <Popconfirm
-              title={`你确认要删除用户${record.name}么?`}
-              onConfirm={this.deleteUser.bind(this, record)}
+              title={`你确认要删除车辆${record.vehicle_number}么?`}
+              onConfirm={this.deleteCar.bind(this, record)}
             >
               删除
             </Popconfirm>
@@ -131,39 +144,49 @@ export default class AllPerson extends PureComponent {
       },
     }];
     return (
-      <div className={styles.AllPerson}>
+      <div className={styles.AllCar}>
         <div className={styles.AllHeader}>
+          <div className={styles.AllCarBtns}>
+            <Button
+              type="primary"
+              onClick={this.addCar}
+            >
+              新增车辆
+            </Button>
+            <Button
+              type="primary"
+              onClick={this.addCarType}
+            >
+              新增车型
+            </Button>
+          </div>
           <Search
-            placeholder="姓名/手机号/警号"
+            placeholder="请输入车牌号"
             size="default"
             style={{ width: 400 }}
             enterButton
           />
-          <Button
-            type="primary"
-            onClick={this.addPerson}
-          >
-            新增人员
-          </Button>
         </div>
-        <div className={styles.perosnNum}>
-          共{userList.length}人
+        <div className={styles.carNum}>
+          共{carList.length}辆车
         </div>
         <Table
-          dataSource={userList}
+          dataSource={carList}
           columns={columns}
           rowKey={(record => record.id)}
-          loading={ListLoading}
-          pagination={pagination}
+          loading={carLoad}
         />
-        <AllModal
-          userVisible={this.state.userVisible}
-          moadlType={this.state.moadlType}
+        <CarModal
+          carVisible={this.state.carVisible}
+          modalType={this.state.modalType}
           record={this.state.record}
           dispatch={this.props.dispatch}
           cancelModal={this.cancelModal}
           orgList={orgList}
-          form={this.props.form}
+        />
+        <CarTypeModal
+          carTypeVisible={this.state.carTypeVisible}
+          cancelTypeModal={this.cancelTypeModal}
         />
       </div>
     );

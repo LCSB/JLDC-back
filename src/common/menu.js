@@ -27,7 +27,7 @@ const menuData = [{
 }, {
   name: '车辆',
   icon: 'dashboard',
-  path: 'cl',
+  path: 'car',
 }, {
   name: '派车单',
   icon: 'dashboard',
