@@ -165,6 +165,57 @@ export async function getAllcarList() {
   });
 }
 
+// 获取订单列表
+export async function getAllOrderList() {
+  return request('/api/admin/vehicle/vehicle_order_get_all', {
+    method: 'POST',
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 获取指定订单信息
+export async function getOrderDatail(params) {
+  return request(`/api/admin/vehicle/vehicle_order_get?id=${params}`, {
+    method: 'POST',
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 用车原因列表
+export async function getUseCarReason() {
+  return request('/api/admin/vehicle/vehicle_prototyepe_get_all', {
+    method: 'POST',
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 获取可用车辆
+export async function getAvailableVehicles(params) {
+  return request('/api/admin/vehicle/current_user_vehicle', {
+    method: 'POST',
+    body: params,
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 获取指定订单历史车辆轨迹信息
+export async function getOrderHistory(params) {
+  return request(`/api/admin/vehicle/vehicle_order_get?id=${params}`, {
+    method: 'POST',
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
 // 获取所有单位列表
 export async function getAllOrgList() {
   return request('/api/admin/organization/organization_all', {

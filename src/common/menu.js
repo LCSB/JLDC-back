@@ -31,7 +31,7 @@ const menuData = [{
 }, {
   name: '派车单',
   icon: 'dashboard',
-  path: 'pai',
+  path: 'order',
 }, {
   name: '部门',
   icon: 'dashboard',

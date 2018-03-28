@@ -43,7 +43,6 @@ export default class PersonMerge extends PureComponent {
           <TabPane tab="微信绑定人员" key="微信绑定人员">
             <WeChat />
           </TabPane>
-          <TabPane tab="调度人员" key="调度人员">调度人员</TabPane>
         </Tabs>
       </div>
     );

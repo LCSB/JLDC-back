@@ -1,13 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import {
-  Tabs,
-} from 'antd';
 import AllCar from './AllCar';
-
 import styles from './index.less';
-
-const { TabPane } = Tabs;
 
 @connect(({ person }) => ({
   orgList: person.orgList,
@@ -32,16 +26,11 @@ export default class PersonMerge extends PureComponent {
     });
     return (
       <div className={styles.carsManage}>
-        <Tabs defaultActiveKey="全部车辆">
-          <TabPane tab="全部车辆" key="全部车辆">
-            <AllCar
-              orgList={orgList}
-              orgById={orgById}
-              orgFilter={orgFilter}
-            />
-          </TabPane>
-          <TabPane tab="出车状态" key="出车状态">微信绑定人员</TabPane>
-        </Tabs>
+        <AllCar
+          orgList={orgList}
+          orgById={orgById}
+          orgFilter={orgFilter}
+        />
       </div>
     );
   }

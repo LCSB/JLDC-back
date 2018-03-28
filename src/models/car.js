@@ -15,10 +15,10 @@ export default {
         carListLoading: true,
       });
       const response = yield call(getAllcarList);
-      if (response && response.organization_list instanceof Array) {
+      if (response && response.vehicles instanceof Array) {
         yield put({
           type: 'saveList',
-          carList: response.organization_list,
+          carList: response.vehicles,
         });
       }
       yield put({

@@ -13,7 +13,7 @@ export default {
   },
   proxy: {
     "/api/*": {
-      target: "http://www.superdata-tech.com/",
+      target: "http://192.144.129.105/",
     },
   },
   alias: {

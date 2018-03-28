@@ -8,6 +8,12 @@ import CarTypeModal from './CarTypeConfig';
 import styles from './index.less';
 
 const { Search } = Input;
+const carStatus = {
+  1: '空闲',
+  2: '占用',
+  3: '维修',
+  4: '停用',
+};
 
 @connect(({ car }) => ({
   carList: car.carList,
@@ -89,24 +95,34 @@ export default class AllPerson extends PureComponent {
     } = this.props;
     const columns = [{
       title: '车牌号',
-      dataIndex: 'vehicle_number',
+      dataIndex: 'vehicle.vehicle_number',
       width: 200,
+      align: 'center',
+    }, {
+      title: '车型',
+      dataIndex: 'vehicle_model_name',
+      width: 150,
+      align: 'center',
     }, {
       title: '车型用途',
-      dataIndex: 'vehicle_type',
-      width: 200,
+      dataIndex: 'vehicle_type_name',
+      width: 150,
+      align: 'center',
     }, {
       title: '座位数',
-      dataIndex: 'seat_number',
-      width: 200,
+      dataIndex: 'vehicle.seat_number',
+      width: 100,
+      align: 'center',
     }, {
       title: '采购时间',
-      dataIndex: 'purchasing_time',
-      width: 200,
+      dataIndex: 'vehicle.purchasing_time',
+      width: 250,
+      align: 'center',
     }, {
       title: '部门',
-      dataIndex: 'depart_id',
+      dataIndex: 'vehicle.depart_id',
       width: 150,
+      align: 'center',
       filters: orgFilter,
       onFilter: (value, record) => parseInt(record.depart_id, 10) === parseInt(value, 10),
       render: (value) => {
@@ -116,11 +132,14 @@ export default class AllPerson extends PureComponent {
       },
     }, {
       title: '车辆状态',
-      dataIndex: 'vehicle_status',
+      dataIndex: 'vehicle.vehicle_status',
       width: 150,
+      align: 'center',
+      render: val => carStatus[val],
     }, {
       title: '操作',
-      width: 200,
+      width: 250,
+      align: 'center',
       render: (record) => {
         return (
           <div>

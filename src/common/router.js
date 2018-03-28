@@ -82,6 +82,12 @@ export const getRouterData = (app) => {
     '/car': {
       component: dynamicWrapper(app, ['car'], () => import('../routes/CarsManage')),
     },
+    '/order': {
+      component: dynamicWrapper(app, ['order'], () => import('../routes/TruckingOrder')),
+    },
+    '/orderDetail': {
+      component: dynamicWrapper(app, ['orderDetail'], () => import('../routes/DetailOrder')),
+    },
     '/org': {
       component: dynamicWrapper(app, ['org'], () => import('../routes/OrgMerge')),
     },
