@@ -185,6 +185,28 @@ export async function getOrderDatail(params) {
   });
 }
 
+// 创建订单信息
+export async function createOrder(params) {
+  return request('/api/admin/vehicle/vehicle_order_add', {
+    method: 'POST',
+    body: params,
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 修改订单信息
+export async function reviseOrder(params) {
+  return request(`/api/admin/vehicle/vehicle_order_update?id=${params.id}`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
 // 用车原因列表
 export async function getUseCarReason() {
   return request('/api/admin/vehicle/vehicle_prototyepe_get_all', {
@@ -197,9 +219,8 @@ export async function getUseCarReason() {
 
 // 获取可用车辆
 export async function getAvailableVehicles(params) {
-  return request('/api/admin/vehicle/current_user_vehicle', {
+  return request(`/api/admin/vehicle/current_user_vehicle?user_id=${params.user_id}&start_time=${params.start_time}&end_time=${params.end_time}`, {
     method: 'POST',
-    body: params,
     headers: {
       'x-token': getAuthority(),
     },

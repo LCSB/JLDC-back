@@ -4,7 +4,7 @@ import DocumentTitle from 'react-document-title';
 import { Icon } from 'antd';
 import GlobalFooter from '../components/GlobalFooter';
 import styles from './UserLayout.less';
-import logo from '../assets/logo.svg';
+// import logo from '../assets/logo.svg';
 import { getRoutes } from '../utils/utils';
 
 const copyright = <Fragment>警务保障 <Icon type="copyright" /> 2018 数矿科技</Fragment>;
@@ -28,11 +28,10 @@ class UserLayout extends React.PureComponent {
             <div className={styles.top}>
               <div className={styles.header}>
                 <Link to="/">
-                  <img alt="logo" className={styles.logo} src={logo} />
-                  <span className={styles.title}>Ant Design</span>
+                  {/* <img alt="logo" className={styles.logo} src={logo} /> */}
+                  <span className={styles.title}>警务保障</span>
                 </Link>
               </div>
-              <div className={styles.desc}>Ant Design 是西湖区最具影响力的 Web 设计规范</div>
             </div>
             <Switch>
               {getRoutes(match.path, routerData).map(item =>
