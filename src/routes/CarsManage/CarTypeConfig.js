@@ -12,7 +12,7 @@ export default class Modalconfig extends PureComponent {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, fieldsValue) => {
-      if (!err) {
+      if (!err.vehicle_model_name && !err.enable) {
         const { dispatch } = this.props;
         dispatch({
           type: 'car/addCarType',

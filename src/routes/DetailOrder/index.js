@@ -45,13 +45,13 @@ export default class DetailOrder extends PureComponent {
       status: parseInt(status, 10),
     });
     this.props.dispatch({
+      type: 'person/getAllList',
+    });
+    this.props.dispatch({
       type: 'car/getAllCarList',
     });
     this.props.dispatch({
       type: 'orderDetail/getUseCarReason',
-    });
-    this.props.dispatch({
-      type: 'person/getAllList',
     });
     if (id) {
       this.props.dispatch({
@@ -142,6 +142,7 @@ export default class DetailOrder extends PureComponent {
         showCarList = AvailableMes.vehicle_exts;
       }
     }
+
     return (
       <div className={styles.detailOrder}>
         <div className={styles.orderMes}>
@@ -344,6 +345,7 @@ export default class DetailOrder extends PureComponent {
                   })(
                     <Select
                       disabled={status === 2}
+                      // mode="combobox"
                     >
                       {
                         reasonList.map((val) => {
@@ -354,6 +356,7 @@ export default class DetailOrder extends PureComponent {
                           );
                         })
                       }
+                      {/* {reasonOption} */}
                     </Select>
                   )
                 }

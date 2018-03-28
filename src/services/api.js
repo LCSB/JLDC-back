@@ -165,6 +165,27 @@ export async function getAllcarList() {
   });
 }
 
+// 添加车辆
+export async function addNewCar(params) {
+  return request('/api/admin/vehicle/vehicle_add', {
+    method: 'POST',
+    body: params,
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 获取车辆用途
+export async function getVehicleTypeAll() {
+  return request('/api/admin/vehicle/vehicle_type_get_all', {
+    method: 'POST',
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
 // 获取订单列表
 export async function getAllOrderList() {
   return request('/api/admin/vehicle/vehicle_order_get_all', {

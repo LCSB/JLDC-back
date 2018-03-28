@@ -18,6 +18,7 @@ const carStatus = {
 @connect(({ car }) => ({
   carList: car.carList,
   carLoad: car.carListLoading,
+  typeList: car.typeList,
 }))
 @Form.create()
 export default class AllPerson extends PureComponent {
@@ -30,6 +31,9 @@ export default class AllPerson extends PureComponent {
   componentWillMount() {
     this.props.dispatch({
       type: 'car/getAllCarList',
+    });
+    this.props.dispatch({
+      type: 'car/getVehicleTypeAll',
     });
   }
 
@@ -92,6 +96,7 @@ export default class AllPerson extends PureComponent {
   render() {
     const {
       carList, carLoad, orgById, orgFilter, orgList,
+      typeList,
     } = this.props;
     const columns = [{
       title: '车牌号',
@@ -195,7 +200,7 @@ export default class AllPerson extends PureComponent {
         <Table
           dataSource={carList}
           columns={columns}
-          rowKey={(record => record.id)}
+          rowKey={(record => record.vehicle.id)}
           loading={carLoad}
         />
         <CarModal
@@ -205,6 +210,7 @@ export default class AllPerson extends PureComponent {
           dispatch={this.props.dispatch}
           cancelModal={this.cancelModal}
           orgList={orgList}
+          typeList={typeList}
           form={this.props.form}
         />
         <CarTypeModal

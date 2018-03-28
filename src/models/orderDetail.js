@@ -27,7 +27,7 @@ export default {
         const orderMes = response.vehicleOrderExt.vehicle_order;
         const getCarDate = 'YYYY-MM-DD HH:mm:ss';
         const params = {
-          user_id: orderMes.id,
+          user_id: orderMes.originator,
           start_time: moment(orderMes.start_time).format(getCarDate),
           end_time: moment(orderMes.end_time).format(getCarDate),
         };

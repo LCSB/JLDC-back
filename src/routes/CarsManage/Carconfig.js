@@ -1,22 +1,40 @@
 import React, { PureComponent } from 'react';
+import moment from 'moment';
 import {
   Button, Input, Modal, Form, Radio, Select, DatePicker,
 } from 'antd';
 
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
+const showDate = 'YYYY-MM-DD';
 const { Option } = Select;
+const carStatus = {
+  1: '空闲',
+  2: '占用',
+  3: '维修',
+  4: '停用',
+};
+
 // const { TextArea } = Input;
 export default class Modalconfig extends PureComponent {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, fieldsValue) => {
-      if (!err) {
+      const arr = Object.keys(err);
+      if (arr.length <= 2) {
         const { dispatch } = this.props;
+        const params = {};
+        params.vehicle_number = fieldsValue.vehicle_number;
+        params.vehicle_model = fieldsValue.vehicle_model;
+        params.vehicle_type = fieldsValue.vehicle_type;
+        params.vehicle_weight = fieldsValue.vehicle_weight;
+        params.seat_number = parseInt(fieldsValue.seat_number, 10);
+        params.purchasing_time = fieldsValue.purchasing_time;
+        params.depart_id = fieldsValue.depart_id;
         if (this.props.modalType === '添加') {
           dispatch({
-            // type: 'car/addCar',
-            payload: fieldsValue,
+            type: 'car/addCar',
+            payload: params,
             callback: () => {
               dispatch({
                 type: 'car/getAllCarList',
@@ -41,7 +59,10 @@ export default class Modalconfig extends PureComponent {
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { modalType, cancelModal, record, orgList, carVisible } = this.props;
+    const {
+      modalType, cancelModal, record, orgList, carVisible,
+      typeList,
+    } = this.props;
     return (
       <Modal
         visible={carVisible}
@@ -59,7 +80,7 @@ export default class Modalconfig extends PureComponent {
           >
             {getFieldDecorator('vehicle_number', {
               rules: [{ required: true, message: '请输入车牌号' }],
-              initialValue: modalType === '添加' ? '' : record.name,
+              initialValue: (modalType !== '添加' && record.vehicle) ? record.vehicle.vehicle_number : '',
             })(
               <Input
                 disabled={modalType === '详情'}
@@ -72,12 +93,24 @@ export default class Modalconfig extends PureComponent {
           >
             {getFieldDecorator('vehicle_type', {
               rules: [{ required: true, message: '请输入车辆用途' }],
-              initialValue: modalType === '添加' ? '' : record.police_number,
+              initialValue: (modalType !== '添加' && record.vehicle) ? record.vehicle.vehicle_type : '',
             })(
-              <Input
+              <Select
                 disabled={modalType === '详情'}
-                placeholder="车辆用途"
-              />
+              >
+                {
+                  typeList.map((val) => {
+                    return (
+                      <Option
+                        key={val.id}
+                        value={val.id}
+                      >
+                        {val.vehicle_type_name}
+                      </Option>
+                    );
+                  })
+                }
+              </Select>
             )}
           </FormItem>
           <FormItem
@@ -85,7 +118,7 @@ export default class Modalconfig extends PureComponent {
           >
             {getFieldDecorator('seat_number', {
               rules: [{ required: true, message: '请输入座位数' }],
-              initialValue: modalType === '添加' ? '' : record.enable,
+              initialValue: (modalType !== '添加' && record.vehicle) ? record.vehicle.seat_number : '',
             })(
               <Input
                 disabled={modalType === '详情'}
@@ -94,11 +127,26 @@ export default class Modalconfig extends PureComponent {
             )}
           </FormItem>
           <FormItem
+            label="车辆重量"
+          >
+            {getFieldDecorator('vehicle_weight', {
+              rules: [{ required: true, message: '请输入车辆重量' }],
+              initialValue: (modalType !== '添加' && record.vehicle) ? record.vehicle.vehicle_weight : '',
+            })(
+              <Input
+                disabled={modalType === '详情'}
+                placeholder="车辆重量"
+                addonAfter="吨"
+              />
+            )}
+          </FormItem>
+          <FormItem
             label="采购时间"
           >
             {getFieldDecorator('purchasing_time', {
               rules: [{ required: true, message: '请输入采购时间' }],
-              // initialValue: modalType === '添加' ? '' : record.police_number,
+              initialValue: (modalType !== '添加' && record.vehicle) ?
+              moment(record.vehicle.purchasing_time, showDate) : undefined,
             })(
               <DatePicker
                 disabled={modalType === '详情'}
@@ -110,7 +158,7 @@ export default class Modalconfig extends PureComponent {
           >
             {getFieldDecorator('depart_id', {
               rules: [{ required: true, message: '请选择用车部门' }],
-              initialValue: modalType === '添加' ? '' : record.vehicle_depart_id,
+              initialValue: (modalType !== '添加' && record.vehicle) ? record.vehicle.depart_id : '',
             })(
               <Select
                 disabled={modalType === '详情'}
@@ -134,13 +182,15 @@ export default class Modalconfig extends PureComponent {
             label="车辆状态"
           >
             {getFieldDecorator('vehicle_status', {
-              initialValue: modalType === '添加' ? false : record.is_system,
+              initialValue: (modalType !== '添加' && record.vehicle) ? record.vehicle.vehicle_status : 1,
             })(
               <RadioGroup
                 disabled={modalType === '详情'}
               >
-                <Radio value>是</Radio>
-                <Radio value={false}>否</Radio>
+                <Radio value={1}>{carStatus[1]}</Radio>
+                <Radio value={2}>{carStatus[2]}</Radio>
+                <Radio value={3}>{carStatus[3]}</Radio>
+                <Radio value={4}>{carStatus[4]}</Radio>
               </RadioGroup>
             )}
           </FormItem>

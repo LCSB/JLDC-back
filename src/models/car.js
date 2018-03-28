@@ -1,4 +1,4 @@
-import { getAllcarList } from '../services/api';
+import { getAllcarList, getVehicleTypeAll, addNewCar } from '../services/api';
 
 export default {
   namespace: 'car',
@@ -6,6 +6,7 @@ export default {
   state: {
     carList: [],
     carListLoading: false,
+    typeList: [],
   },
 
   effects: {
@@ -26,6 +27,21 @@ export default {
         carListLoading: false,
       });
     },
+    *getVehicleTypeAll(_, { call, put }) {
+      const response = yield call(getVehicleTypeAll);
+      if (response && response.vehicleTypes instanceof Array) {
+        yield put({
+          type: 'saveTypeList',
+          typeList: response.vehicleTypes,
+        });
+      }
+    },
+    *addCar({ payload, callback }, { call }) {
+      yield call(addNewCar, payload);
+      if (callback) {
+        callback();
+      }
+    },
   },
   reducers: {
     changeListLoading(state, { carListLoading }) {
@@ -38,6 +54,12 @@ export default {
       return {
         ...state,
         carList,
+      };
+    },
+    saveTypeList(state, { typeList }) {
+      return {
+        ...state,
+        typeList,
       };
     },
   },
