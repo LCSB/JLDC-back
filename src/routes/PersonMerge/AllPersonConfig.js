@@ -36,7 +36,7 @@ export default class Modalconfig extends PureComponent {
         }
         if (this.props.moadlType === '修改') {
           params.id = record.id;
-          params.password = record.password;
+          params.password = '123456';
           params.income = record.income;
           params.vehicle_depart_id = record.vehicle_depart_id;
           dispatch({
