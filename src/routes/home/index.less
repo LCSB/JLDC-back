@@ -2,31 +2,13 @@
 @import "../../utils/utils.less";
 
 .home {
+  display: flex;
+  flex-wrap: nowrap;
+  .map-view {
+    width: 100%;
+    height: 500px;
+  }
   .homeNotify {
-    width: 40%;
-    .homeStatus {
-      display: flex;
-      justify-content: space-around;
-
-      :global {
-        .ant-divider {
-          height: 100px;
-        }
-      }
-
-      .homeRy {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        .title {
-          font-size: 14px;
-        }
-
-        .num {
-          font-size: 22px;
-          margin: 10px 0;
-        }
-      }
-    }
+    flex: 2;
   }
 }
