@@ -101,7 +101,7 @@ export default class AllPerson extends PureComponent {
       typeList, ModalList,
     } = this.props;
     const pagination = {
-      pageSize: 6,
+      pageSize: 8,
       total: carList.length,
     };
     const columns = [{

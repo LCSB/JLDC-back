@@ -63,7 +63,7 @@ export default class TruckingOrder extends PureComponent {
         align: 'center',
       },
       {
-        title: '下单人',
+        title: '申请人',
         dataIndex: 'originator_name',
         width: 150,
         align: 'center',
@@ -138,14 +138,16 @@ export default class TruckingOrder extends PureComponent {
     ];
     return (
       <div className={styles.TruckingOrder}>
-        <h2>派出单管理</h2>
-        <Button
-          type="primary"
-          onClick={this.addOrder}
-          style={{ margin: 10 }}
-        >
-          新建订单
-        </Button>
+        <div className={styles.orderTitle}>
+          <h2>派车单管理</h2>
+          <Button
+            type="primary"
+            onClick={this.addOrder}
+            style={{ margin: 10 }}
+          >
+            新建派车单
+          </Button>
+        </div>
         <Table
           columns={columns}
           dataSource={orderList}

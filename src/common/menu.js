@@ -39,7 +39,7 @@ const menuData = [{
       path: 'org',
     },
     {
-      name: '人员角色',
+      name: '角色',
       path: 'roleSet',
     },
   ],

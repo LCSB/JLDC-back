@@ -71,7 +71,7 @@ export default class AllPerson extends PureComponent {
       userList, ListLoading, orgById, orgFilter, orgList,
     } = this.props;
     const pagination = {
-      pageSize: 6,
+      pageSize: 8,
       total: userList.length,
     };
     const columns = [{
@@ -97,11 +97,13 @@ export default class AllPerson extends PureComponent {
           <span>{orgById[value]}</span>
         );
       },
-    }, {
-      title: '用车权限',
-      dataIndex: 'age',
-      width: 150,
-    }, {
+    },
+    // {
+    //   title: '用车单位',
+    //   dataIndex: 'age',
+    //   width: 150,
+    // },
+    {
       title: '操作',
       width: 200,
       render: (record) => {

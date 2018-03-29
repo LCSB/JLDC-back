@@ -13,7 +13,7 @@ export default {
   },
   proxy: {
     "/api/*": {
-      target: "http://192.144.129.105/",
+      target: "http://121.196.194.31/",
     },
   },
   alias: {
@@ -24,7 +24,7 @@ export default {
   html: {
     template: './src/index.ejs',
   },
-  disableDynamicImport: true,
+  disableDynamicImport: false,
   publicPath: '/',
   hash: true,
 };
