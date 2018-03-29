@@ -4,6 +4,7 @@ import {
 } from 'antd';
 // import EsriLoaderReact from 'esri-loader-react';
 import styles from './index.less';
+// import AddPersonModal from '../PersonMerge/AllPersonConfig';
 
 // const { Sider } = Layout;
 
@@ -24,6 +25,15 @@ export default class home extends PureComponent {
               >
                 添加人员
               </Button>
+              {/* <AddPersonModal
+                userVisible={this.state.userVisible}
+                moadlType={this.state.moadlType}
+                record={this.state.record}
+                dispatch={this.props.dispatch}
+                cancelModal={this.cancelModal}
+                orgList={orgList}
+                form={this.props.form}
+              /> */}
             </div>
             <Divider type="vertical" />
             <div className={styles.homeRy}>

@@ -7,8 +7,12 @@ const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 const { Option } = Select;
 // const { TextArea } = Input;
-
+@Form.create()
 export default class Modalconfig extends PureComponent {
+  cancelModalForm = () => {
+    this.props.form.resetFields();
+    this.props.cancelModal();
+  }
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, fieldsValue) => {
@@ -49,13 +53,14 @@ export default class Modalconfig extends PureComponent {
             },
           });
         }
+        this.props.form.resetFields();
         this.props.cancelModal();
       }
     });
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { moadlType, cancelModal, record, orgList } = this.props;
+    const { moadlType, record, orgList } = this.props;
     return (
       <Modal
         visible={this.props.userVisible}
@@ -63,7 +68,7 @@ export default class Modalconfig extends PureComponent {
         footer={null}
         title={`用户${moadlType}`}
         maskClosable={false}
-        onCancel={cancelModal}
+        onCancel={this.cancelModalForm}
       >
         <Form
           onSubmit={this.handleSubmit}
@@ -173,7 +178,7 @@ export default class Modalconfig extends PureComponent {
                 <Button type="primary" htmlType="submit">{moadlType}</Button>
                 <Button
                   type="primary"
-                  onClick={cancelModal}
+                  onClick={this.cancelModalForm}
                 >
                   取消
                 </Button>

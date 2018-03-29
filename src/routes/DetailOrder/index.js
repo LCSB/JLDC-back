@@ -19,10 +19,10 @@ const statusOrder = {
 };
 
 const statusCar = {
-  1: '等待调度',
-  2: '开始用车',
-  3: '行程取消',
-  4: '行程结束',
+  1: '预约成功',
+  2: '执行中',
+  3: '订单完成',
+  4: '取消订单',
 };
 
 @connect(({ orderDetail, car, person }) => ({
@@ -399,22 +399,36 @@ export default class DetailOrder extends PureComponent {
                       <Button type="primary" htmlType="submit">拿钥匙</Button>
                     }
                     {
-                      status !== 1 &&
+                      status === 3 &&
                       (
                         <div className={styles.Setbtns}>
-                          <Button
-                            type="primary"
-                            onClick={this.changeOrderStatus.bind(this, 3)}
-                          >
-                            取消订单
-                          </Button>
-                          <Button type="primary" htmlType="submit">修改订单</Button>
-                          <Button
-                            type="primary"
-                            onClick={this.changeOrderStatus.bind(this, 4)}
-                          >
-                            还钥匙
-                          </Button>
+                          {
+                            detailList.vehicle_order &&
+                            detailList.vehicle_order.order_status === 1 &&
+                            (
+                              <div className={styles.resOrder}>
+                                <Button
+                                  type="primary"
+                                  onClick={this.changeOrderStatus.bind(this, 3)}
+                                >
+                                  取消订单
+                                </Button>
+                                <Button type="primary" htmlType="submit">修改订单</Button>
+                              </div>
+                            )
+                          }
+                          {
+                            detailList.vehicle_order &&
+                            detailList.vehicle_order.order_status === 2 &&
+                            (
+                              <Button
+                                type="primary"
+                                onClick={this.changeOrderStatus.bind(this, 4)}
+                              >
+                                还钥匙
+                              </Button>
+                            )
+                          }
                         </div>
                       )
                     }

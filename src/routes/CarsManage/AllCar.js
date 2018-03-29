@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import {
-  Table, Button, Input, Divider, Popconfirm, Form,
+  Table, Button, Input, Divider, Popconfirm,
 } from 'antd';
 import CarModal from './Carconfig';
 import CarTypeModal from './CarTypeConfig';
@@ -21,7 +21,7 @@ const carStatus = {
   typeList: car.typeList,
   ModalList: car.ModalList,
 }))
-@Form.create()
+
 export default class AllPerson extends PureComponent {
   state = {
     carVisible: false,
@@ -77,7 +77,6 @@ export default class AllPerson extends PureComponent {
   }
 
   cancelModal = () => {
-    this.props.form.resetFields();
     this.setState({
       carVisible: false,
       record: {},
@@ -91,7 +90,6 @@ export default class AllPerson extends PureComponent {
   }
 
   cancelTypeModal = () => {
-    this.props.form.resetFields();
     this.setState({
       carTypeVisible: false,
     });
@@ -155,7 +153,7 @@ export default class AllPerson extends PureComponent {
       align: 'center',
       render: (record) => {
         return (
-          <div>
+          <div className="tableBtns">
             <span
               onClick={this.detailUser.bind(this, record)}
             >
@@ -221,12 +219,12 @@ export default class AllPerson extends PureComponent {
           orgList={orgList}
           typeList={typeList}
           ModalList={ModalList}
-          form={this.props.form}
+          // form={this.props.form}
         />
         <CarTypeModal
           carTypeVisible={this.state.carTypeVisible}
           cancelTypeModal={this.cancelTypeModal}
-          form={this.props.form}
+          // form={this.props.form}
           dispatch={this.props.dispatch}
         />
       </div>

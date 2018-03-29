@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import {
   Table, Button, Input, Divider,
 } from 'antd';
-import modalConfig from './config';
+import ModalConfig from './config';
 
 const { Search } = Input;
 
@@ -140,7 +140,7 @@ export default class OrgMerge extends PureComponent {
           rowKey={(record => record.id)}
           loading={ListLoading}
         />
-        <modalConfig
+        <ModalConfig
           roleVisible={this.state.roleVisible}
           moadlType={this.state.moadlType}
           record={this.state.record}

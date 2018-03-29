@@ -3,12 +3,13 @@ import { connect } from 'dva';
 import {
   Form, Table, Divider, Popconfirm, Button,
 } from 'antd';
+import styles from './index.less';
 
 const orderStatus = {
-  1: '等待调度',
-  2: '开始用车',
-  3: '行程取消',
-  4: '行程结束',
+  1: '预约成功',
+  2: '执行中',
+  3: '订单完成',
+  4: '取消订单',
 };
 
 @connect(({ order }) => ({
@@ -104,32 +105,39 @@ export default class TruckingOrder extends PureComponent {
         align: 'center',
         render: (record) => {
           return (
-            <div>
+            <div className="tableBtns">
               <span
                 onClick={this.showOrder.bind(this, record.vehicle_order.id, 2)}
               >
                 查看
               </span>
-              <Divider type="vertical" />
-              <span
-                onClick={this.showOrder.bind(this, record.vehicle_order.id, 3)}
-              >
-                编辑
-              </span>
-              <Divider type="vertical" />
-              <Popconfirm
-                title={`你确认要取消${record.originator_name}的订单么?`}
-                onConfirm={this.cancelOrder.bind(this, record.vehicle_order.id)}
-              >
-                取消
-              </Popconfirm>
+              {
+                record.vehicle_order.order_status === 1 &&
+                (
+                  <div style={{ display: 'flex' }}>
+                    <Divider type="vertical" />
+                    <span
+                      onClick={this.showOrder.bind(this, record.vehicle_order.id, 3)}
+                    >
+                      编辑
+                    </span>
+                    <Divider type="vertical" />
+                    <Popconfirm
+                      title={`你确认要取消${record.originator_name}的订单么?`}
+                      onConfirm={this.cancelOrder.bind(this, record.vehicle_order.id)}
+                    >
+                      取消
+                    </Popconfirm>
+                  </div>
+                )
+              }
             </div>
           );
         },
       },
     ];
     return (
-      <div>
+      <div className={styles.TruckingOrder}>
         <h2>派出单管理</h2>
         <Button
           type="primary"
