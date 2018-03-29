@@ -81,6 +81,16 @@ export async function getSysUser() {
   });
 }
 
+// 获取车辆在线状态
+export async function getCarStatusCoord() {
+  return request('/api/admin/vehicle/vehicle_online', {
+    method: 'POST',
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
 // 查找用户
 export async function getAllUserList() {
   return request('/api/admin/sysuser/sys_user_get_all', {

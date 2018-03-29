@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Link } from 'dva/router';
+// import { Link } from 'dva/router';
 import { Alert } from 'antd';
 import Login from 'components/Login';
 import styles from './Login.less';
@@ -64,7 +64,7 @@ export default class LoginPage extends Component {
           <Password name="password" placeholder="请输入密码" />
           <Submit loading={loginLoading}>登录</Submit>
           <div className={styles.other}>
-            <Link className={styles.register} to="/user/register">注册账户</Link>
+            {/* <Link className={styles.register} to="/user/register">注册账户</Link> */}
           </div>
         </Login>
       </div>

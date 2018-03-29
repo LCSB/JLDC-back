@@ -74,19 +74,28 @@ export const getRouterData = (app) => {
       component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')),
     },
     '/home': {
-      component: dynamicWrapper(app, ['login'], () => import('../routes/home')),
+      component: dynamicWrapper(app, ['home'], () => import('../routes/home')),
     },
     '/basic/person': {
       component: dynamicWrapper(app, ['person'], () => import('../routes/PersonMerge')),
     },
-    '/basic/car': {
-      component: dynamicWrapper(app, ['car'], () => import('../routes/CarsManage')),
+    '/carMes/car': {
+      component: dynamicWrapper(app, ['car', 'person'], () => import('../routes/CarsManage')),
+    },
+    '/carMes/carType': {
+      component: dynamicWrapper(app, ['carType'], () => import('../routes/CarType')),
+    },
+    '/carMes/carModal': {
+      component: dynamicWrapper(app, ['carModal'], () => import('../routes/CarModal')),
+    },
+    '/carMes/CarPrototype': {
+      component: dynamicWrapper(app, ['CarPrototype'], () => import('../routes/CarPrototype')),
     },
     '/task/order': {
       component: dynamicWrapper(app, ['order'], () => import('../routes/TruckingOrder')),
     },
     '/orderDetail': {
-      component: dynamicWrapper(app, ['orderDetail'], () => import('../routes/DetailOrder')),
+      component: dynamicWrapper(app, ['orderDetail', 'car', 'person'], () => import('../routes/DetailOrder')),
     },
     '/basic/org': {
       component: dynamicWrapper(app, ['org'], () => import('../routes/OrgMerge')),

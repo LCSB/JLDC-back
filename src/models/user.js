@@ -17,6 +17,7 @@ export default {
     //   });
     // },
     *fetchCurrent(_, { call, put }) {
+      // console.log(1);
       const response = yield call(getSysUser);
       if (response && response.sysuser) {
         yield put({

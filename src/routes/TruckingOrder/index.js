@@ -52,7 +52,7 @@ export default class TruckingOrder extends PureComponent {
   render() {
     const { orderList, ListLoading } = this.props;
     const pagination = {
-      pageSize: 6,
+      pageSize: 8,
       total: orderList.length,
     };
     const columns = [
@@ -63,7 +63,7 @@ export default class TruckingOrder extends PureComponent {
         align: 'left',
       },
       {
-        title: '下单人',
+        title: '申请人',
         dataIndex: 'originator_name',
         width: 150,
         align: 'left',

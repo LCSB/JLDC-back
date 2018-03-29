@@ -365,7 +365,7 @@ export default class DetailOrder extends PureComponent {
                 status !== 1 &&
                 (
                   <FormItem
-                    label="订单状态"
+                    label="派车单状态"
                   >
                     {getFieldDecorator('order_status', {
                       initialValue: detailList.vehicle_order ? detailList.vehicle_order.order_status : '',
@@ -411,9 +411,9 @@ export default class DetailOrder extends PureComponent {
                                   type="primary"
                                   onClick={this.changeOrderStatus.bind(this, 3)}
                                 >
-                                  取消订单
+                                  取消派车单
                                 </Button>
-                                <Button type="primary" htmlType="submit">修改订单</Button>
+                                <Button type="primary" htmlType="submit">修改派车单</Button>
                               </div>
                             )
                           }
