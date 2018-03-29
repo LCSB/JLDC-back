@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import {
-  Table, Button, Input, Divider, Popconfirm, Form,
+  Table, Button, Input, Divider, Popconfirm,
 } from 'antd';
 import AllModal from './AllPersonConfig';
 import styles from './index.less';
@@ -12,7 +12,7 @@ const { Search } = Input;
   userList: person.userList,
   ListLoading: person.ListLoading,
 }))
-@Form.create()
+// @Form.create()
 export default class AllPerson extends PureComponent {
   state = {
     userVisible: false,
@@ -61,7 +61,6 @@ export default class AllPerson extends PureComponent {
   }
 
   cancelModal = () => {
-    this.props.form.resetFields();
     this.setState({
       userVisible: false,
       record: {},
@@ -107,7 +106,7 @@ export default class AllPerson extends PureComponent {
       width: 200,
       render: (record) => {
         return (
-          <div>
+          <div className="personTableBtns">
             <span
               onClick={this.detailUser.bind(this, record)}
             >
@@ -163,7 +162,7 @@ export default class AllPerson extends PureComponent {
           dispatch={this.props.dispatch}
           cancelModal={this.cancelModal}
           orgList={orgList}
-          form={this.props.form}
+          // form={this.props.form}
         />
       </div>
     );

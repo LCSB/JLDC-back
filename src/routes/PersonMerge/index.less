@@ -35,6 +35,20 @@
     justify-content: space-between;
   }
 }
+
+.AllPerson {
+  :global {
+    .personTableBtns {
+      span {
+        cursor: pointer;
+        &:hover {
+          color: #5e6fce;
+        }
+      }
+    }
+  }
+}
+
 .personMerge {
   .AllHeader {
     display: flex;

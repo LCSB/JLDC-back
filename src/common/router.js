@@ -76,22 +76,22 @@ export const getRouterData = (app) => {
     '/home': {
       component: dynamicWrapper(app, ['login'], () => import('../routes/home')),
     },
-    '/person': {
+    '/basic/person': {
       component: dynamicWrapper(app, ['person'], () => import('../routes/PersonMerge')),
     },
-    '/car': {
+    '/basic/car': {
       component: dynamicWrapper(app, ['car'], () => import('../routes/CarsManage')),
     },
-    '/order': {
+    '/task/order': {
       component: dynamicWrapper(app, ['order'], () => import('../routes/TruckingOrder')),
     },
     '/orderDetail': {
       component: dynamicWrapper(app, ['orderDetail'], () => import('../routes/DetailOrder')),
     },
-    '/org': {
+    '/basic/org': {
       component: dynamicWrapper(app, ['org'], () => import('../routes/OrgMerge')),
     },
-    '/roleSet': {
+    '/basic/roleSet': {
       component: dynamicWrapper(app, ['role'], () => import('../routes/RoleSet')),
     },
     '/dashboard/analysis': {

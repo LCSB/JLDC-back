@@ -8,23 +8,33 @@ const RadioGroup = Radio.Group;
 // const { Option } = Select;
 // const { TextArea } = Input;
 
+@Form.create()
 export default class Modalconfig extends PureComponent {
+  cancelTypeModalForm = () => {
+    this.props.form.resetFields();
+    this.props.cancelTypeModal();
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, fieldsValue) => {
-      if (!err.vehicle_model_name && !err.enable) {
+      if (!err) {
         const { dispatch } = this.props;
+        const params = {};
+        params.vehicle_model_name = fieldsValue.vehicle_model_name;
+        params.enable = fieldsValue.enable;
         dispatch({
-          type: 'car/addCarType',
-          payload: fieldsValue,
+          type: 'car/addCarModal',
+          payload: params,
         });
+        this.props.form.resetFields();
         this.props.cancelTypeModal();
       }
     });
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { cancelTypeModal, carTypeVisible } = this.props;
+    const { carTypeVisible } = this.props;
     return (
       <Modal
         visible={carTypeVisible}
@@ -32,7 +42,7 @@ export default class Modalconfig extends PureComponent {
         footer={null}
         title="添加车型"
         maskClosable={false}
-        onCancel={cancelTypeModal}
+        onCancel={this.cancelTypeModalForm}
       >
         <Form
           onSubmit={this.handleSubmit}
@@ -64,7 +74,7 @@ export default class Modalconfig extends PureComponent {
             <Button type="primary" htmlType="submit">添加</Button>
             <Button
               type="primary"
-              onClick={cancelTypeModal}
+              onClick={this.cancelTypeModalForm}
             >
               取消
             </Button>

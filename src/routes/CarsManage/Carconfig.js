@@ -16,12 +16,18 @@ const carStatus = {
 };
 
 // const { TextArea } = Input;
+@Form.create()
 export default class Modalconfig extends PureComponent {
+  cancelFormModal = () => {
+    this.props.form.resetFields();
+    this.props.cancelModal();
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, fieldsValue) => {
-      const arr = Object.keys(err);
-      if (arr.length <= 2) {
+      // const arr = Object.keys(err);
+      if (!err) {
         const { dispatch } = this.props;
         const params = {};
         params.vehicle_number = fieldsValue.vehicle_number;
@@ -56,6 +62,7 @@ export default class Modalconfig extends PureComponent {
             },
           });
         }
+        this.props.form.resetFields();
         this.props.cancelModal();
       }
     });
@@ -63,7 +70,7 @@ export default class Modalconfig extends PureComponent {
   render() {
     const { getFieldDecorator } = this.props.form;
     const {
-      modalType, cancelModal, record, orgList, carVisible,
+      modalType, record, orgList, carVisible,
       typeList, ModalList,
     } = this.props;
     return (
@@ -73,7 +80,7 @@ export default class Modalconfig extends PureComponent {
         footer={null}
         title={modalType}
         maskClosable={false}
-        onCancel={cancelModal}
+        onCancel={this.cancelFormModal}
         style={{ top: 25 }}
       >
         <Form
@@ -230,7 +237,7 @@ export default class Modalconfig extends PureComponent {
                 <Button type="primary" htmlType="submit">{modalType}</Button>
                 <Button
                   type="primary"
-                  onClick={cancelModal}
+                  onClick={this.cancelFormModal}
                 >
                   取消
                 </Button>

@@ -3,6 +3,7 @@ import {
   Divider,
 } from 'antd';
 import styles from './index.less';
+// import AddPersonModal from '../PersonMerge/AllPersonConfig';
 
 const { qq } = window;
 // const { Sider } = Layout;

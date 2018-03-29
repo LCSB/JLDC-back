@@ -18,33 +18,76 @@ const menuData = [{
   }],
 }, {
   name: '主页',
-  icon: 'dashboard',
+  icon: 'home',
   path: 'home',
-}, {
-  name: '人员',
+},
+{
+  name: '基本信息',
+  icon: 'solution',
+  path: 'basic',
+  children: [
+    {
+      name: '人员',
+      path: 'person',
+    },
+    {
+      name: '车辆',
+      path: 'car',
+    },
+    {
+      name: '部门',
+      path: 'org',
+    },
+    {
+      name: '人员角色',
+      path: 'roleSet',
+    },
+  ],
+},
+{
+  name: '任务调度',
+  icon: 'profile',
+  path: 'task',
+  children: [
+    {
+      name: '派车单',
+      path: 'order',
+    },
+  ],
+},
+// {
+//   name: '人员',
+//   icon: 'dashboard',
+//   path: 'person',
+// }, {
+//   name: '车辆',
+//   icon: 'dashboard',
+//   path: 'car',
+// }, {
+//   name: '派车单',
+//   icon: 'dashboard',
+//   path: 'order',
+// },
+{
+  name: '派车单详情',
   icon: 'dashboard',
-  path: 'person',
-}, {
-  name: '车辆',
-  icon: 'dashboard',
-  path: 'car',
-}, {
-  name: '派车单',
-  icon: 'dashboard',
-  path: 'order',
-}, {
-  name: '部门',
-  icon: 'dashboard',
-  path: 'org',
-}, {
-  name: '财务',
-  icon: 'dashboard',
-  path: 'caiwu',
-}, {
-  name: '设置',
-  icon: 'dashboard',
-  path: 'roleSet',
-}, {
+  path: 'orderDetail',
+  hideInMenu: true,
+},
+// {
+//   name: '部门',
+//   icon: 'dashboard',
+//   path: 'org',
+// }, {
+//   name: '财务',
+//   icon: 'dashboard',
+//   path: 'caiwu',
+// }, {
+//   name: '设置',
+//   icon: 'dashboard',
+//   path: 'roleSet',
+// },
+{
   name: '表单页',
   icon: 'form',
   path: 'form',
