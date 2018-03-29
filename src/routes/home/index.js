@@ -59,8 +59,8 @@ export default class home extends PureComponent {
             map: this.QQmap,
             title: val.vehicle_name,
           });
-          const anchor = new qq.maps.Point(40, 20);
-          const size = new qq.maps.Size(80, 40);
+          const anchor = new qq.maps.Point(16, 8);
+          const size = new qq.maps.Size(32, 16);
           const origin = new qq.maps.Point(0, 0);
           const markerIcon = new qq.maps.MarkerImage(
             IconCar,

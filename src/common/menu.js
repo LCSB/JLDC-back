@@ -31,16 +31,36 @@ const menuData = [{
       path: 'person',
     },
     {
-      name: '车辆',
-      path: 'car',
-    },
-    {
       name: '部门',
       path: 'org',
     },
     {
       name: '角色',
       path: 'roleSet',
+    },
+  ],
+},
+{
+  name: '车辆信息',
+  icon: 'solution',
+  path: 'carMes',
+  children: [
+    {
+      name: '车辆',
+      path: 'car',
+    },
+    {
+      name: '车辆用途',
+      path: 'carType',
+      hideInMenu: true,
+    },
+    {
+      name: '车型',
+      path: 'carModal',
+    },
+    {
+      name: '用车原因',
+      path: 'CarPrototype',
     },
   ],
 },

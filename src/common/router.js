@@ -79,8 +79,17 @@ export const getRouterData = (app) => {
     '/basic/person': {
       component: dynamicWrapper(app, ['person'], () => import('../routes/PersonMerge')),
     },
-    '/basic/car': {
+    '/carMes/car': {
       component: dynamicWrapper(app, ['car', 'person'], () => import('../routes/CarsManage')),
+    },
+    '/carMes/carType': {
+      component: dynamicWrapper(app, ['carType'], () => import('../routes/CarType')),
+    },
+    '/carMes/carModal': {
+      component: dynamicWrapper(app, ['carModal'], () => import('../routes/CarModal')),
+    },
+    '/carMes/CarPrototype': {
+      component: dynamicWrapper(app, ['CarPrototype'], () => import('../routes/CarPrototype')),
     },
     '/task/order': {
       component: dynamicWrapper(app, ['order'], () => import('../routes/TruckingOrder')),
