@@ -60,49 +60,49 @@ export default class TruckingOrder extends PureComponent {
         title: '车牌号',
         dataIndex: 'vehicle_number',
         width: 150,
-        align: 'center',
+        align: 'left',
       },
       {
         title: '下单人',
         dataIndex: 'originator_name',
         width: 150,
-        align: 'center',
+        align: 'left',
       },
       {
         title: '出车时间',
         dataIndex: 'vehicle_order.start_time',
         width: 250,
-        align: 'center',
+        align: 'left',
       },
       {
         title: '出发地',
         dataIndex: 'vehicle_order.start_place',
         width: 200,
-        align: 'center',
+        align: 'left',
       },
       {
         title: '目的地',
         dataIndex: 'vehicle_order.end_place',
         width: 200,
-        align: 'center',
+        align: 'left',
       },
       {
         title: '回车时间',
         dataIndex: 'vehicle_order.end_time',
         width: 250,
-        align: 'center',
+        align: 'left',
       },
       {
         title: '订单状态',
         dataIndex: 'vehicle_order.order_status',
         width: 120,
-        align: 'center',
+        align: 'left',
         render: val => orderStatus[val],
       },
       {
         title: '操作',
-        width: 250,
-        align: 'center',
+        width: 200,
+        align: 'left',
         render: (record) => {
           return (
             <div className="tableBtns">
@@ -142,7 +142,7 @@ export default class TruckingOrder extends PureComponent {
         <Button
           type="primary"
           onClick={this.addOrder}
-          style={{ margin: 10 }}
+          // style={{margin: 10 }}
         >
           新建订单
         </Button>
