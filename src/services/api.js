@@ -165,11 +165,53 @@ export async function getAllcarList() {
   });
 }
 
+// 获取车型信息
+export async function getAllCarModalList() {
+  return request('/api/admin/vehicle/vehicle_model_get_all', {
+    method: 'POST',
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 添加车型信息
+export async function addCarModal(params) {
+  return request('/api/admin/vehicle/vehicle_model_add', {
+    method: 'POST',
+    body: params,
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
 // 添加车辆
 export async function addNewCar(params) {
   return request('/api/admin/vehicle/vehicle_add', {
     method: 'POST',
     body: params,
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 修改车辆
+export async function reviseCar(params) {
+  return request(`/api/admin/vehicle/vehicle_update?id=${params.id}`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 删除车辆
+export async function deleteCar(params) {
+  return request(`/api/admin/vehicle/vehicle_delete?id=${params}`, {
+    method: 'POST',
     headers: {
       'x-token': getAuthority(),
     },

@@ -1,4 +1,7 @@
-import { getAllcarList, getVehicleTypeAll, addNewCar } from '../services/api';
+import {
+  getAllcarList, getVehicleTypeAll, addNewCar, getAllCarModalList,
+  reviseCar, deleteCar, addCarModal,
+} from '../services/api';
 
 export default {
   namespace: 'car',
@@ -7,6 +10,7 @@ export default {
     carList: [],
     carListLoading: false,
     typeList: [],
+    ModalList: [],
   },
 
   effects: {
@@ -36,8 +40,32 @@ export default {
         });
       }
     },
+    *getAllCarModalList(_, { call, put }) {
+      const response = yield call(getAllCarModalList);
+      if (response && response.vehicleModels instanceof Array) {
+        yield put({
+          type: 'saveModalList',
+          ModalList: response.vehicleModels,
+        });
+      }
+    },
     *addCar({ payload, callback }, { call }) {
       yield call(addNewCar, payload);
+      if (callback) {
+        callback();
+      }
+    },
+    *addCarModal({ payload }, { call }) {
+      yield call(addCarModal, payload);
+    },
+    *reviseCar({ payload, callback }, { call }) {
+      yield call(reviseCar, payload);
+      if (callback) {
+        callback();
+      }
+    },
+    *deleteCar({ payload, callback }, { call }) {
+      yield call(deleteCar, payload);
       if (callback) {
         callback();
       }
@@ -60,6 +88,12 @@ export default {
       return {
         ...state,
         typeList,
+      };
+    },
+    saveModalList(state, { ModalList }) {
+      return {
+        ...state,
+        ModalList,
       };
     },
   },

@@ -19,6 +19,7 @@ const carStatus = {
   carList: car.carList,
   carLoad: car.carListLoading,
   typeList: car.typeList,
+  ModalList: car.ModalList,
 }))
 @Form.create()
 export default class AllPerson extends PureComponent {
@@ -34,6 +35,9 @@ export default class AllPerson extends PureComponent {
     });
     this.props.dispatch({
       type: 'car/getVehicleTypeAll',
+    });
+    this.props.dispatch({
+      type: 'car/getAllCarModalList',
     });
   }
 
@@ -63,7 +67,7 @@ export default class AllPerson extends PureComponent {
   deleteCar = (record) => {
     this.props.dispatch({
       type: 'car/deleteCar',
-      payload: record.id,
+      payload: record.vehicle.id,
       callback: () => {
         this.props.dispatch({
           type: 'car/getAllCarList',
@@ -96,8 +100,12 @@ export default class AllPerson extends PureComponent {
   render() {
     const {
       carList, carLoad, orgById, orgFilter, orgList,
-      typeList,
+      typeList, ModalList,
     } = this.props;
+    const pagination = {
+      pageSize: 6,
+      total: carList.length,
+    };
     const columns = [{
       title: '车牌号',
       dataIndex: 'vehicle.vehicle_number',
@@ -161,7 +169,7 @@ export default class AllPerson extends PureComponent {
             </span>
             <Divider type="vertical" />
             <Popconfirm
-              title={`你确认要删除车辆${record.vehicle_number}么?`}
+              title={`你确认要删除车辆${record.vehicle.vehicle_number}么?`}
               onConfirm={this.deleteCar.bind(this, record)}
             >
               删除
@@ -202,6 +210,7 @@ export default class AllPerson extends PureComponent {
           columns={columns}
           rowKey={(record => record.vehicle.id)}
           loading={carLoad}
+          pagination={pagination}
         />
         <CarModal
           carVisible={this.state.carVisible}
@@ -211,12 +220,14 @@ export default class AllPerson extends PureComponent {
           cancelModal={this.cancelModal}
           orgList={orgList}
           typeList={typeList}
+          ModalList={ModalList}
           form={this.props.form}
         />
         <CarTypeModal
           carTypeVisible={this.state.carTypeVisible}
           cancelTypeModal={this.cancelTypeModal}
           form={this.props.form}
+          dispatch={this.props.dispatch}
         />
       </div>
     );

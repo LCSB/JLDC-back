@@ -31,6 +31,7 @@ export default class Modalconfig extends PureComponent {
         params.seat_number = parseInt(fieldsValue.seat_number, 10);
         params.purchasing_time = fieldsValue.purchasing_time;
         params.depart_id = fieldsValue.depart_id;
+        params.vehicle_status = fieldsValue.vehicle_status;
         if (this.props.modalType === '添加') {
           dispatch({
             type: 'car/addCar',
@@ -42,17 +43,19 @@ export default class Modalconfig extends PureComponent {
             },
           });
         }
-        // if (this.props.modalType === '添加') {
-        //   dispatch({
-        //     type: 'car/reviseCar',
-        //     payload: fieldsValue,
-        //     callback: () => {
-        //       dispatch({
-        //         type: 'car/getAllCarList',
-        //       })
-        //     }
-        //   });
-        // }
+        if (this.props.modalType === '修改') {
+          const { id } = this.props.record.vehicle;
+          params.id = id;
+          dispatch({
+            type: 'car/reviseCar',
+            payload: params,
+            callback: () => {
+              dispatch({
+                type: 'car/getAllCarList',
+              });
+            },
+          });
+        }
         this.props.cancelModal();
       }
     });
@@ -61,7 +64,7 @@ export default class Modalconfig extends PureComponent {
     const { getFieldDecorator } = this.props.form;
     const {
       modalType, cancelModal, record, orgList, carVisible,
-      typeList,
+      typeList, ModalList,
     } = this.props;
     return (
       <Modal
@@ -71,6 +74,7 @@ export default class Modalconfig extends PureComponent {
         title={modalType}
         maskClosable={false}
         onCancel={cancelModal}
+        style={{ top: 25 }}
       >
         <Form
           onSubmit={this.handleSubmit}
@@ -106,6 +110,31 @@ export default class Modalconfig extends PureComponent {
                         value={val.id}
                       >
                         {val.vehicle_type_name}
+                      </Option>
+                    );
+                  })
+                }
+              </Select>
+            )}
+          </FormItem>
+          <FormItem
+            label="车辆车型"
+          >
+            {getFieldDecorator('vehicle_model', {
+              rules: [{ required: true, message: '请输入车辆车型' }],
+              initialValue: (modalType !== '添加' && record.vehicle) ? record.vehicle.vehicle_model : '',
+            })(
+              <Select
+                disabled={modalType === '详情'}
+              >
+                {
+                  ModalList.map((val) => {
+                    return (
+                      <Option
+                        key={val.id}
+                        value={val.id}
+                      >
+                        {val.vehicle_model_name}
                       </Option>
                     );
                   })
