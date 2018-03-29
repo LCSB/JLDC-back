@@ -241,7 +241,7 @@ export default class DetailOrder extends PureComponent {
                   >
                     {getFieldDecorator('vehicle_id', {
                       rules: [{ required: true, message: '请选择车牌号' }],
-                      initialValue: detailList.vehicle_order ? detailList.vehicle_order.vehicle_id : '',
+                      initialValue: detailList.vehicle_order ? detailList.vehicle_number : '',
                     })(
                       <Select
                         disabled={status === 2}
@@ -341,7 +341,7 @@ export default class DetailOrder extends PureComponent {
                 {
                   getFieldDecorator('prototype_id', {
                     rules: [{ required: true, message: '请输入用车原因' }],
-                    initialValue: detailList.vehicle_order ? detailList.vehicle_order.prototype_id : '',
+                    initialValue: detailList.vehicle_order ? parseInt(detailList.vehicle_order.prototype_id, 10) : '',
                   })(
                     <Select
                       disabled={status === 2}
