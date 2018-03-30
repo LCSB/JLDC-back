@@ -32,6 +32,7 @@ export default class PersonMerge extends PureComponent {
     });
     return (
       <div className={styles.personMerge}>
+        <h2>人员</h2>
         <Tabs defaultActiveKey="全部人员">
           <TabPane tab="全部人员" key="全部人员">
             <AllPerson

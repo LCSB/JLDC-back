@@ -12,7 +12,7 @@ export default class CarBasic extends PureComponent {
   render() {
     return (
       <div className={styles.CarBasic}>
-        <h2>车辆配置</h2>
+        <h2>基础数据</h2>
         <Tabs defaultActiveKey="车型">
           <TabPane tab="车型" key="车型">
             <CarModal />

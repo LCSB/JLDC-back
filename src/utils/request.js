@@ -75,7 +75,7 @@ export default function request(url, options) {
       return response.json();
     })
     .then((response) => {
-      if (response && response.error.msg !== 'success') {
+      if (response && response.error.msg.indexOf('token') > 0) {
         const { dispatch } = store;
         dispatch({
           type: 'login/logout',

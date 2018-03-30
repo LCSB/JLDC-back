@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import {
-  Tabs,
-} from 'antd';
+// import {
+//   Tabs,
+// } from 'antd';
 import AllCar from './AllCar';
-import CarDispatch from './CarDispatch';
+// import CarDispatch from './CarDispatch';
 import styles from './index.less';
 
-const { TabPane } = Tabs;
+// const { TabPane } = Tabs;
 @connect(({ person }) => ({
   orgList: person.orgList,
 }))
@@ -31,7 +31,13 @@ export default class PersonMerge extends PureComponent {
     });
     return (
       <div className={styles.carsManage}>
-        <Tabs defaultActiveKey="全部车辆">
+        <h2>车辆信息</h2>
+        <AllCar
+          orgList={orgList}
+          orgById={orgById}
+          orgFilter={orgFilter}
+        />
+        {/* <Tabs defaultActiveKey="全部车辆">
           <TabPane tab="全部车辆" key="全部车辆">
             <AllCar
               orgList={orgList}
@@ -42,7 +48,7 @@ export default class PersonMerge extends PureComponent {
           <TabPane tab="车辆调控状态" key="车辆调控状态">
             <CarDispatch />
           </TabPane>
-        </Tabs>
+        </Tabs> */}
       </div>
     );
   }

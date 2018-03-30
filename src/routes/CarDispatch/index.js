@@ -99,6 +99,7 @@ export default class CarStatusList extends PureComponent {
     }];
     return (
       <div className={styles.carType}>
+        <h2>车辆调度调控</h2>
         <Table
           dataSource={StatusListData}
           columns={columns}
