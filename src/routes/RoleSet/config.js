@@ -6,17 +6,53 @@ import {
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 const { TextArea } = Input;
+
 @Form.create()
 export default class Modalconfig extends PureComponent {
-  handleSubmit = () => {
+  cancelFormModal = () => {
+    this.props.form.resetFields();
+    this.props.cancelModal();
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
     this.props.form.validateFields((err, fieldsValue) => {
-      if (err) {
+      if (!err) {
+        const { dispatch } = this.props;
+        const params = {};
+        params.role_name = fieldsValue.role_name;
+        params.is_system = Boolean(fieldsValue.is_system);
+        params.enable = Boolean(fieldsValue.enable);
+        params.role_type = fieldsValue.role_type;
+        params.description = fieldsValue.description;
+        console.log(params);
         if (this.props.moadlType === '添加') {
           this.props.dispatch({
             type: 'role/addRole',
-            payload: fieldsValue,
+            payload: params,
+            callback: () => {
+              dispatch({
+                type: 'role/getList',
+              });
+            },
           });
         }
+        if (this.props.moadlType === '修改') {
+          const { id } = this.props.record;
+          params.id = id;
+          console.log(params.id);
+          this.props.dispatch({
+            type: 'role/resiveRole',
+            payload: params,
+            callback: () => {
+              this.props.dispatch({
+                type: 'role/getList',
+              });
+            },
+          });
+        }
+        this.props.form.resetFields();
+        this.props.cancelModal();
       }
     });
   }
@@ -28,6 +64,7 @@ export default class Modalconfig extends PureComponent {
         visible={this.props.roleVisible}
         width={1000}
         footer={null}
+        onCancel={this.cancelFormModal}
       >
         <Form
           onSubmit={this.handleSubmit}
@@ -45,11 +82,11 @@ export default class Modalconfig extends PureComponent {
             label="系统用户"
           >
             {getFieldDecorator('is_system', {
-              rules: [{ required: true, message: '请输入角色名称' }],
+              rules: [{ required: true, message: '请选择是否为系统用户' }],
             })(
               <RadioGroup>
-                <Radio value="true">是</Radio>
-                <Radio value="false">否</Radio>
+                <Radio value={1}>是</Radio>
+                <Radio value={0}>否</Radio>
               </RadioGroup>
             )}
           </FormItem>
@@ -57,11 +94,11 @@ export default class Modalconfig extends PureComponent {
             label="角色状态"
           >
             {getFieldDecorator('enable', {
-              rules: [{ required: true, message: '请输入角色名称' }],
+              rules: [{ required: true, message: '请选择角色状态' }],
             })(
               <RadioGroup>
-                <Radio value={0}>正常</Radio>
-                <Radio value={1}>停用</Radio>
+                <Radio value={1}>正常</Radio>
+                <Radio value={0}>停用</Radio>
               </RadioGroup>
             )}
           </FormItem>
@@ -69,7 +106,7 @@ export default class Modalconfig extends PureComponent {
             label="角色属性"
           >
             {getFieldDecorator('role_type', {
-              rules: [{ required: true, message: '请输入角色名称' }],
+              rules: [{ required: true, message: '请选择角色属性' }],
             })(
               <RadioGroup>
                 <Radio value={1}>系统管理员</Radio>
@@ -85,14 +122,14 @@ export default class Modalconfig extends PureComponent {
             label="角色描述"
           >
             {getFieldDecorator('description', {
-              rules: [{ required: true, message: '请输入角色名称' }],
+              rules: [{ required: true, message: '请输入角色描述' }],
             })(
               <TextArea />
             )}
           </FormItem>
           <div className="btns">
             <Button type="primary" htmlType="submit">{moadlType}</Button>
-            <Button type="primary">取消</Button>
+            <Button type="primary" onClick={this.cancelFormModal}>取消</Button>
           </div>
         </Form>
       </Modal>

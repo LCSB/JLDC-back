@@ -393,7 +393,38 @@ export async function getAllRoleList() {
     },
   });
 }
+// 添加单位
+export async function addRole(params) {
+  return request('/api/admin/sysuser/sysuser_role_add', {
+    method: 'POST',
+    body: params,
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
 
+// 修改单位
+export async function resiveRole(params) {
+  console.log(getAuthority());
+  return request(`/api/admin/sysuser/sysuser_role_update?id=${params.id}`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 删除单位
+export async function deleteRole(params) {
+  return request(`/api/admin/sysuser/sysuser_role_delete?id=${params}`, {
+    method: 'POST',
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
 export async function fakeRegister(params) {
   return request('/api/register', {
     method: 'POST',

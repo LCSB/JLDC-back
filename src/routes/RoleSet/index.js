@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import {
-  Table, Button, Input, Divider,
-} from 'antd';
+import { Table, Button, Input, Divider, Popconfirm } from 'antd';
 import ModalConfig from './config';
 import styles from './index.less';
 
@@ -46,7 +44,25 @@ export default class OrgMerge extends PureComponent {
       record,
     });
   }
+  cancelModal = () => {
+    this.setState({
+      roleVisible: false,
+      record: {},
+    });
+  }
 
+  deleteRole = (record) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'role/deleterole',
+      payload: record.id,
+      callback: () => {
+        dispatch({
+          type: 'role/getList',
+        });
+      },
+    });
+  }
   render() {
     const { roleList, ListLoading } = this.props;
     const columns = [{
@@ -114,7 +130,12 @@ export default class OrgMerge extends PureComponent {
             <Divider type="vertical" />
             <span onClick={this.resiveRole.bind(this, record)}>编辑</span>
             <Divider type="vertical" />
-            <span>删除</span>
+            <Popconfirm
+              title={`你确认要删除${record.role_name}么?`}
+              onConfirm={this.deleteRole.bind(this, record)}
+            >
+              删除
+            </Popconfirm>
           </div>
         );
       },
@@ -147,6 +168,8 @@ export default class OrgMerge extends PureComponent {
           moadlType={this.state.moadlType}
           record={this.state.record}
           dispatch={this.props.dispatch}
+          cancelModal={this.cancelModal}
+          roleList={roleList}
         />
       </div>
     );

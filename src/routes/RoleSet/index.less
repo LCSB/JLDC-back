@@ -1,12 +1,48 @@
 @import "~antd/lib/style/themes/default.less";
 @import "../../utils/utils.less";
 
+:global {
+  .ant-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .ant-form-item-label {
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .ant-form-item-required::before {
+      position: absolute;
+      left: -12px;
+      top: 50%;
+      margin-top: -7px;
+    }
+  }
+
+  .ant-row {
+    display: flex;
+    .ant-form-item-label {
+      width: 200px;
+      text-align: left;
+    }
+    .ant-form-item-control-wrapper {
+      width: 500px;
+    }
+  }
+  .btns {
+    width: 400px;
+    display: flex;
+    justify-content: space-between;
+  }
+}
 .AllPerson {
-  .tableBtns {
-    span {
-      cursor: pointer;
-      &:hover {
-        color: #5e6fce;
+  :global {
+    .tableBtns {
+      span {
+        cursor: pointer;
+        &:hover {
+          color: #5e6fce;
+        }
       }
     }
   }
