@@ -24,17 +24,24 @@ export default class Modalconfig extends PureComponent {
         params.vehicle_model_name = fieldsValue.vehicle_model_name;
         params.enable = fieldsValue.enable;
         dispatch({
-          type: 'car/addCarModal',
+          type: 'carModal/addCarModal',
           payload: params,
+          callback: () => {
+            this.props.dispatch({
+              type: 'carModal/getCarModalList',
+            });
+          },
         });
         this.props.form.resetFields();
         this.props.cancelTypeModal();
       }
     });
   }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const { carTypeVisible } = this.props;
+    // console.log(carTypeVisible);
     return (
       <Modal
         visible={carTypeVisible}
@@ -48,13 +55,13 @@ export default class Modalconfig extends PureComponent {
           onSubmit={this.handleSubmit}
         >
           <FormItem
-            label="车型号"
+            label="车型名称"
           >
             {getFieldDecorator('vehicle_model_name', {
               rules: [{ required: true, message: '请输入车型号 ' }],
             })(
               <Input
-                placeholder="车型号"
+                placeholder="车型名称"
               />
             )}
           </FormItem>

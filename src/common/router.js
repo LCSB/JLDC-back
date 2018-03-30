@@ -82,6 +82,9 @@ export const getRouterData = (app) => {
     '/carMes/car': {
       component: dynamicWrapper(app, ['car', 'person'], () => import('../routes/CarsManage')),
     },
+    '/carMes/carBasic': {
+      component: dynamicWrapper(app, ['carModal', 'CarPrototype'], () => import('../routes/CarBasic')),
+    },
     '/carMes/carType': {
       component: dynamicWrapper(app, ['carType'], () => import('../routes/CarType')),
     },

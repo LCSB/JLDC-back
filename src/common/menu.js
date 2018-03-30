@@ -41,27 +41,31 @@ const menuData = [{
   ],
 },
 {
-  name: '车辆信息',
+  name: '车辆管理',
   icon: 'solution',
   path: 'carMes',
   children: [
     {
-      name: '车辆',
+      name: '车辆信息',
       path: 'car',
     },
     {
-      name: '车辆用途',
-      path: 'carType',
-      hideInMenu: true,
+      name: '车辆配置',
+      path: 'carBasic',
     },
-    {
-      name: '车型',
-      path: 'carModal',
-    },
-    {
-      name: '用车原因',
-      path: 'CarPrototype',
-    },
+    // {
+    //   name: '车辆用途',
+    //   path: 'carType',
+    //   hideInMenu: true,
+    // },
+    // {
+    //   name: '车型',
+    //   path: 'carModal',
+    // },
+    // {
+    //   name: '用车原因',
+    //   path: 'CarPrototype',
+    // },
   ],
 },
 {

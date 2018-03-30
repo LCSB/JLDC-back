@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import {
-  Table, Button, Input, Divider,
+  Table, Button, Input, Divider, Popconfirm,
 } from 'antd';
 import styles from './index.less';
+import CarTypeModal from './CarTypeConfig';
 
 const { Search } = Input;
 
@@ -12,11 +13,39 @@ const { Search } = Input;
   ListLoading: carModal.ListLoading,
 }))
 export default class CarModalList extends PureComponent {
+  state = {
+    ModalVisible: false,
+  }
   componentWillMount() {
     this.props.dispatch({
       type: 'carModal/getCarModalList',
     });
   }
+
+  addModal = () => {
+    this.setState({
+      ModalVisible: true,
+    });
+  }
+
+  cancelModal = () => {
+    this.setState({
+      ModalVisible: false,
+    });
+  }
+
+  deleteCarModal = (id) => {
+    this.props.dispatch({
+      type: 'carModal/deleteCarModal',
+      payload: id,
+      callback: () => {
+        this.props.dispatch({
+          type: 'carModal/getCarModalList',
+        });
+      },
+    });
+  }
+
   render() {
     const { List, ListLoading } = this.props;
     const pagination = {
@@ -43,14 +72,17 @@ export default class CarModalList extends PureComponent {
       title: '操作',
       width: 200,
       align: 'center',
-      render: () => {
+      render: (record) => {
         return (
           <div>
-            <span>详情</span>
+            <span>修改</span>
             <Divider type="vertical" />
-            <span>编辑</span>
-            <Divider type="vertical" />
-            <span>删除</span>
+            <Popconfirm
+              title={`你确认要删除车型${record.vehicle_model_name}么?`}
+              onConfirm={this.deleteCarModal.bind(this, record.id)}
+            >
+              删除
+            </Popconfirm>
           </div>
         );
       },
@@ -65,6 +97,7 @@ export default class CarModalList extends PureComponent {
           />
           <Button
             type="primary"
+            onClick={this.addModal}
           >
             添加车型
           </Button>
@@ -75,6 +108,12 @@ export default class CarModalList extends PureComponent {
           rowKey={(record => record.id)}
           loading={ListLoading}
           pagination={pagination}
+        />
+        <CarTypeModal
+          carTypeVisible={this.state.ModalVisible}
+          cancelTypeModal={this.cancelModal}
+          // form={this.props.form}
+          dispatch={this.props.dispatch}
         />
       </div>
     );

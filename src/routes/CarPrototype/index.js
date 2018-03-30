@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import {
-  Table, Button, Input, Divider,
+  Table, Button, Input, Divider, Popconfirm,
 } from 'antd';
+import PrototypeConfig from './config';
 import styles from './index.less';
 
 const { Search } = Input;
@@ -12,19 +13,62 @@ const { Search } = Input;
   ListLoading: CarPrototype.ListLoading,
 }))
 export default class CarModalList extends PureComponent {
+  state = {
+    modalVisible: false,
+    prototypeType: '',
+    record: {},
+  }
   componentWillMount() {
     this.props.dispatch({
       type: 'CarPrototype/getUseCarReason',
     });
   }
+
+  addPrototype = () => {
+    this.setState({
+      modalVisible: true,
+      prototypeType: '添加',
+      record: {},
+    });
+  }
+
+  canclePrototype = () => {
+    this.setState({
+      modalVisible: false,
+      prototypeType: '',
+      record: {},
+    });
+  }
+
+  revsiePrototype = (record) => {
+    this.setState({
+      modalVisible: true,
+      prototypeType: '修改',
+      record,
+    });
+  }
+
+  deletePrototype = (id) => {
+    this.props.dispatch({
+      type: 'CarPrototype/deleteCarPrototype',
+      payload: id,
+      callbakc: () => {
+        this.props.dispatch({
+          type: 'CarPrototype/getUseCarReason',
+        });
+      },
+    });
+  }
+
   render() {
     const { List, ListLoading } = this.props;
+    const { prototypeType, record } = this.state;
     const pagination = {
       pageSize: 8,
       total: List.length,
     };
     const columns = [{
-      title: '车型名称',
+      title: '用车原因',
       dataIndex: 'prototype_name',
       align: 'center',
     }, {
@@ -43,14 +87,21 @@ export default class CarModalList extends PureComponent {
       title: '操作',
       width: 200,
       align: 'center',
-      render: () => {
+      render: (recordMes) => {
         return (
           <div>
-            <span>详情</span>
+            <span
+              onClick={this.revsiePrototype.bind(this, recordMes)}
+            >
+              修改
+            </span>
             <Divider type="vertical" />
-            <span>编辑</span>
-            <Divider type="vertical" />
-            <span>删除</span>
+            <Popconfirm
+              title={`你确认要删除用车原因${recordMes.prototype_name}么?`}
+              onConfirm={this.deletePrototype.bind(this, recordMes.id)}
+            >
+              删除
+            </Popconfirm>
           </div>
         );
       },
@@ -65,6 +116,7 @@ export default class CarModalList extends PureComponent {
           />
           <Button
             type="primary"
+            onClick={this.addPrototype}
           >
             添加用车原因
           </Button>
@@ -72,9 +124,16 @@ export default class CarModalList extends PureComponent {
         <Table
           dataSource={List}
           columns={columns}
-          rowKey={(record => record.id)}
+          rowKey={(recordMes => recordMes.id)}
           loading={ListLoading}
           pagination={pagination}
+        />
+        <PrototypeConfig
+          prototypeVisible={this.state.modalVisible}
+          dispatch={this.props.dispatch}
+          cancelPrototype={this.canclePrototype}
+          prototypeType={prototypeType}
+          record={record}
         />
       </div>
     );

@@ -196,6 +196,16 @@ export async function addCarModal(params) {
   });
 }
 
+// 删除车型信息
+export async function deleteCarModal(params) {
+  return request(`/api/admin/vehicle/vehicle_model_delete?id=${params}`, {
+    method: 'POST',
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
 // 添加车辆
 export async function addNewCar(params) {
   return request('/api/admin/vehicle/vehicle_add', {
@@ -231,6 +241,37 @@ export async function deleteCar(params) {
 // 获取车辆用途
 export async function getVehicleTypeAll() {
   return request('/api/admin/vehicle/vehicle_type_get_all', {
+    method: 'POST',
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 用车原因列表
+export async function getUseCarReason() {
+  return request('/api/admin/vehicle/vehicle_prototyepe_get_all', {
+    method: 'POST',
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 添加用车原因
+export async function addCarReason(params) {
+  return request('/api/admin/vehicle/vehicle_prototyepe_add', {
+    method: 'POST',
+    body: params,
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 删除用车原因
+export async function deleteCarReason(params) {
+  return request(`/api/admin/vehicle/vehicle_prototyepe_delete?id=${params}`, {
     method: 'POST',
     headers: {
       'x-token': getAuthority(),
@@ -274,16 +315,6 @@ export async function reviseOrder(params) {
   return request(`/api/admin/vehicle/vehicle_order_update?id=${params.id}`, {
     method: 'POST',
     body: params,
-    headers: {
-      'x-token': getAuthority(),
-    },
-  });
-}
-
-// 用车原因列表
-export async function getUseCarReason() {
-  return request('/api/admin/vehicle/vehicle_prototyepe_get_all', {
-    method: 'POST',
     headers: {
       'x-token': getAuthority(),
     },

@@ -1,4 +1,6 @@
-import { getUseCarReason } from '../services/api';
+import {
+  getUseCarReason, addCarReason, deleteCarReason,
+} from '../services/api';
 
 export default {
   namespace: 'CarPrototype',
@@ -25,6 +27,18 @@ export default {
         type: 'changeListLoading',
         ListLoading: false,
       });
+    },
+    *addCarPrototype({ payload, callback }, { call }) {
+      yield call(addCarReason, payload);
+      if (callback) {
+        callback();
+      }
+    },
+    *deleteCarPrototype({ payload, callback }, { call }) {
+      yield call(deleteCarReason, payload);
+      if (callback) {
+        callback();
+      }
     },
   },
 
