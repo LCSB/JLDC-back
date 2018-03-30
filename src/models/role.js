@@ -1,4 +1,4 @@
-import { getAllRoleList } from '../services/api';
+import { getAllRoleList, addRole, resiveRole, deleteRole } from '../services/api';
 
 export default {
   namespace: 'role',
@@ -25,6 +25,25 @@ export default {
         type: 'changeListLoading',
         List: false,
       });
+    },
+    *addRole({ payload, callback }, { call }) {
+      console.log(1);
+      yield call(addRole, payload);
+      if (callback) {
+        callback();
+      }
+    },
+    *resiveRole({ payload, callback }, { call }) {
+      yield call(resiveRole, payload);
+      if (callback) {
+        callback();
+      }
+    },
+    *deleterole({ payload, callback }, { call }) {
+      yield call(deleteRole, payload);
+      if (callback) {
+        callback();
+      }
     },
   },
 
