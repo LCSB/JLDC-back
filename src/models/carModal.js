@@ -1,4 +1,6 @@
-import { getAllCarModalList, addCarModal, deleteCarModal } from '../services/api';
+import {
+  getAllCarModalList, addCarModal, deleteCarModal, reviseCarModal,
+} from '../services/api';
 
 export default {
   namespace: 'carModal',
@@ -28,6 +30,12 @@ export default {
     },
     *addCarModal({ payload, callback }, { call }) {
       yield call(addCarModal, payload);
+      if (callback) {
+        callback();
+      }
+    },
+    *reviseCarModal({ payload, callback }, { call }) {
+      yield call(reviseCarModal, payload);
       if (callback) {
         callback();
       }

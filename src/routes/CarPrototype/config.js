@@ -19,13 +19,25 @@ export default class Prototypeconfig extends PureComponent {
     e.preventDefault();
     this.props.form.validateFields((err, fieldsValue) => {
       if (!err) {
-        const { dispatch, prototypeType } = this.props;
+        const { dispatch, prototypeType, record } = this.props;
         const params = {};
         params.prototype_name = fieldsValue.prototype_name;
         params.enable = fieldsValue.enable;
         if (prototypeType === '添加') {
           dispatch({
             type: 'CarPrototype/addCarPrototype',
+            payload: params,
+            callback: () => {
+              this.props.dispatch({
+                type: 'CarPrototype/getUseCarReason',
+              });
+            },
+          });
+        }
+        if (prototypeType === '修改') {
+          params.id = record.id;
+          dispatch({
+            type: 'CarPrototype/reviseCarPrototype',
             payload: params,
             callback: () => {
               this.props.dispatch({

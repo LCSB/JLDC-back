@@ -15,6 +15,8 @@ const { Search } = Input;
 export default class CarModalList extends PureComponent {
   state = {
     ModalVisible: false,
+    modalType: '',
+    recordMes: {},
   }
   componentWillMount() {
     this.props.dispatch({
@@ -25,12 +27,24 @@ export default class CarModalList extends PureComponent {
   addModal = () => {
     this.setState({
       ModalVisible: true,
+      modalType: '添加',
+      recordMes: {},
+    });
+  }
+
+  revisModal = (recordMes) => {
+    this.setState({
+      ModalVisible: true,
+      modalType: '修改',
+      recordMes,
     });
   }
 
   cancelModal = () => {
     this.setState({
       ModalVisible: false,
+      modalType: '',
+      recordMes: {},
     });
   }
 
@@ -48,6 +62,7 @@ export default class CarModalList extends PureComponent {
 
   render() {
     const { List, ListLoading } = this.props;
+    const { modalType, recordMes } = this.state;
     const pagination = {
       pageSize: 8,
       total: List.length,
@@ -75,7 +90,11 @@ export default class CarModalList extends PureComponent {
       render: (record) => {
         return (
           <div>
-            <span>修改</span>
+            <span
+              onClick={this.revisModal.bind(this, record)}
+            >
+              修改
+            </span>
             <Divider type="vertical" />
             <Popconfirm
               title={`你确认要删除车型${record.vehicle_model_name}么?`}
@@ -111,6 +130,8 @@ export default class CarModalList extends PureComponent {
         />
         <CarTypeModal
           carTypeVisible={this.state.ModalVisible}
+          modalType={modalType}
+          recordMes={recordMes}
           cancelTypeModal={this.cancelModal}
           // form={this.props.form}
           dispatch={this.props.dispatch}

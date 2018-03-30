@@ -196,6 +196,17 @@ export async function addCarModal(params) {
   });
 }
 
+// 修改车型信息
+export async function reviseCarModal(params) {
+  return request(`/api/admin/vehicle/vehicle_model_update?id=${params.id}`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
 // 删除车型信息
 export async function deleteCarModal(params) {
   return request(`/api/admin/vehicle/vehicle_model_delete?id=${params}`, {
@@ -261,6 +272,17 @@ export async function getUseCarReason() {
 // 添加用车原因
 export async function addCarReason(params) {
   return request('/api/admin/vehicle/vehicle_prototyepe_add', {
+    method: 'POST',
+    body: params,
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
+// 修改用车原因
+export async function reviseCarReason(params) {
+  return request(`/api/admin/vehicle/vehicle_prototyepe_update?id=${params.id}`, {
     method: 'POST',
     body: params,
     headers: {

@@ -1,5 +1,5 @@
 import {
-  getUseCarReason, addCarReason, deleteCarReason,
+  getUseCarReason, addCarReason, deleteCarReason, reviseCarReason,
 } from '../services/api';
 
 export default {
@@ -30,6 +30,12 @@ export default {
     },
     *addCarPrototype({ payload, callback }, { call }) {
       yield call(addCarReason, payload);
+      if (callback) {
+        callback();
+      }
+    },
+    *reviseCarPrototype({ payload, callback }, { call }) {
+      yield call(reviseCarReason, payload);
       if (callback) {
         callback();
       }
