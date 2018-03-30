@@ -142,6 +142,7 @@ export default class TruckingOrder extends PureComponent {
         <Button
           type="primary"
           onClick={this.addOrder}
+          icon="plus"
           // style={{margin: 10 }}
         >
           新建派车单

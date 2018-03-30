@@ -116,6 +116,7 @@ export default class CarModalList extends PureComponent {
           />
           <Button
             type="primary"
+            icon="plus"
             onClick={this.addPrototype}
           >
             添加用车原因

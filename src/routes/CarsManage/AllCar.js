@@ -176,6 +176,7 @@ export default class AllPerson extends PureComponent {
           <Button
             type="primary"
             onClick={this.addCar}
+            icon="plus"
           >
             新增车辆
           </Button>

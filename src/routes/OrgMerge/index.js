@@ -81,7 +81,12 @@ export default class OrgMerge extends PureComponent {
             style={{ width: 400 }}
             enterButton
           />
-          <Button type="primary">添加单位</Button>
+          <Button
+            type="primary"
+            icon="plus"
+          >
+            添加单位
+          </Button>
         </div>
         <Table
           dataSource={List}

@@ -42,7 +42,7 @@ const menuData = [{
 },
 {
   name: '车辆管理',
-  icon: 'solution',
+  icon: 'car',
   path: 'carMes',
   children: [
     {

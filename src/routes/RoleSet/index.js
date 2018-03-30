@@ -131,6 +131,7 @@ export default class OrgMerge extends PureComponent {
           <Button
             type="primary"
             onClick={this.addRole}
+            icon="plus"
           >
             添加单位
           </Button>

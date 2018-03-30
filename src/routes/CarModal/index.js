@@ -116,6 +116,7 @@ export default class CarModalList extends PureComponent {
           />
           <Button
             type="primary"
+            icon="plus"
             onClick={this.addModal}
           >
             添加车型
