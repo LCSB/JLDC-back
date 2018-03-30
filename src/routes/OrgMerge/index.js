@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import {
   Table, Button, Input, Divider,
 } from 'antd';
+import styles from './index.less';
 
 const { Search } = Input;
 
@@ -34,34 +35,34 @@ export default class OrgMerge extends PureComponent {
       width: 200,
       filters: orgFilter,
       onFilter: (value, record) => record.organization.org_name === value,
-      align: 'center',
+      align: 'left',
     }, {
       title: '编码',
       dataIndex: 'organization.org_code',
       width: 200,
-      align: 'center',
+      align: 'left',
     }, {
       title: '上级部门',
       dataIndex: 'organization.parent_id',
       width: 200,
-      align: 'center',
+      align: 'left',
     }, {
       title: '电话',
       dataIndex: 'organization.tel_phone',
       width: 200,
-      align: 'center',
+      align: 'left',
     }, {
       title: '地址',
       dataIndex: 'organization.address',
       width: 150,
-      align: 'center',
+      align: 'left',
     }, {
       title: '操作',
       width: 200,
-      align: 'center',
+      align: 'left',
       render: () => {
         return (
-          <div>
+          <div className={styles.tableBtns}>
             <span>详情</span>
             <Divider type="vertical" />
             <span>编辑</span>
@@ -72,13 +73,15 @@ export default class OrgMerge extends PureComponent {
       },
     }];
     return (
-      <div>
-        <div>
+      <div className={styles.AllPerson}>
+        <div className={styles.AllHeader}>
           <Search
             placeholder="部门名称/编码"
+            size="default"
+            style={{ width: 400 }}
             enterButton
           />
-          <Button>添加单位</Button>
+          <Button type="primary">添加单位</Button>
         </div>
         <Table
           dataSource={List}

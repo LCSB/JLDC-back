@@ -4,6 +4,7 @@ import {
   Table, Button, Input, Divider,
 } from 'antd';
 import ModalConfig from './config';
+import styles from './index.less';
 
 const { Search } = Input;
 
@@ -52,12 +53,12 @@ export default class OrgMerge extends PureComponent {
       title: '名称',
       dataIndex: 'role_name',
       width: 200,
-      align: 'center',
+      align: 'left',
     }, {
       title: '系统用户',
       dataIndex: 'is_system',
       width: 200,
-      align: 'center',
+      align: 'left',
       render: (val) => {
         return (
           <div>
@@ -75,36 +76,33 @@ export default class OrgMerge extends PureComponent {
     }, {
       title: '角色属性',
       dataIndex: 'role_type',
-      width: 200,
-      align: 'center',
+      width: 180,
+      align: 'left',
     }, {
       title: '角色描述',
       dataIndex: 'description',
       width: 200,
-      align: 'center',
+      align: 'left',
     }, {
       title: '角色状态',
       dataIndex: 'enable',
       width: 150,
-      align: 'center',
+      align: 'left',
       render: (val) => {
         return (
-          <div>
-            {
-              val &&
-              <span>可用</span>
-            }
-            {
-              !val &&
-              <span>不可用</span>
-            }
+          <div> { val &&
+          <span >可用</span>
+                }
+            {!val &&
+            <span>不可用</span>
+                }
           </div>
         );
       },
     }, {
       title: '操作',
       width: 200,
-      align: 'center',
+      align: 'left',
       render: (record) => {
         return (
           <div className="tableBtns">
@@ -122,13 +120,16 @@ export default class OrgMerge extends PureComponent {
       },
     }];
     return (
-      <div>
-        <div>
+      <div className={styles.AllPerson}>
+        <div className={styles.AllHeader}>
           <Search
             placeholder="部门名称/编码"
+            size="default"
+            style={{ width: 400 }}
             enterButton
           />
           <Button
+            type="primary"
             onClick={this.addRole}
           >
             添加单位
