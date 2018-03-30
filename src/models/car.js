@@ -1,6 +1,6 @@
 import {
   getAllcarList, getVehicleTypeAll, addNewCar, getAllCarModalList,
-  reviseCar, deleteCar, addCarModal,
+  reviseCar, deleteCar, addCarModal, getCarStatusList,
 } from '../services/api';
 
 export default {
@@ -11,6 +11,8 @@ export default {
     carListLoading: false,
     typeList: [],
     ModalList: [],
+    StatusLoad: false,
+    StatusList: [],
   },
 
   effects: {
@@ -64,6 +66,23 @@ export default {
         callback();
       }
     },
+    *getCarStatusList({ payload }, { call, put }) {
+      yield put({
+        type: 'changeStatusLoad',
+        StatusLoad: true,
+      });
+      const response = yield call(getCarStatusList, payload);
+      if (response && response.VehicleStatuss) {
+        yield put({
+          type: 'saveStatusList',
+          StatusList: response.VehicleStatuss,
+        });
+      }
+      yield put({
+        type: 'changeStatusLoad',
+        StatusLoad: false,
+      });
+    },
     *deleteCar({ payload, callback }, { call }) {
       yield call(deleteCar, payload);
       if (callback) {
@@ -94,6 +113,18 @@ export default {
       return {
         ...state,
         ModalList,
+      };
+    },
+    changeStatusLoad(state, { StatusLoad }) {
+      return {
+        ...state,
+        StatusLoad,
+      };
+    },
+    saveStatusList(state, { StatusList }) {
+      return {
+        ...state,
+        StatusList,
       };
     },
   },

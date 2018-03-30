@@ -75,7 +75,7 @@ export default function request(url, options) {
       return response.json();
     })
     .then((response) => {
-      if (response && response.error.code === 10006) {
+      if (response && response.error.msg !== 'success') {
         const { dispatch } = store;
         dispatch({
           type: 'login/logout',
