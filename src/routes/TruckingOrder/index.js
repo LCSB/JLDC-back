@@ -138,13 +138,14 @@ export default class TruckingOrder extends PureComponent {
     ];
     return (
       <div className={styles.TruckingOrder}>
-        <h2>派出单管理</h2>
+        <h2>派车单管理</h2>
         <Button
           type="primary"
           onClick={this.addOrder}
+          icon="plus"
           // style={{margin: 10 }}
         >
-          新建订单
+          新建派车单
         </Button>
         <Table
           columns={columns}

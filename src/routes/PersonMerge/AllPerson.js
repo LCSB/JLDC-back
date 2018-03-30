@@ -143,6 +143,7 @@ export default class AllPerson extends PureComponent {
           <Button
             type="primary"
             onClick={this.addPerson}
+            icon="plus"
           >
             新增人员
           </Button>

@@ -59,10 +59,10 @@ export default class home extends PureComponent {
             map: this.QQmap,
             title: val.vehicle_name,
           });
-          const anchor = new qq.maps.Point(16, 8);
-          const size = new qq.maps.Size(32, 16);
-          const origin = new qq.maps.Point(0, 0);
-          const markerIcon = new qq.maps.MarkerImage(
+          let anchor = new qq.maps.Point(11.5, 23.4);
+          let size = new qq.maps.Size(21, 46.8);
+          let origin = new qq.maps.Point(0, 0);
+          let markerIcon = new qq.maps.MarkerImage(
             IconCar,
             undefined,
             origin,
@@ -70,6 +70,10 @@ export default class home extends PureComponent {
             size,
           );
           this[val.vehicle_name].setIcon(markerIcon);
+          anchor = null;
+          size = null;
+          origin = null;
+          markerIcon = null;
           this[`${val.vehicle_name}info`] = new qq.maps.InfoWindow({
             map: this.QQmap,
           });
@@ -89,6 +93,7 @@ export default class home extends PureComponent {
       } catch (err) {
         // console.log(err);
       }
+      // console.log(this);
     }
     // console.log(onlines);
     return (

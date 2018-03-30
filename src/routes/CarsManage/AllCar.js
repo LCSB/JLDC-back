@@ -4,7 +4,7 @@ import {
   Table, Button, Input, Divider, Popconfirm,
 } from 'antd';
 import CarModal from './Carconfig';
-import CarTypeModal from './CarTypeConfig';
+// import CarTypeModal from './CarTypeConfig';
 import styles from './index.less';
 
 const { Search } = Input;
@@ -27,7 +27,7 @@ export default class AllPerson extends PureComponent {
     carVisible: false,
     modalType: '',
     record: {},
-    carTypeVisible: false,
+    // carTypeVisible: false,
   }
   componentWillMount() {
     this.props.dispatch({
@@ -80,18 +80,6 @@ export default class AllPerson extends PureComponent {
     this.setState({
       carVisible: false,
       record: {},
-    });
-  }
-
-  addCarType = () => {
-    this.setState({
-      carTypeVisible: true,
-    });
-  }
-
-  cancelTypeModal = () => {
-    this.setState({
-      carTypeVisible: false,
     });
   }
 
@@ -179,26 +167,19 @@ export default class AllPerson extends PureComponent {
     return (
       <div className={styles.AllCar}>
         <div className={styles.AllHeader}>
-          <div className={styles.AllCarBtns}>
-            <Button
-              type="primary"
-              onClick={this.addCar}
-            >
-              新增车辆
-            </Button>
-            <Button
-              type="primary"
-              onClick={this.addCarType}
-            >
-              新增车型
-            </Button>
-          </div>
           <Search
             placeholder="请输入车牌号"
             size="default"
             style={{ width: 400 }}
             enterButton
           />
+          <Button
+            type="primary"
+            onClick={this.addCar}
+            icon="plus"
+          >
+            新增车辆
+          </Button>
         </div>
         <div className={styles.carNum}>
           共{carList.length}辆车
@@ -220,12 +201,6 @@ export default class AllPerson extends PureComponent {
           typeList={typeList}
           ModalList={ModalList}
           // form={this.props.form}
-        />
-        <CarTypeModal
-          carTypeVisible={this.state.carTypeVisible}
-          cancelTypeModal={this.cancelTypeModal}
-          // form={this.props.form}
-          dispatch={this.props.dispatch}
         />
       </div>
     );
