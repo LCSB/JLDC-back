@@ -64,7 +64,8 @@ export default function request(url, options) {
       };
     }
   }
-  return fetch(url, newOptions)
+  const root = `http://121.196.194.31${url}`;
+  return fetch(root, newOptions)
     .then(checkStatus)
     .then((response) => {
       if (newOptions.method === 'DELETE' || response.status === 204) {
