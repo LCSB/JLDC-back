@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
+import { Table, Button, Input, Divider } from 'antd';
 import { connect } from 'dva';
-import {
-  Table, Button, Input, Divider,
-} from 'antd';
+import Myplist from './OrgProp';
 import styles from './index.less';
 
 const { Search } = Input;
@@ -12,13 +11,49 @@ const { Search } = Input;
   ListLoading: org.ListLoading,
 }))
 export default class OrgMerge extends PureComponent {
+  state = {
+    orgVisible: false,
+    modalType: '',
+    record: {},
+  }
   componentWillMount() {
     this.props.dispatch({
       type: 'org/getOrgList',
     });
   }
+
+  addRole = () => {
+    this.setState({
+      orgVisible: true,
+      modalType: '添加',
+    });
+  }
+  detailRole = (record) => {
+    this.setState({
+      orgVisible: true,
+      modalType: '详情',
+      record,
+    });
+  }
+  resiveRole = (record) => {
+    this.setState({
+      orgVisible: true,
+      modalType: '修改',
+      record,
+    });
+  }
+  cancelModal = () => {
+    this.setState({
+      orgVisible: false,
+      record: {},
+    });
+  }
   render() {
     const { List, ListLoading } = this.props;
+    const pagination = {
+      pageSize: 8,
+      total: List.length,
+    };
     const orgById = {};
     const orgFilter = [];
     List.map((val) => {
@@ -30,7 +65,7 @@ export default class OrgMerge extends PureComponent {
       return val;
     });
     const columns = [{
-      title: '部门名称',
+      title: '单位名称',
       dataIndex: 'organization.org_name',
       width: 200,
       filters: orgFilter,
@@ -42,7 +77,7 @@ export default class OrgMerge extends PureComponent {
       width: 200,
       align: 'left',
     }, {
-      title: '上级部门',
+      title: '上级单位ID',
       dataIndex: 'organization.parent_id',
       width: 200,
       align: 'left',
@@ -60,14 +95,27 @@ export default class OrgMerge extends PureComponent {
       title: '操作',
       width: 200,
       align: 'left',
-      render: () => {
+      render: (record) => {
         return (
           <div className={styles.tableBtns}>
-            <span>详情</span>
+            <span
+              onClick={this.detailRole.bind(this, record)}
+            >
+              详情
+            </span>
             <Divider type="vertical" />
-            <span>编辑</span>
-            <Divider type="vertical" />
-            <span>删除</span>
+            <span
+              onClick={this.resiveRole.bind(this, record)}
+            >
+              编辑
+            </span>
+            {/* <Divider type="vertical" />
+            <Popconfirm
+              title={`你确认要删除${record.organization.org_name}么?`}
+              onConfirm={this.deleteRole.bind(this, record)}
+            >
+              删除
+            </Popconfirm> */}
           </div>
         );
       },
@@ -84,6 +132,7 @@ export default class OrgMerge extends PureComponent {
           />
           <Button
             type="primary"
+            onClick={this.addRole}
             icon="plus"
           >
             添加单位
@@ -92,8 +141,17 @@ export default class OrgMerge extends PureComponent {
         <Table
           dataSource={List}
           columns={columns}
-          rowKey={(record => record.organization.id)}
+          rowKey={(record => record.id)}
           loading={ListLoading}
+          pagination={pagination}
+        />
+        <Myplist
+          orgVisible={this.state.orgVisible}
+          cancelModal={this.cancelModal}
+          record={this.state.record}
+          dispatch={this.props.dispatch}
+          List={List}
+          modalType={this.state.modalType}
         />
       </div>
     );
