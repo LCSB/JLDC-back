@@ -372,6 +372,27 @@ export async function getAllOrgList() {
     },
   });
 }
+//  添加单位列表
+export async function addlist(params) {
+  return request('/api/admin/organization/organization_add', {
+    method: 'POST',
+    body: params,
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+// 修改单位列表
+export async function resivelist(params) {
+  console.log(getAuthority());
+  return request(`/api/admin/organization/organization_update?id=${params.id}`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
 
 // 获取所有权限
 export async function getAllRoleList() {

@@ -1,4 +1,4 @@
-import { getAllOrgList } from '../services/api';
+import { getAllOrgList, addlist, resivelist } from '../services/api';
 
 export default {
   namespace: 'org',
@@ -25,6 +25,19 @@ export default {
         type: 'changeListLoading',
         ListLoading: false,
       });
+    },
+
+    *addlist({ payload, callback }, { call }) {
+      yield call(addlist, payload);
+      if (callback) {
+        callback();
+      }
+    },
+    *resivelist({ payload, callback }, { call }) {
+      yield call(resivelist, payload);
+      if (callback) {
+        callback();
+      }
     },
   },
 

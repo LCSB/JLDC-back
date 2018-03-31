@@ -58,12 +58,13 @@ export default class Modalconfig extends PureComponent {
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { moadlType } = this.props;
+    const { moadlType, record } = this.props;
     return (
       <Modal
         visible={this.props.roleVisible}
         width={1000}
         footer={null}
+        title={`角色${moadlType}`}
         onCancel={this.cancelFormModal}
       >
         <Form
@@ -74,8 +75,9 @@ export default class Modalconfig extends PureComponent {
           >
             {getFieldDecorator('role_name', {
               rules: [{ required: true, message: '请输入角色名称' }],
+              initialValue: moadlType === '添加' ? '' : record.role_name,
             })(
-              <Input placeholder="Username" />
+              <Input placeholder="Username" disabled={moadlType === '详情'} />
             )}
           </FormItem>
           <FormItem
@@ -83,8 +85,9 @@ export default class Modalconfig extends PureComponent {
           >
             {getFieldDecorator('is_system', {
               rules: [{ required: true, message: '请选择是否为系统用户' }],
+              initialValue: moadlType === '添加' ? '' : record.is_system,
             })(
-              <RadioGroup>
+              <RadioGroup disabled={moadlType === '详情'} >
                 <Radio value={1}>是</Radio>
                 <Radio value={0}>否</Radio>
               </RadioGroup>
@@ -95,8 +98,9 @@ export default class Modalconfig extends PureComponent {
           >
             {getFieldDecorator('enable', {
               rules: [{ required: true, message: '请选择角色状态' }],
+              initialValue: moadlType === '添加' ? '' : record.enable,
             })(
-              <RadioGroup>
+              <RadioGroup disabled={moadlType === '详情'} >
                 <Radio value={1}>正常</Radio>
                 <Radio value={0}>停用</Radio>
               </RadioGroup>
@@ -107,8 +111,9 @@ export default class Modalconfig extends PureComponent {
           >
             {getFieldDecorator('role_type', {
               rules: [{ required: true, message: '请选择角色属性' }],
+              initialValue: moadlType === '添加' ? '' : record.role_type,
             })(
-              <RadioGroup>
+              <RadioGroup disabled={moadlType === '详情'} >
                 <Radio value={1}>系统管理员</Radio>
                 <Radio value={2}>调度员</Radio>
                 <Radio value={3}>领导</Radio>
@@ -123,14 +128,25 @@ export default class Modalconfig extends PureComponent {
           >
             {getFieldDecorator('description', {
               rules: [{ required: true, message: '请输入角色描述' }],
+              initialValue: moadlType === '添加' ? '' : record.description,
             })(
               <TextArea />
             )}
           </FormItem>
-          <div className="btns">
-            <Button type="primary" htmlType="submit">{moadlType}</Button>
-            <Button type="primary" onClick={this.cancelFormModal}>取消</Button>
-          </div>
+          {
+            moadlType !== '详情' &&
+            (
+              <div className="btns">
+                <Button type="primary" htmlType="submit">{moadlType}</Button>
+                <Button
+                  type="primary"
+                  onClick={this.cancelModalForm}
+                >
+                  取消
+                </Button>
+              </div>
+            )
+          }
         </Form>
       </Modal>
     );
