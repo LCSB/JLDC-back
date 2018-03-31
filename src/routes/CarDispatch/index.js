@@ -20,11 +20,11 @@ export default class CarStatusList extends PureComponent {
     filtered: '',
   }
   componentWillMount() {
-    const TodayDate = moment(new Date());
-    const startDate = `${TodayDate.format(requestFormat)} 00:00:00`;
-    const endDate = `${TodayDate.add(6, 'days').format(requestFormat)} 00:00:00`;
-    // const startDate = '2018-03-28 00:00:00';
-    // const endDate = '2018-04-03 00:00:00';
+    // const TodayDate = moment(new Date());
+    // const startDate = `${TodayDate.format(requestFormat)} 00:00:00`;
+    // const endDate = `${TodayDate.add(6, 'days').format(requestFormat)} 00:00:00`;
+    const startDate = '2018-03-28 00:00:00';
+    const endDate = '2018-04-03 00:00:00';
     this.props.dispatch({
       type: 'carDispatch/getCarStatusList',
       payload: {
@@ -43,12 +43,16 @@ export default class CarStatusList extends PureComponent {
     });
   }
 
+  showOrder = (id) => {
+    this.props.history.push(`/carMes/orderDetail?id=${id}&status=2`);
+  }
+
   addOrder = () => {
     this.props.history.push('/carMes/orderDetail?status=1');
   }
 
   render() {
-    const { StatusList, ListLoading } = this.props;
+    const { StatusList, StatusLoad } = this.props;
     const { data } = this.state;
     let StatusListData = [];
     // console.log(StatusList);
@@ -95,22 +99,37 @@ export default class CarStatusList extends PureComponent {
         const vehicleCollectDatas = record.vehicle_collect_datas;
         const vehicleCollects = vehicleCollectDatas[0].vehicle_collects;
         if (vehicleCollects.length > 0) {
-          const val = vehicleCollects[0];
+          // const val = vehicleCollects[0];
           return (
             <div>
-              <div>{val.used_status}</div>
+              {
+                vehicleCollects.map((val) => {
+                  return (
+                    <div
+                      onClick={this.showOrder.bind(this, val.order_id)}
+                      className="orderShow"
+                      key={val.order_id}
+                    >
+                      {val.used_status}
+                    </div>
+                  );
+                })
+              }
             </div>
           );
         } else {
           return (
             <div
               onClick={this.addOrder}
-              style={{
-                cursor: 'pointer',
-                width: '100%',
-                height: '30px',
-              }}
-            />
+            >
+              <Icon
+                type="plus"
+                style={{
+                  fontSize: 32,
+                  cursor: 'pointer',
+                }}
+              />
+            </div>
           );
         }
       },
@@ -124,22 +143,37 @@ export default class CarStatusList extends PureComponent {
         const vehicleCollectDatas = record.vehicle_collect_datas;
         const vehicleCollects = vehicleCollectDatas[1].vehicle_collects;
         if (vehicleCollects.length > 0) {
-          const val = vehicleCollects[0];
+          // const val = vehicleCollects[0];
           return (
             <div>
-              <div>{val.used_status}</div>
+              {
+                vehicleCollects.map((val) => {
+                  return (
+                    <div
+                      onClick={this.showOrder.bind(this, val.order_id)}
+                      className="orderShow"
+                      key={val.order_id}
+                    >
+                      {val.used_status}
+                    </div>
+                  );
+                })
+              }
             </div>
           );
         } else {
           return (
             <div
               onClick={this.addOrder}
-              style={{
-                cursor: 'pointer',
-                width: '100%',
-                height: '30px',
-              }}
-            />
+            >
+              <Icon
+                type="plus"
+                style={{
+                  fontSize: 32,
+                  cursor: 'pointer',
+                }}
+              />
+            </div>
           );
         }
       },
@@ -153,22 +187,37 @@ export default class CarStatusList extends PureComponent {
         const vehicleCollectDatas = record.vehicle_collect_datas;
         const vehicleCollects = vehicleCollectDatas[2].vehicle_collects;
         if (vehicleCollects.length > 0) {
-          const val = vehicleCollects[0];
+          // const val = vehicleCollects[0];
           return (
             <div>
-              <div>{val.used_status}</div>
+              {
+                vehicleCollects.map((val) => {
+                  return (
+                    <div
+                      onClick={this.showOrder.bind(this, val.order_id)}
+                      className="orderShow"
+                      key={val.order_id}
+                    >
+                      {val.used_status}
+                    </div>
+                  );
+                })
+              }
             </div>
           );
         } else {
           return (
             <div
               onClick={this.addOrder}
-              style={{
-                cursor: 'pointer',
-                width: '100%',
-                height: '30px',
-              }}
-            />
+            >
+              <Icon
+                type="plus"
+                style={{
+                  fontSize: 32,
+                  cursor: 'pointer',
+                }}
+              />
+            </div>
           );
         }
       },
@@ -182,22 +231,37 @@ export default class CarStatusList extends PureComponent {
         const vehicleCollectDatas = record.vehicle_collect_datas;
         const vehicleCollects = vehicleCollectDatas[3].vehicle_collects;
         if (vehicleCollects.length > 0) {
-          const val = vehicleCollects[0];
+          // const val = vehicleCollects[0];
           return (
             <div>
-              <div>{val.used_status}</div>
+              {
+                vehicleCollects.map((val) => {
+                  return (
+                    <div
+                      onClick={this.showOrder.bind(this, val.order_id)}
+                      className="orderShow"
+                      key={val.order_id}
+                    >
+                      {val.used_status}
+                    </div>
+                  );
+                })
+              }
             </div>
           );
         } else {
           return (
             <div
               onClick={this.addOrder}
-              style={{
-                cursor: 'pointer',
-                width: '100%',
-                height: '30px',
-              }}
-            />
+            >
+              <Icon
+                type="plus"
+                style={{
+                  fontSize: 32,
+                  cursor: 'pointer',
+                }}
+              />
+            </div>
           );
         }
       },
@@ -211,22 +275,34 @@ export default class CarStatusList extends PureComponent {
         const vehicleCollectDatas = record.vehicle_collect_datas;
         const vehicleCollects = vehicleCollectDatas[4].vehicle_collects;
         if (vehicleCollects.length > 0) {
-          const val = vehicleCollects[0];
+          // const val = vehicleCollects[0];
           return (
             <div>
-              <div>{val.used_status}</div>
+              {
+                vehicleCollects.map((val) => {
+                  return (
+                    <div
+                      onClick={this.showOrder.bind(this, val.order_id)}
+                      className="orderShow"
+                      key={val.order_id}
+                    >
+                      {val.used_status}
+                    </div>
+                  );
+                })
+              }
             </div>
           );
         } else {
           return (
             <div
               onClick={this.addOrder}
-              style={{
-                cursor: 'pointer',
-                width: '100%',
-                height: '30px',
-              }}
-            />
+            >
+              <Icon
+                type="plus"
+                style={{ fontSize: 32 }}
+              />
+            </div>
           );
         }
       },
@@ -240,22 +316,34 @@ export default class CarStatusList extends PureComponent {
         const vehicleCollectDatas = record.vehicle_collect_datas;
         const vehicleCollects = vehicleCollectDatas[5].vehicle_collects;
         if (vehicleCollects.length > 0) {
-          const val = vehicleCollects[0];
+          // const val = vehicleCollects[0];
           return (
             <div>
-              <div>{val.used_status}</div>
+              {
+                vehicleCollects.map((val) => {
+                  return (
+                    <div
+                      onClick={this.showOrder.bind(this, val.order_id)}
+                      className="orderShow"
+                      key={val.order_id}
+                    >
+                      {val.used_status}
+                    </div>
+                  );
+                })
+              }
             </div>
           );
         } else {
           return (
             <div
               onClick={this.addOrder}
-              style={{
-                cursor: 'pointer',
-                width: '100%',
-                height: '30px',
-              }}
-            />
+            >
+              <Icon
+                type="plus"
+                style={{ fontSize: 32 }}
+              />
+            </div>
           );
         }
       },
@@ -269,22 +357,34 @@ export default class CarStatusList extends PureComponent {
         const vehicleCollectDatas = record.vehicle_collect_datas;
         const vehicleCollects = vehicleCollectDatas[6].vehicle_collects;
         if (vehicleCollects.length > 0) {
-          const val = vehicleCollects[0];
+          // const val = vehicleCollects[0];
           return (
             <div>
-              <div>{val.used_status}</div>
+              {
+                vehicleCollects.map((val) => {
+                  return (
+                    <div
+                      onClick={this.showOrder.bind(this, val.order_id)}
+                      className="orderShow"
+                      key={val.order_id}
+                    >
+                      {val.used_status}
+                    </div>
+                  );
+                })
+              }
             </div>
           );
         } else {
           return (
             <div
               onClick={this.addOrder}
-              style={{
-                cursor: 'pointer',
-                width: '100%',
-                height: '30px',
-              }}
-            />
+            >
+              <Icon
+                type="plus"
+                style={{ fontSize: 32 }}
+              />
+            </div>
           );
         }
       },
@@ -296,7 +396,7 @@ export default class CarStatusList extends PureComponent {
           dataSource={StatusListData}
           columns={columns}
           rowKey={(record => record.vehicle_id)}
-          loading={ListLoading}
+          loading={StatusLoad}
           pagination={pagination}
         />
       </div>

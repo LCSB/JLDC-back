@@ -121,5 +121,11 @@ export default {
         AvailableVehicles,
       };
     },
+    clearOrderHistory(state) {
+      return {
+        ...state,
+        detailList: {},
+      };
+    },
   },
 };

@@ -39,6 +39,7 @@ export default class DetailOrder extends PureComponent {
     status: 0,
   }
   componentWillMount() {
+    this.props.form.resetFields();
     const { search } = this.props.location;
     const { id, status } = getUrlParams(search);
     this.setState({
@@ -59,6 +60,12 @@ export default class DetailOrder extends PureComponent {
         payload: id,
       });
     }
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch({
+      type: 'orderDetail/clearOrderHistory',
+    });
   }
 
   showUseCar = (paramsItem, data) => {
