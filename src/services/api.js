@@ -249,6 +249,17 @@ export async function deleteCar(params) {
   });
 }
 
+// 获取车辆调度信息
+export async function getCarStatusList() {
+  // console.log(1);
+  // return request('/api/admin/vehicle/vehicle_status', {
+  //   method: 'POST',
+  //   headers: {
+  //     'x-token': getAuthority(),
+  //   },
+  // });
+}
+
 // 获取车辆用途
 export async function getVehicleTypeAll() {
   return request('/api/admin/vehicle/vehicle_type_get_all', {

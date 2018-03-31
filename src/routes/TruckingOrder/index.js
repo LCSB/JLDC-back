@@ -25,13 +25,15 @@ export default class TruckingOrder extends PureComponent {
   }
 
   showOrder = (id, status) => {
-    const name = Date.parse(new Date());
-    window.open(`/orderDetail?id=${id}&status=${status}`, name);
+    // const name = Date.parse(new Date());
+    // window.open(`/orderDetail?id=${id}&status=${status}`, name);
+    this.props.history.replace(`/carMes/orderDetail?id=${id}&status=${status}`);
   }
 
   addOrder = () => {
-    const name = Date.parse(new Date());
-    window.open('/orderDetail?status=1', name);
+    // const name = Date.parse(new Date());
+    // window.open('/orderDetail?status=1', name);
+    this.props.history.replace('/carMes/orderDetail?status=1');
   }
 
   cancelOrder = (id) => {

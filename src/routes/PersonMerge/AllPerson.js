@@ -71,7 +71,7 @@ export default class AllPerson extends PureComponent {
       userList, ListLoading, orgById, orgFilter, orgList,
     } = this.props;
     const pagination = {
-      pageSize: 8,
+      pageSize: 10,
       total: userList.length,
     };
     const columns = [{

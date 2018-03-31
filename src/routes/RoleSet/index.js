@@ -142,6 +142,7 @@ export default class OrgMerge extends PureComponent {
     }];
     return (
       <div className={styles.AllPerson}>
+        <h2>角色</h2>
         <div className={styles.AllHeader}>
           <Search
             placeholder="部门名称/编码"

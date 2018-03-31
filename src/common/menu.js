@@ -38,6 +38,10 @@ const menuData = [{
       name: '角色',
       path: 'roleSet',
     },
+    {
+      name: '司机',
+      path: 'driver',
+    },
   ],
 },
 {
@@ -50,7 +54,11 @@ const menuData = [{
       path: 'car',
     },
     {
-      name: '车辆配置',
+      name: '车辆调度调控',
+      path: 'CarDispatch',
+    },
+    {
+      name: '基础数据',
       path: 'carBasic',
     },
     // {
@@ -66,19 +74,32 @@ const menuData = [{
     //   name: '用车原因',
     //   path: 'CarPrototype',
     // },
-  ],
-},
-{
-  name: '任务调度',
-  icon: 'profile',
-  path: 'task',
-  children: [
     {
       name: '派车单',
       path: 'order',
     },
+    {
+      name: '派车单详情',
+      path: 'orderDetail',
+      hideInMenu: true,
+    },
   ],
 },
+// {
+//   name: '任务调度',
+//   icon: 'profile',
+//   path: 'task',
+//   children: [
+//     {
+//       name: '派车单',
+//       path: 'order',
+//     },
+//     {
+//       name: '派车单详情',
+//       path: 'orderDetail',
+//     },
+//   ],
+// },
 // {
 //   name: '人员',
 //   icon: 'dashboard',
@@ -92,12 +113,6 @@ const menuData = [{
 //   icon: 'dashboard',
 //   path: 'order',
 // },
-{
-  name: '派车单详情',
-  icon: 'dashboard',
-  path: 'orderDetail',
-  hideInMenu: true,
-},
 // {
 //   name: '部门',
 //   icon: 'dashboard',

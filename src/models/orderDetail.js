@@ -67,7 +67,7 @@ export default {
         detailLoading: true,
       });
       yield call(createOrder, payload);
-      yield put(routerRedux.push('/task/order'));
+      yield put(routerRedux.push('/carMes/order'));
     },
     *reviseOrder({ payload }, { call, put }) {
       yield put({
@@ -75,7 +75,7 @@ export default {
         detailLoading: true,
       });
       yield call(reviseOrder, payload);
-      yield put(routerRedux.push('/task/order'));
+      yield put(routerRedux.push('/carMes/order'));
     },
     *getAvailableVehicles({ payload }, { call, put }) {
       yield put({

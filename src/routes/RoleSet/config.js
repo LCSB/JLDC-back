@@ -25,7 +25,7 @@ export default class Modalconfig extends PureComponent {
         params.enable = Boolean(fieldsValue.enable);
         params.role_type = fieldsValue.role_type;
         params.description = fieldsValue.description;
-        console.log(params);
+        // console.log(params);
         if (this.props.moadlType === '添加') {
           this.props.dispatch({
             type: 'role/addRole',
@@ -40,7 +40,7 @@ export default class Modalconfig extends PureComponent {
         if (this.props.moadlType === '修改') {
           const { id } = this.props.record;
           params.id = id;
-          console.log(params.id);
+          // console.log(params.id);
           this.props.dispatch({
             type: 'role/resiveRole',
             payload: params,
