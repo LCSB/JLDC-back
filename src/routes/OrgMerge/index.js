@@ -141,7 +141,7 @@ export default class OrgMerge extends PureComponent {
         <Table
           dataSource={List}
           columns={columns}
-          rowKey={(record => record.id)}
+          rowKey={(record => record.organization.id)}
           loading={ListLoading}
           pagination={pagination}
         />

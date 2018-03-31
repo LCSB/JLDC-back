@@ -77,7 +77,7 @@ export default class Modalconfig extends PureComponent {
               rules: [{ required: true, message: '请输入角色名称' }],
               initialValue: moadlType === '添加' ? '' : record.role_name,
             })(
-              <Input placeholder="Username" disabled={moadlType === '详情'} />
+              <Input placeholder="角色名称" disabled={moadlType === '详情'} />
             )}
           </FormItem>
           <FormItem
@@ -85,11 +85,11 @@ export default class Modalconfig extends PureComponent {
           >
             {getFieldDecorator('is_system', {
               rules: [{ required: true, message: '请选择是否为系统用户' }],
-              initialValue: moadlType === '添加' ? '' : record.is_system,
+              initialValue: moadlType === '添加' ? false : record.is_system,
             })(
               <RadioGroup disabled={moadlType === '详情'} >
-                <Radio value={1}>是</Radio>
-                <Radio value={0}>否</Radio>
+                <Radio value>是</Radio>
+                <Radio value={false}>否</Radio>
               </RadioGroup>
             )}
           </FormItem>
@@ -98,11 +98,11 @@ export default class Modalconfig extends PureComponent {
           >
             {getFieldDecorator('enable', {
               rules: [{ required: true, message: '请选择角色状态' }],
-              initialValue: moadlType === '添加' ? '' : record.enable,
+              initialValue: moadlType === '添加' ? true : record.enable,
             })(
               <RadioGroup disabled={moadlType === '详情'} >
-                <Radio value={1}>正常</Radio>
-                <Radio value={0}>停用</Radio>
+                <Radio value>正常</Radio>
+                <Radio value={false}>停用</Radio>
               </RadioGroup>
             )}
           </FormItem>
@@ -140,7 +140,7 @@ export default class Modalconfig extends PureComponent {
                 <Button type="primary" htmlType="submit">{moadlType}</Button>
                 <Button
                   type="primary"
-                  onClick={this.cancelModalForm}
+                  onClick={this.cancelFormModal}
                 >
                   取消
                 </Button>

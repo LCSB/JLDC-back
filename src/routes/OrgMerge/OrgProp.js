@@ -20,6 +20,7 @@ export default class Myplist extends PureComponent {
         params.parent_id = fieldsValue.parent_id;
         params.tel_phone = fieldsValue.tel_phone;
         params.address = fieldsValue.address;
+        params.email = fieldsValue.email;
         if (this.props.modalType === '添加') {
           this.props.dispatch({
             type: 'org/addlist',
@@ -32,7 +33,7 @@ export default class Myplist extends PureComponent {
           });
         }
         if (this.props.modalType === '修改') {
-          const { id } = this.props.record;
+          const { id } = this.props.record.organization;
           params.id = id;
           dispatch({
             type: 'org/resivelist',
@@ -44,14 +45,15 @@ export default class Myplist extends PureComponent {
             },
           });
         }
-        this.props.form.resetFields();
-        this.props.cancelModal();
+        this.cancelFormModal();
       }
     });
   }
   render() {
     const { getFieldDecorator } = this.props.form;
     const { modalType, record, List } = this.props;
+    const { organization } = record;
+    // console.log((modalType === '添加' && organization !== undefined));
     return (
       <Modal
         visible={this.props.orgVisible}
@@ -67,7 +69,7 @@ export default class Myplist extends PureComponent {
           >
             {getFieldDecorator('org_name', {
               rules: [{ required: true, message: '请输入单位名称' }],
-              initialValue: modalType === '添加' ? '' : record.org_name,
+              initialValue: (modalType !== '添加' && organization) ? organization.org_name : '',
             })(
               <Input
                 palceholder="单位名称"
@@ -76,11 +78,11 @@ export default class Myplist extends PureComponent {
             )}
           </FormItem>
           <FormItem
-            label="编码"
+            label="单位编码"
           >
             {getFieldDecorator('org_code', {
               rules: [{ required: true, message: '请输入编码' }],
-              initialValue: modalType === '添加' ? '' : record.org_code,
+              initialValue: (modalType !== '添加' && organization) ? organization.org_code : '',
             })(
               <Input
                 palceholder="编码"
@@ -92,8 +94,8 @@ export default class Myplist extends PureComponent {
             label="上级单位ID"
           >
             {getFieldDecorator('parent_id', {
-              rules: [{ required: true, message: '请选择上级单位ID' }],
-              initialValue: modalType === '添加' ? '' : record.parent_id,
+              rules: [{ required: true, message: '请选择上级单位' }],
+              initialValue: (modalType !== '添加' && organization) ? organization.parent_id : '',
             })(
               <Select
                 disabled={modalType === '详情'}
@@ -102,10 +104,10 @@ export default class Myplist extends PureComponent {
                   List.map((oly) => {
                     return (
                       <Option
-                        key={oly.organization.prent_id}
-                        value={oly.organization.parent_id}
+                        key={oly.organization.id}
+                        value={oly.organization.id}
                       >
-                        {oly.organization.parent_id}
+                        {oly.organization.org_name}
                       </Option>
                     );
                   })
@@ -114,11 +116,11 @@ export default class Myplist extends PureComponent {
             )}
           </FormItem>
           <FormItem
-            label="电话"
+            label="单位电话"
           >
             {getFieldDecorator('tel_phone', {
               rules: [{ required: true, message: '请输入电话' }],
-              initialValue: modalType === '添加' ? '' : record.tel_phone,
+              initialValue: (modalType !== '添加' && organization) ? organization.tel_phone : '',
             })(
               <Input
                 palceholder="电话"
@@ -127,14 +129,27 @@ export default class Myplist extends PureComponent {
             )}
           </FormItem>
           <FormItem
-            label="地址"
+            label="单位地址"
           >
             {getFieldDecorator('address', {
-              rules: [{ required: true, messageaddress: '请输入地址' }],
-              initialValue: modalType === '添加' ? '' : record.address,
+              rules: [{ required: true, message: '请输入地址' }],
+              initialValue: (modalType !== '添加' && organization) ? organization.address : '',
             })(
               <Input
                 palceholder="地址"
+                disabled={modalType === '详情'}
+              />
+            )}
+          </FormItem>
+          <FormItem
+            label="单位邮箱"
+          >
+            {getFieldDecorator('email', {
+              rules: [{ required: true, message: '请输入单位邮箱' }],
+              initialValue: (modalType !== '添加' && organization) ? organization.email : '',
+            })(
+              <Input
+                palceholder="单位邮箱"
                 disabled={modalType === '详情'}
               />
             )}

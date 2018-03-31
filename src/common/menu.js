@@ -41,6 +41,7 @@ const menuData = [{
     {
       name: '司机',
       path: 'driver',
+      hideInMenu: true,
     },
   ],
 },

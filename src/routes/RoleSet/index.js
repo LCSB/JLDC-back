@@ -66,15 +66,15 @@ export default class OrgMerge extends PureComponent {
   render() {
     const { roleList, ListLoading } = this.props;
     const columns = [{
-      title: '名称',
+      title: '角色名称',
       dataIndex: 'role_name',
       width: 200,
-      align: 'left',
+      align: 'center',
     }, {
       title: '系统用户',
       dataIndex: 'is_system',
       width: 200,
-      align: 'left',
+      align: 'center',
       render: (val) => {
         return (
           <div>
@@ -89,21 +89,23 @@ export default class OrgMerge extends PureComponent {
           </div>
         );
       },
-    }, {
-      title: '角色属性',
-      dataIndex: 'role_type',
-      width: 180,
-      align: 'left',
-    }, {
+    },
+    // {
+    //   title: '角色属性',
+    //   dataIndex: 'role_type',
+    //   width: 180,
+    //   align: 'center',
+    // },
+    {
       title: '角色描述',
       dataIndex: 'description',
       width: 200,
-      align: 'left',
+      align: 'center',
     }, {
       title: '角色状态',
       dataIndex: 'enable',
       width: 150,
-      align: 'left',
+      align: 'center',
       render: (val) => {
         return (
           <div> { val &&
@@ -118,7 +120,7 @@ export default class OrgMerge extends PureComponent {
     }, {
       title: '操作',
       width: 200,
-      align: 'left',
+      align: 'center',
       render: (record) => {
         return (
           <div className="tableBtns">
@@ -145,7 +147,7 @@ export default class OrgMerge extends PureComponent {
         <h2>角色</h2>
         <div className={styles.AllHeader}>
           <Search
-            placeholder="部门名称/编码"
+            placeholder="角色名称"
             size="default"
             style={{ width: 400 }}
             enterButton
@@ -155,7 +157,7 @@ export default class OrgMerge extends PureComponent {
             onClick={this.addRole}
             icon="plus"
           >
-            添加单位
+            添加角色
           </Button>
         </div>
         <Table
