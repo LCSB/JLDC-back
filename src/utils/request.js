@@ -65,8 +65,8 @@ export default function request(url, options) {
     }
   }
   // const root = `http://121.196.194.31${url}`;
-  // const root =`http://192.144.129.105${url}`;
-  return fetch(url, newOptions)
+  const root = `http://192.144.129.105${url}`;
+  return fetch(root, newOptions)
     .then(checkStatus)
     .then((response) => {
       if (newOptions.method === 'DELETE' || response.status === 204) {
@@ -75,7 +75,8 @@ export default function request(url, options) {
       return response.json();
     })
     .then((response) => {
-      if (response && response.error.msg.indexOf('token') > 0) {
+      // console.log();
+      if (response && response.error.msg.indexOf('token') >= 0) {
         const { dispatch } = store;
         dispatch({
           type: 'login/logout',

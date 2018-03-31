@@ -1,6 +1,6 @@
 import {
   getAllcarList, getVehicleTypeAll, addNewCar, getAllCarModalList,
-  reviseCar, deleteCar, addCarModal, getCarStatusList,
+  reviseCar, deleteCar, addCarModal, getCarOrderList,
 } from '../services/api';
 
 export default {
@@ -11,8 +11,8 @@ export default {
     carListLoading: false,
     typeList: [],
     ModalList: [],
-    StatusLoad: false,
-    StatusList: [],
+    carOrderList: [],
+    carOrderLoad: false,
   },
 
   effects: {
@@ -66,28 +66,29 @@ export default {
         callback();
       }
     },
-    *getCarStatusList({ payload }, { call, put }) {
-      yield put({
-        type: 'changeStatusLoad',
-        StatusLoad: true,
-      });
-      const response = yield call(getCarStatusList, payload);
-      if (response && response.VehicleStatuss) {
-        yield put({
-          type: 'saveStatusList',
-          StatusList: response.VehicleStatuss,
-        });
-      }
-      yield put({
-        type: 'changeStatusLoad',
-        StatusLoad: false,
-      });
-    },
     *deleteCar({ payload, callback }, { call }) {
       yield call(deleteCar, payload);
       if (callback) {
         callback();
       }
+    },
+    *getCarOrderList({ payload }, { call, put }) {
+      yield put({
+        type: 'changeCarOrderLoad',
+        carOrderLoad: true,
+      });
+      // console.log(payload);
+      const response = yield call(getCarOrderList, payload);
+      if (response && response.vehicleOrderExts instanceof Array) {
+        yield put({
+          type: 'saveCarOrderList',
+          carOrderList: response.vehicleOrderExts,
+        });
+      }
+      yield put({
+        type: 'changeCarOrderLoad',
+        carOrderLoad: false,
+      });
     },
   },
   reducers: {
@@ -115,16 +116,16 @@ export default {
         ModalList,
       };
     },
-    changeStatusLoad(state, { StatusLoad }) {
+    changeCarOrderLoad(state, { carOrderLoad }) {
       return {
         ...state,
-        StatusLoad,
+        carOrderLoad,
       };
     },
-    saveStatusList(state, { StatusList }) {
+    saveCarOrderList(state, { carOrderList }) {
       return {
         ...state,
-        StatusList,
+        carOrderList,
       };
     },
   },

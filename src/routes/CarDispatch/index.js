@@ -1,16 +1,17 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import {
-  Table, Input, Divider, Icon,
+  Table, Input, Icon,
 } from 'antd';
-// import moment from 'moment';
+import moment from 'moment';
 import styles from './index.less';
 
 // const { Search } = Input;
+const requestFormat = 'YYYY-MM-DD';
 
-@connect(({ car }) => ({
-  StatusList: car.StatusList,
-  StatusLoad: car.StatusLoad,
+@connect(({ carDispatch }) => ({
+  StatusList: carDispatch.StatusList,
+  StatusLoad: carDispatch.StatusLoad,
 }))
 export default class CarStatusList extends PureComponent {
   state = {
@@ -19,10 +20,16 @@ export default class CarStatusList extends PureComponent {
     filtered: '',
   }
   componentWillMount() {
+    const TodayDate = moment(new Date());
+    const startDate = `${TodayDate.format(requestFormat)} 00:00:00`;
+    const endDate = `${TodayDate.add(6, 'days').format(requestFormat)} 00:00:00`;
+    // const startDate = '2018-03-28 00:00:00';
+    // const endDate = '2018-04-03 00:00:00';
     this.props.dispatch({
-      type: 'car/getCarStatusList',
+      type: 'carDispatch/getCarStatusList',
       payload: {
-        id: 1,
+        start_time: startDate,
+        end_time: endDate,
       },
     });
   }
@@ -36,10 +43,15 @@ export default class CarStatusList extends PureComponent {
     });
   }
 
+  addOrder = () => {
+    this.props.history.push('/carMes/orderDetail?status=1');
+  }
+
   render() {
     const { StatusList, ListLoading } = this.props;
     const { data } = this.state;
     let StatusListData = [];
+    // console.log(StatusList);
     if (data && data.length > 0) {
       StatusListData = data;
     } else {
@@ -49,10 +61,14 @@ export default class CarStatusList extends PureComponent {
       pageSize: 8,
       total: StatusList.length,
     };
+
+    const TodayDate = moment(new Date());
+
     const columns = [{
       title: '车牌号',
       dataIndex: 'vehicle_number',
       align: 'center',
+      width: 150,
       filterDropdown: (
         <div className="custom-filter-dropdown-status">
           <Input
@@ -69,32 +85,208 @@ export default class CarStatusList extends PureComponent {
           filterDropdownVisible: visible,
         }, () => this.searchInput && this.searchInput.focus());
       },
-    }, {
-      title: '创建时间',
-      dataIndex: 'created',
+    },
+    {
+      title: TodayDate.add(1, 'days').format(requestFormat),
       align: 'center',
-    }, {
-      title: '可用状态',
-      dataIndex: 'enable',
-      align: 'center',
-      render: (val) => {
-        const mes = val ? '可用' : '不可用';
-        return mes;
-      },
-    }, {
-      title: '操作',
+      key: '1',
       width: 200,
+      render: (record) => {
+        const vehicleCollectDatas = record.vehicle_collect_datas;
+        const vehicleCollects = vehicleCollectDatas[0].vehicle_collects;
+        if (vehicleCollects.length > 0) {
+          const val = vehicleCollects[0];
+          return (
+            <div>
+              <div>{val.used_status}</div>
+            </div>
+          );
+        } else {
+          return (
+            <div
+              onClick={this.addOrder}
+              style={{
+                cursor: 'pointer',
+                width: '100%',
+                height: '30px',
+              }}
+            />
+          );
+        }
+      },
+    },
+    {
+      title: TodayDate.add(1, 'days').format(requestFormat),
       align: 'center',
-      render: () => {
-        return (
-          <div>
-            <span>详情</span>
-            <Divider type="vertical" />
-            <span>编辑</span>
-            <Divider type="vertical" />
-            <span>删除</span>
-          </div>
-        );
+      key: '2',
+      width: 200,
+      render: (record) => {
+        const vehicleCollectDatas = record.vehicle_collect_datas;
+        const vehicleCollects = vehicleCollectDatas[1].vehicle_collects;
+        if (vehicleCollects.length > 0) {
+          const val = vehicleCollects[0];
+          return (
+            <div>
+              <div>{val.used_status}</div>
+            </div>
+          );
+        } else {
+          return (
+            <div
+              onClick={this.addOrder}
+              style={{
+                cursor: 'pointer',
+                width: '100%',
+                height: '30px',
+              }}
+            />
+          );
+        }
+      },
+    },
+    {
+      title: TodayDate.add(1, 'days').format(requestFormat),
+      align: 'center',
+      key: '3',
+      width: 200,
+      render: (record) => {
+        const vehicleCollectDatas = record.vehicle_collect_datas;
+        const vehicleCollects = vehicleCollectDatas[2].vehicle_collects;
+        if (vehicleCollects.length > 0) {
+          const val = vehicleCollects[0];
+          return (
+            <div>
+              <div>{val.used_status}</div>
+            </div>
+          );
+        } else {
+          return (
+            <div
+              onClick={this.addOrder}
+              style={{
+                cursor: 'pointer',
+                width: '100%',
+                height: '30px',
+              }}
+            />
+          );
+        }
+      },
+    },
+    {
+      title: TodayDate.add(1, 'days').format(requestFormat),
+      align: 'center',
+      key: '4',
+      width: 200,
+      render: (record) => {
+        const vehicleCollectDatas = record.vehicle_collect_datas;
+        const vehicleCollects = vehicleCollectDatas[3].vehicle_collects;
+        if (vehicleCollects.length > 0) {
+          const val = vehicleCollects[0];
+          return (
+            <div>
+              <div>{val.used_status}</div>
+            </div>
+          );
+        } else {
+          return (
+            <div
+              onClick={this.addOrder}
+              style={{
+                cursor: 'pointer',
+                width: '100%',
+                height: '30px',
+              }}
+            />
+          );
+        }
+      },
+    },
+    {
+      title: TodayDate.add(1, 'days').format(requestFormat),
+      align: 'center',
+      key: '5',
+      width: 200,
+      render: (record) => {
+        const vehicleCollectDatas = record.vehicle_collect_datas;
+        const vehicleCollects = vehicleCollectDatas[4].vehicle_collects;
+        if (vehicleCollects.length > 0) {
+          const val = vehicleCollects[0];
+          return (
+            <div>
+              <div>{val.used_status}</div>
+            </div>
+          );
+        } else {
+          return (
+            <div
+              onClick={this.addOrder}
+              style={{
+                cursor: 'pointer',
+                width: '100%',
+                height: '30px',
+              }}
+            />
+          );
+        }
+      },
+    },
+    {
+      title: TodayDate.add(1, 'days').format(requestFormat),
+      align: 'center',
+      key: '6',
+      width: 200,
+      render: (record) => {
+        const vehicleCollectDatas = record.vehicle_collect_datas;
+        const vehicleCollects = vehicleCollectDatas[5].vehicle_collects;
+        if (vehicleCollects.length > 0) {
+          const val = vehicleCollects[0];
+          return (
+            <div>
+              <div>{val.used_status}</div>
+            </div>
+          );
+        } else {
+          return (
+            <div
+              onClick={this.addOrder}
+              style={{
+                cursor: 'pointer',
+                width: '100%',
+                height: '30px',
+              }}
+            />
+          );
+        }
+      },
+    },
+    {
+      title: TodayDate.add(1, 'days').format(requestFormat),
+      align: 'center',
+      key: '7',
+      width: 200,
+      render: (record) => {
+        const vehicleCollectDatas = record.vehicle_collect_datas;
+        const vehicleCollects = vehicleCollectDatas[6].vehicle_collects;
+        if (vehicleCollects.length > 0) {
+          const val = vehicleCollects[0];
+          return (
+            <div>
+              <div>{val.used_status}</div>
+            </div>
+          );
+        } else {
+          return (
+            <div
+              onClick={this.addOrder}
+              style={{
+                cursor: 'pointer',
+                width: '100%',
+                height: '30px',
+              }}
+            />
+          );
+        }
       },
     }];
     return (
@@ -103,7 +295,7 @@ export default class CarStatusList extends PureComponent {
         <Table
           dataSource={StatusListData}
           columns={columns}
-          rowKey={(record => record.id)}
+          rowKey={(record => record.vehicle_id)}
           loading={ListLoading}
           pagination={pagination}
         />

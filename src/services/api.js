@@ -175,6 +175,19 @@ export async function getAllcarList() {
   });
 }
 
+// 获取车辆历史订单消息
+export async function getCarOrderList(params) {
+  return request(
+    `/api/admin/vehicle/vehicle_order_get_vehicle_id?vehicle_id=${params.vehicle_id}&start_time=${params.start_time}&end_time=${params.end_time}`,
+    {
+      method: 'POST',
+      headers: {
+        'x-token': getAuthority(),
+      },
+    }
+  );
+}
+
 // 获取车型信息
 export async function getAllCarModalList() {
   return request('/api/admin/vehicle/vehicle_model_get_all', {
@@ -249,15 +262,14 @@ export async function deleteCar(params) {
   });
 }
 
-// 获取车辆调度信息
-export async function getCarStatusList() {
-  // console.log(1);
-  // return request('/api/admin/vehicle/vehicle_status', {
-  //   method: 'POST',
-  //   headers: {
-  //     'x-token': getAuthority(),
-  //   },
-  // });
+// 获取七天车辆调度信息
+export async function getCarStatusList(params) {
+  return request(`/api/admin/vehicle/vehicle_status?start_time=${params.start_time}&end_time=${params.end_time}`, {
+    method: 'POST',
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
 }
 
 // 获取车辆用途
@@ -406,7 +418,7 @@ export async function addRole(params) {
 
 // 修改单位
 export async function resiveRole(params) {
-  console.log(getAuthority());
+  // console.log(getAuthority());
   return request(`/api/admin/sysuser/sysuser_role_update?id=${params.id}`, {
     method: 'POST',
     body: params,
