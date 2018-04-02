@@ -8,6 +8,7 @@ import { Link } from 'dva/router';
 // import HeaderSearch from '../HeaderSearch';
 import styles from './index.less';
 
+
 export default class GlobalHeader extends PureComponent {
   componentWillUnmount() {
     this.triggerResizeEvent.cancel();

@@ -25,9 +25,9 @@ export default class Modalconfig extends PureComponent {
         params.Phone = fieldsValue.Phone;
         params.depart_id = fieldsValue.depart_id;
         if (this.props.moadlType === '添加') {
-          // params.password = '123456';
-          // params.income = '12';
-          // params.vehicle_depart_id = 1;
+          params.password = '123456';
+          params.income = '12';
+          params.vehicle_depart_id = 1;
           dispatch({
             type: 'person/addPerson',
             payload: params,

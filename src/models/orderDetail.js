@@ -1,6 +1,9 @@
 import { routerRedux } from 'dva/router';
 import moment from 'moment';
-import { getOrderDatail, getUseCarReason, getAvailableVehicles, createOrder, reviseOrder } from '../services/api';
+import {
+  getOrderDatail, getUseCarReason, getAvailableVehicles, createOrder, reviseOrder,
+  getAvailableDriver, getOrderHistory,
+} from '../services/api';
 
 export default {
   namespace: 'orderDetail',
@@ -10,6 +13,9 @@ export default {
     detailLoading: false,
     reasonList: [],
     AvailableVehicles: {},
+    AvailableDriver: [],
+    RouterLoad: false,
+    HistortyRoutes: [],
   },
 
   effects: {
@@ -38,10 +44,35 @@ export default {
             AvailableVehicles: responseAvailable,
           });
         }
+        const responseDrivers = yield call(getAvailableDriver, params);
+        if (responseDrivers && responseDrivers.error.code === 0) {
+          yield put({
+            type: 'saveAvailableDriver',
+            AvailableDriver: responseDrivers['vehicle-driver'],
+          });
+        }
       }
       yield put({
         type: 'changeListLoading',
         detailLoading: false,
+      });
+    },
+    // 获取车辆历史行驶信息
+    *getHistoryRouter({ payload }, { call, put }) {
+      yield put({
+        type: 'changeRouterLoading',
+        RouterLoad: true,
+      });
+      const response = yield call(getOrderHistory, payload);
+      if (response && response.routes instanceof Array) {
+        put({
+          type: 'saveRoutes',
+          HistortyRoutes: response.routes,
+        });
+      }
+      yield put({
+        type: 'changeRouterLoading',
+        RouterLoad: false,
       });
     },
     *getUseCarReason(_, { call, put }) {
@@ -94,6 +125,23 @@ export default {
         detailLoading: false,
       });
     },
+    *getAvailableDriver({ payload }, { call, put }) {
+      yield put({
+        type: 'changeListLoading',
+        detailLoading: true,
+      });
+      const response = yield call(getAvailableDriver, payload);
+      if (response && response.error.code === 0) {
+        yield put({
+          type: 'saveAvailableDriver',
+          AvailableDriver: response['vehicle-driver'],
+        });
+      }
+      yield put({
+        type: 'changeListLoading',
+        detailLoading: false,
+      });
+    },
   },
 
   reducers: {
@@ -109,16 +157,28 @@ export default {
         detailLoading,
       };
     },
-    saveReasons(state, { reasonList }) {
+    changeRouterLoading(state, { RouterLoad }) {
       return {
         ...state,
-        reasonList,
+        RouterLoad,
+      };
+    },
+    saveReasons(state, { HistortyRoutes }) {
+      return {
+        ...state,
+        HistortyRoutes,
       };
     },
     saveAvailableVehicles(state, { AvailableVehicles }) {
       return {
         ...state,
         AvailableVehicles,
+      };
+    },
+    saveAvailableDriver(state, { AvailableDriver }) {
+      return {
+        ...state,
+        AvailableDriver,
       };
     },
     clearOrderHistory(state) {

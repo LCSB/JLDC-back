@@ -96,32 +96,32 @@ export default class AllPerson extends PureComponent {
       title: '车牌号',
       dataIndex: 'vehicle.vehicle_number',
       width: 200,
-      align: 'left',
+      align: 'center',
     }, {
       title: '车型',
       dataIndex: 'vehicle_model_name',
       width: 150,
-      align: 'left',
+      align: 'center',
     }, {
       title: '车型用途',
       dataIndex: 'vehicle_type_name',
       width: 150,
-      align: 'left',
+      align: 'center',
     }, {
       title: '座位数',
       dataIndex: 'vehicle.seat_number',
       width: 100,
-      align: 'left',
+      align: 'center',
     }, {
       title: '采购时间',
       dataIndex: 'vehicle.purchasing_time',
       width: 250,
-      align: 'left',
+      align: 'center',
     }, {
       title: '部门',
       dataIndex: 'vehicle.depart_id',
       width: 150,
-      align: 'left',
+      align: 'center',
       filters: orgFilter,
       onFilter: (value, record) => parseInt(record.depart_id, 10) === parseInt(value, 10),
       render: (value) => {
@@ -133,12 +133,12 @@ export default class AllPerson extends PureComponent {
       title: '车辆状态',
       dataIndex: 'vehicle.vehicle_status',
       width: 150,
-      align: 'left',
+      align: 'center',
       render: val => carStatus[val],
     }, {
       title: '操作',
       width: 250,
-      align: 'left',
+      align: 'center',
       render: (record) => {
         return (
           <div className="tableBtns">

@@ -1,4 +1,4 @@
-import { getAllOrgList } from '../services/api';
+import { getAllDriverList } from '../services/api';
 
 export default {
   namespace: 'driver',
@@ -14,11 +14,11 @@ export default {
         type: 'changeDriverLoad',
         driverLoad: true,
       });
-      const response = yield call(getAllOrgList);
-      if (!response) {
+      const response = yield call(getAllDriverList);
+      if (response && response.sysusers instanceof Array) {
         yield put({
           type: 'saveDriverList',
-          driverList: response.organization_list,
+          driverList: response.sysusers,
         });
       }
       yield put({

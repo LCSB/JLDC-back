@@ -62,49 +62,49 @@ export default class TruckingOrder extends PureComponent {
         title: '车牌号',
         dataIndex: 'vehicle_number',
         width: 150,
-        align: 'left',
+        align: 'center',
       },
       {
         title: '申请人',
         dataIndex: 'originator_name',
         width: 150,
-        align: 'left',
+        align: 'center',
       },
       {
         title: '出车时间',
         dataIndex: 'vehicle_order.start_time',
         width: 250,
-        align: 'left',
+        align: 'center',
       },
       {
         title: '出发地',
         dataIndex: 'vehicle_order.start_place',
         width: 200,
-        align: 'left',
+        align: 'center',
       },
       {
         title: '目的地',
         dataIndex: 'vehicle_order.end_place',
         width: 200,
-        align: 'left',
+        align: 'center',
       },
       {
         title: '回车时间',
         dataIndex: 'vehicle_order.end_time',
         width: 250,
-        align: 'left',
+        align: 'center',
       },
       {
         title: '订单状态',
         dataIndex: 'vehicle_order.order_status',
         width: 120,
-        align: 'left',
+        align: 'center',
         render: val => orderStatus[val],
       },
       {
         title: '操作',
         width: 200,
-        align: 'left',
+        align: 'center',
         render: (record) => {
           return (
             <div className="tableBtns">

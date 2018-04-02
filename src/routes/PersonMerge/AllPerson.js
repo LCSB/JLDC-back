@@ -71,24 +71,28 @@ export default class AllPerson extends PureComponent {
       userList, ListLoading, orgById, orgFilter, orgList,
     } = this.props;
     const pagination = {
-      pageSize: 10,
+      pageSize: 8,
       total: userList.length,
     };
     const columns = [{
       title: '姓名',
       dataIndex: 'name',
+      align: 'center',
       width: 200,
     }, {
       title: '手机号',
       dataIndex: 'phone',
+      align: 'center',
       width: 200,
     }, {
       title: '警号',
       dataIndex: 'police_number',
+      align: 'center',
       width: 200,
     }, {
       title: '部门',
       dataIndex: 'depart_id',
+      align: 'center',
       width: 200,
       filters: orgFilter,
       onFilter: (value, record) => parseInt(record.depart_id, 10) === parseInt(value, 10),
@@ -105,6 +109,7 @@ export default class AllPerson extends PureComponent {
     // },
     {
       title: '操作',
+      align: 'center',
       width: 200,
       render: (record) => {
         return (

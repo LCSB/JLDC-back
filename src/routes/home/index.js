@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import {
-  Divider,
-} from 'antd';
+// import {
+//   Divider,
+// } from 'antd';
 import styles from './index.less';
 import IconCar from '../../../public/car.png';
 // import AddPersonModal from '../PersonMerge/AllPersonConfig';
@@ -26,7 +26,7 @@ export default class home extends PureComponent {
       this.props.dispatch({
         type: 'home/getCarStatusCoord',
       });
-    }, 5000);
+    }, 2000);
   }
   componentDidMount() {
     this.QQmap = new qq.maps.Map(document.getElementById('container'), {
@@ -47,6 +47,8 @@ export default class home extends PureComponent {
       try {
         onlines.map((val) => {
           if (this[val.vehicle_name]) {
+            this[val.vehicle_name].setMap(null);
+            this[`${val.vehicle_name}info`].setMap(null);
             this[val.vehicle_name] = null;
             this[`${val.vehicle_name}info`] = null;
           }
@@ -99,8 +101,8 @@ export default class home extends PureComponent {
     return (
       <div className={styles.home}>
         <div className={styles.homeNotify}>
-          <h2>警务保障部</h2>
-          <Divider />
+          {/* <h2>警务保障部</h2>
+          <Divider /> */}
           <div id="container" className={styles['map-view']} />
         </div>
       </div>

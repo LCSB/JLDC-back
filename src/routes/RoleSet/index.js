@@ -129,15 +129,22 @@ export default class OrgMerge extends PureComponent {
             >
               详情
             </span>
-            <Divider type="vertical" />
-            <span onClick={this.resiveRole.bind(this, record)}>编辑</span>
-            <Divider type="vertical" />
-            <Popconfirm
-              title={`你确认要删除${record.role_name}么?`}
-              onConfirm={this.deleteRole.bind(this, record)}
-            >
-              删除
-            </Popconfirm>
+            {
+              record.role_type !== 1 &&
+              (
+                <div className="SysNoBtns">
+                  <Divider type="vertical" />
+                  <span onClick={this.resiveRole.bind(this, record)}>编辑</span>
+                  <Divider type="vertical" />
+                  <Popconfirm
+                    title={`你确认要删除${record.role_name}么?`}
+                    onConfirm={this.deleteRole.bind(this, record)}
+                  >
+                    删除
+                  </Popconfirm>
+                </div>
+              )
+            }
           </div>
         );
       },

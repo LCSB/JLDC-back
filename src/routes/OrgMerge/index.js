@@ -70,31 +70,31 @@ export default class OrgMerge extends PureComponent {
       width: 200,
       filters: orgFilter,
       onFilter: (value, record) => record.organization.org_name === value,
-      align: 'left',
+      align: 'center',
     }, {
       title: '编码',
       dataIndex: 'organization.org_code',
       width: 200,
-      align: 'left',
+      align: 'center',
     }, {
       title: '上级单位ID',
       dataIndex: 'organization.parent_id',
       width: 200,
-      align: 'left',
+      align: 'center',
     }, {
       title: '电话',
       dataIndex: 'organization.tel_phone',
       width: 200,
-      align: 'left',
+      align: 'center',
     }, {
       title: '地址',
       dataIndex: 'organization.address',
       width: 150,
-      align: 'left',
+      align: 'center',
     }, {
       title: '操作',
       width: 200,
-      align: 'left',
+      align: 'center',
       render: (record) => {
         return (
           <div className={styles.tableBtns}>

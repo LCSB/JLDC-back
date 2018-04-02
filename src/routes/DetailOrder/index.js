@@ -5,6 +5,7 @@ import {
 } from 'antd';
 import moment from 'moment';
 import { getUrlParams } from '../../utils/utils';
+import HistoryMap from './DetailMap';
 import styles from './index.less';
 
 const FormItem = Form.Item;
@@ -32,11 +33,13 @@ const statusCar = {
   detailLoading: orderDetail.detailLoading,
   reasonList: orderDetail.reasonList,
   AvailableVehicles: orderDetail.AvailableVehicles,
+  AvailableDriver: orderDetail.AvailableDriver,
 }))
 @Form.create()
 export default class DetailOrder extends PureComponent {
   state = {
     status: 0,
+    idKey: undefined,
   }
   componentWillMount() {
     this.props.form.resetFields();
@@ -59,10 +62,16 @@ export default class DetailOrder extends PureComponent {
         type: 'orderDetail/getOrderList',
         payload: id,
       });
+      this.setState({
+        idKey: id,
+      });
     }
   }
 
   componentWillUnmount() {
+    this.setState({
+      idKey: undefined,
+    });
     this.props.dispatch({
       type: 'orderDetail/clearOrderHistory',
     });
@@ -81,6 +90,10 @@ export default class DetailOrder extends PureComponent {
       params.end_time = params.end_time.format(getCarDate);
       this.props.dispatch({
         type: 'orderDetail/getAvailableVehicles',
+        payload: params,
+      });
+      this.props.dispatch({
+        type: 'orderDetail/getAvailableDriver',
         payload: params,
       });
     }
@@ -117,6 +130,10 @@ export default class DetailOrder extends PureComponent {
     });
   }
 
+  backToList = () => {
+    this.props.history.push('/carMes/order');
+  }
+
   changeOrderStatus = (status) => {
     const { detailList } = this.props;
     const params = {};
@@ -132,7 +149,7 @@ export default class DetailOrder extends PureComponent {
     const { status } = this.state;
     const {
       detailList, form, reasonList, userList, AvailableVehicles,
-      detailLoading,
+      detailLoading, AvailableDriver,
     } = this.props;
     const { getFieldDecorator, getFieldValue } = form;
     // moment(detailList.vehicle_order.end_time, showDate)
@@ -141,7 +158,6 @@ export default class DetailOrder extends PureComponent {
       realityTime.push(moment(detailList.vehicle_order.start_time, showDate));
       realityTime.push(moment(detailList.vehicle_order.fact_back_time, showDate));
     }
-    // console.log(AvailableVehicles);
     let showCarList = [];
     if (AvailableVehicles && AvailableVehicles['current-user-vehicle']) {
       const AvailableMes = AvailableVehicles['current-user-vehicle'];
@@ -261,6 +277,38 @@ export default class DetailOrder extends PureComponent {
                                 key={val.vehicle.id}
                               >
                                 {val.vehicle.vehicle_number}
+                              </Option>
+                            );
+                          })
+                        }
+                      </Select>
+                    )}
+                  </FormItem>
+                )
+              }
+              {
+                getFieldValue('originator') !== '' &&
+                getFieldValue('start_time') !== undefined &&
+                getFieldValue('end_time') !== undefined &&
+                AvailableDriver instanceof Array &&
+                (
+                  <FormItem
+                    label="司机"
+                  >
+                    {getFieldDecorator('driver', {
+                      initialValue: detailList.vehicle_order ? detailList.vehicle_order.driver : '',
+                    })(
+                      <Select
+                        disabled={status === 2}
+                      >
+                        {
+                          AvailableDriver.map((val) => {
+                            return (
+                              <Option
+                                value={val.id}
+                                key={val.id}
+                              >
+                                {val.name}
                               </Option>
                             );
                           })
@@ -397,56 +445,63 @@ export default class DetailOrder extends PureComponent {
                   </FormItem>
                 )
               }
-              {
-                status !== 2 &&
-                (
-                  <div className={styles.btns}>
-                    {
-                      status === 1 &&
-                      <Button type="primary" htmlType="submit">拿钥匙</Button>
-                    }
-                    {
-                      status === 3 &&
-                      (
-                        <div className={styles.Setbtns}>
-                          {
-                            detailList.vehicle_order &&
-                            detailList.vehicle_order.order_status === 1 &&
-                            (
-                              <div className={styles.resOrder}>
-                                <Button
-                                  type="primary"
-                                  onClick={this.changeOrderStatus.bind(this, 3)}
-                                >
-                                  取消派车单
-                                </Button>
-                                <Button type="primary" htmlType="submit">修改派车单</Button>
-                              </div>
-                            )
-                          }
-                          {
-                            detailList.vehicle_order &&
-                            detailList.vehicle_order.order_status === 2 &&
-                            (
-                              <Button
-                                type="primary"
-                                onClick={this.changeOrderStatus.bind(this, 4)}
-                              >
-                                还钥匙
-                              </Button>
-                            )
-                          }
-                        </div>
-                      )
-                    }
-                  </div>
-                )
-              }
+              <div className={styles.btns}>
+                <Button
+                  type="primary"
+                  onClick={this.backToList}
+                >
+                  返回派车单列表
+                </Button>
+                {
+                  status === 1 &&
+                  <Button type="primary" htmlType="submit">拿钥匙</Button>
+                }
+                {
+                  status === 3 &&
+                  (
+                    <div className={styles.Setbtns}>
+                      {
+                        detailList.vehicle_order &&
+                        detailList.vehicle_order.order_status === 1 &&
+                        (
+                          <div className={styles.resOrder}>
+                            <Button
+                              type="primary"
+                              onClick={this.changeOrderStatus.bind(this, 4)}
+                            >
+                              取消派车单
+                            </Button>
+                            <Button type="primary" htmlType="submit">修改派车单</Button>
+                          </div>
+                        )
+                      }
+                      {
+                        detailList.vehicle_order &&
+                        detailList.vehicle_order.order_status === 2 &&
+                        (
+                          <Button
+                            type="primary"
+                            onClick={this.changeOrderStatus.bind(this, 3)}
+                          >
+                            还钥匙
+                          </Button>
+                        )
+                      }
+                    </div>
+                  )
+                }
+              </div>
             </Form>
           </Spin>
         </div>
-        {/* <div className={styles.mapMes}>
-        </div> */}
+        <div
+          className={styles.mapMes}
+          style={{ width: 'calc(100vw - 500px)' }}
+        >
+          <HistoryMap
+            id={this.state.idKey}
+          />
+        </div>
       </div>
     );
   }

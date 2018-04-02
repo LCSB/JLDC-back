@@ -15,7 +15,7 @@ import { getRoutes } from '../utils/utils';
 import Authorized from '../utils/Authorized';
 import { getMenuData } from '../common/menu';
 // import './basicLayout.less';
-import logo from '../assets/logo.svg';
+import logo from '../../public/logo.png';
 
 const { Content, Header, Footer } = Layout;
 const { AuthorizedRoute, check } = Authorized;

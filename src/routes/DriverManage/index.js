@@ -68,44 +68,25 @@ export default class CarModalList extends PureComponent {
       total: driverList.length,
     };
     const columns = [{
-      title: '用车原因',
-      dataIndex: 'prototype_name',
+      title: '姓名',
+      dataIndex: 'sys_user.name',
       align: 'center',
     }, {
-      title: '创建时间',
-      dataIndex: 'created',
+      title: '警号',
+      dataIndex: 'sys_user.police_number',
       align: 'center',
     }, {
       title: '可用状态',
-      dataIndex: 'enable',
+      dataIndex: 'sys_user.enable',
       align: 'center',
       render: (val) => {
         const mes = val ? '可用' : '不可用';
         return mes;
       },
     }, {
-      title: '操作',
-      width: 200,
+      title: '所属单位',
+      dataIndex: 'vehicle_depart_name',
       align: 'center',
-      render: () => {
-        return (
-          <div>
-            123
-            {/* <span
-              onClick={this.revsiePrototype.bind(this, recordMes)}
-            >
-              修改
-            </span>
-            <Divider type="vertical" />
-            <Popconfirm
-              title={`你确认要删除用车原因${recordMes.prototype_name}么?`}
-              onConfirm={this.deletePrototype.bind(this, recordMes.id)}
-            >
-              删除
-            </Popconfirm> */}
-          </div>
-        );
-      },
     }];
     return (
       <div className={styles.carType}>
@@ -127,7 +108,7 @@ export default class CarModalList extends PureComponent {
         <Table
           dataSource={driverList}
           columns={columns}
-          rowKey={(recordMes => recordMes.id)}
+          rowKey={(recordMes => recordMes.sys_user.id)}
           loading={driverLoad}
           pagination={pagination}
         />

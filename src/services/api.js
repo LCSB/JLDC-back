@@ -376,9 +376,20 @@ export async function getAvailableVehicles(params) {
   });
 }
 
+// 获取可用司机
+export async function getAvailableDriver(params) {
+  return request(`/api/admin/vehicle/current_user_diver?user_id=${params.user_id}&start_time=${params.start_time}&end_time=${params.end_time}`, {
+    method: 'POST',
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
 // 获取指定订单历史车辆轨迹信息
 export async function getOrderHistory(params) {
-  return request(`/api/admin/vehicle/vehicle_order_get?id=${params}`, {
+  // console.log(params);
+  return request(`/api/app/vehicle/order_history_route?id=${params}`, {
     method: 'POST',
     headers: {
       'x-token': getAuthority(),
@@ -407,7 +418,7 @@ export async function addlist(params) {
 }
 // 修改单位列表
 export async function resivelist(params) {
-  console.log(getAuthority());
+  // console.log(getAuthority());
   return request(`/api/admin/organization/organization_update?id=${params.id}`, {
     method: 'POST',
     body: params,
@@ -458,6 +469,17 @@ export async function deleteRole(params) {
     },
   });
 }
+
+// 获取司机列表
+export async function getAllDriverList() {
+  return request('/api/admin/sysuser/sys_user_driver_get_all', {
+    method: 'POST',
+    headers: {
+      'x-token': getAuthority(),
+    },
+  });
+}
+
 export async function fakeRegister(params) {
   return request('/api/register', {
     method: 'POST',
