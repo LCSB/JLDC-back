@@ -243,7 +243,7 @@ export default class DetailOrder extends PureComponent {
                   {getFieldDecorator('start_time', {
                     rules: [{ required: true, message: '请输入预计出车时间' }],
                     initialValue: detailList.vehicle_order ?
-                    moment(detailList.vehicle_order.start_time, getCarDate) : undefined,
+                    moment(new Date(detailList.vehicle_order.start_time), getCarDate) : undefined,
                   })(
                     <DatePicker
                       showTime
@@ -259,7 +259,7 @@ export default class DetailOrder extends PureComponent {
                   {getFieldDecorator('end_time', {
                     rules: [{ required: true, message: '请输入预计结束时间' }],
                     initialValue: detailList.vehicle_order ?
-                    moment(detailList.vehicle_order.end_time, getCarDate) : undefined,
+                    moment(new Date(detailList.vehicle_order.end_time), getCarDate) : undefined,
                   })(
                     <DatePicker
                       showTime

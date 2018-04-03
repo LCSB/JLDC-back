@@ -97,7 +97,7 @@ export default class OrgMerge extends PureComponent {
       align: 'center',
       render: (record) => {
         return (
-          <div className={styles.tableBtns}>
+          <div className="tableBtns">
             <span
               onClick={this.detailRole.bind(this, record)}
             >

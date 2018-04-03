@@ -15,9 +15,11 @@ const { Search } = Input;
 // @Form.create()
 export default class AllPerson extends PureComponent {
   state = {
+    DataList: [],
     userVisible: false,
     moadlType: '',
     record: {},
+    selectRole: [],
   }
   componentWillMount() {
     this.props.dispatch({
@@ -29,6 +31,7 @@ export default class AllPerson extends PureComponent {
     this.setState({
       userVisible: true,
       moadlType: '添加',
+      selectRole: [],
     });
   }
 
@@ -36,6 +39,7 @@ export default class AllPerson extends PureComponent {
     this.setState({
       userVisible: true,
       moadlType: '修改',
+      selectRole: record.role_id ? [record.role_id] : [],
       record,
     });
   }
@@ -44,6 +48,7 @@ export default class AllPerson extends PureComponent {
     this.setState({
       userVisible: true,
       moadlType: '详情',
+      selectRole: record.role_id ? [record.role_id] : [],
       record,
     });
   }
@@ -80,15 +85,60 @@ export default class AllPerson extends PureComponent {
     this.setState({
       userVisible: false,
       record: {},
+      selectRole: [],
     });
   }
+
+  searchValue = (value) => {
+    this.searchList(value);
+  }
+
+  enterSearch = (e) => {
+    // console.log(e.target.value);
+    const { value } = e.target;
+    this.searchList(value);
+  }
+
+  searchList = (value) => {
+    const { userList } = this.props;
+    const filterList = [];
+    userList.map((item) => {
+      if (
+        item.name.indexOf(value) >= 0 ||
+        item.phone.indexOf(value) >= 0 ||
+        item.police_number.indexOf(value) >= 0
+      ) {
+        filterList.push(item);
+      }
+      return item;
+    });
+    this.setState({
+      DataList: filterList,
+    });
+  }
+
+  changeRowData = (selectedRowKeys) => {
+    this.setState({
+      selectRole: selectedRowKeys,
+    });
+  }
+
   render() {
     const {
       userList, ListLoading, orgById, orgFilter, orgList,
     } = this.props;
+    const {
+      DataList, selectRole,
+    } = this.state;
+    let userDataList = [];
+    if (DataList.length > 0) {
+      userDataList = DataList;
+    } else {
+      userDataList = userList;
+    }
     const pagination = {
       pageSize: 10,
-      total: userList.length,
+      total: userDataList.length,
     };
     const columns = [{
       title: '姓名',
@@ -172,6 +222,9 @@ export default class AllPerson extends PureComponent {
             size="default"
             style={{ width: 400 }}
             enterButton
+            onSearch={this.searchValue}
+            onPressEnter={this.enterSearch}
+            onChange={this.enterSearch}
           />
           <Button
             type="primary"
@@ -182,10 +235,10 @@ export default class AllPerson extends PureComponent {
           </Button>
         </div>
         <div className={styles.perosnNum}>
-          共{userList.length}人
+          共{userDataList.length}人
         </div>
         <Table
-          dataSource={userList}
+          dataSource={userDataList}
           columns={columns}
           rowKey={(record => record.id)}
           loading={ListLoading}
@@ -198,6 +251,8 @@ export default class AllPerson extends PureComponent {
           // dispatch={this.props.dispatch}
           cancelModal={this.cancelModal}
           orgList={orgList}
+          selectRole={selectRole}
+          changeRowData={this.changeRowData}
           // form={this.props.form}
         />
       </div>

@@ -40,6 +40,13 @@ export default class CarStatusList extends PureComponent {
   onInputChange = (e) => {
     const searchText = e.target.value;
     const filterData = [];
+    const { StatusList } = this.props;
+    StatusList.map((val) => {
+      if (val.vehicle_number.indexOf(searchText) >= 0) {
+        filterData.push(val);
+      }
+      return val;
+    });
     this.setState({
       data: filterData,
       filtered: searchText,

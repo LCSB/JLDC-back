@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import {
   Form, Table, Divider, Popconfirm, Button,
 } from 'antd';
+import moment from 'moment';
 import styles from './index.less';
 
 const orderStatus = {
@@ -11,6 +12,7 @@ const orderStatus = {
   3: '订单完成',
   4: '取消订单',
 };
+const showFormat = 'YYYY-MM-DD HH:mm:ss';
 
 @connect(({ order }) => ({
   orderList: order.orderList,
@@ -75,6 +77,10 @@ export default class TruckingOrder extends PureComponent {
         dataIndex: 'vehicle_order.start_time',
         width: 250,
         align: 'center',
+        render: (val) => {
+          const timeVal = moment(new Date(val));
+          return timeVal.format(showFormat);
+        },
       },
       {
         title: '出发地',
@@ -93,6 +99,10 @@ export default class TruckingOrder extends PureComponent {
         dataIndex: 'vehicle_order.end_time',
         width: 250,
         align: 'center',
+        render: (val) => {
+          const timeVal = moment(new Date(val));
+          return timeVal.format(showFormat);
+        },
       },
       {
         title: '订单状态',
@@ -140,15 +150,17 @@ export default class TruckingOrder extends PureComponent {
     ];
     return (
       <div className={styles.TruckingOrder}>
-        <h2>派车单管理</h2>
-        <Button
-          type="primary"
-          onClick={this.addOrder}
-          icon="plus"
-          // style={{margin: 10 }}
-        >
-          新建派车单
-        </Button>
+        <div className={styles.orderTitle}>
+          <h2>派车单管理</h2>
+          <Button
+            type="primary"
+            onClick={this.addOrder}
+            icon="plus"
+            // style={{margin: 10 }}
+          >
+            新建派车单
+          </Button>
+        </div>
         <Table
           columns={columns}
           dataSource={orderList}

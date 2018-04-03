@@ -14,10 +14,6 @@ const { Option } = Select;
 }))
 @Form.create()
 export default class Modalconfig extends PureComponent {
-  state = {
-    selectRole: [],
-  }
-
   componentWillMount() {
     this.props.dispatch({
       type: 'role/getList',
@@ -32,13 +28,18 @@ export default class Modalconfig extends PureComponent {
     e.preventDefault();
     this.props.form.validateFields((err, fieldsValue) => {
       if (!err) {
-        const { dispatch, record } = this.props;
+        const { dispatch, record, selectRole } = this.props;
         const params = {};
         params.name = fieldsValue.name;
         params.police_number = fieldsValue.police_number;
         params.enable = fieldsValue.enable;
         params.Phone = fieldsValue.Phone;
         params.depart_id = fieldsValue.depart_id;
+        if (selectRole.length > 0) {
+          [params.role_id] = selectRole;
+        } else {
+          params.role_id = 0;
+        }
         if (this.props.moadlType === '添加') {
           params.password = '123456';
           params.income = '12';
@@ -74,22 +75,16 @@ export default class Modalconfig extends PureComponent {
     });
   }
 
-  changeRowData = (selectedRowKeys) => {
-    this.setState({
-      selectRole: selectedRowKeys,
-    });
-  }
-
   render() {
     const { getFieldDecorator } = this.props.form;
     const {
       moadlType, record, orgList, roleList,
-      ListLoading,
+      ListLoading, selectRole,
     } = this.props;
     const rowSelection = {
-      selectedRowKeys: this.state.selectRole,
+      selectedRowKeys: selectRole,
       type: 'radio',
-      onChange: this.changeRowData,
+      onChange: this.props.changeRowData,
     };
     const pagination = {
       pageSize: 5,

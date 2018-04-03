@@ -15,6 +15,7 @@ export default class OrgMerge extends PureComponent {
     roleVisible: false,
     moadlType: '',
     record: {},
+    selectCar: [],
   }
   componentWillMount() {
     this.props.dispatch({
@@ -26,6 +27,7 @@ export default class OrgMerge extends PureComponent {
     this.setState({
       roleVisible: true,
       moadlType: '修改',
+      selectCar: record.vehicle_types,
       record,
     });
   }
@@ -34,6 +36,7 @@ export default class OrgMerge extends PureComponent {
     this.setState({
       roleVisible: true,
       moadlType: '添加',
+      selectCar: [],
     });
   }
 
@@ -41,6 +44,7 @@ export default class OrgMerge extends PureComponent {
     this.setState({
       roleVisible: true,
       moadlType: '详情',
+      selectCar: record.vehicle_types,
       record,
     });
   }
@@ -48,6 +52,7 @@ export default class OrgMerge extends PureComponent {
     this.setState({
       roleVisible: false,
       record: {},
+      selectCar: [],
     });
   }
 
@@ -63,8 +68,16 @@ export default class OrgMerge extends PureComponent {
       },
     });
   }
+
+  changeRowData = (selectedRowKeys) => {
+    this.setState({
+      selectCar: selectedRowKeys,
+    });
+  }
+
   render() {
     const { roleList, ListLoading } = this.props;
+    const { selectCar } = this.state;
     const pagination = {
       pageSize: 10,
       total: roleList.length,
@@ -185,6 +198,8 @@ export default class OrgMerge extends PureComponent {
           // dispatch={this.props.dispatch}
           cancelModal={this.cancelModal}
           roleList={roleList}
+          selectCar={selectCar}
+          changeRowData={this.changeRowData}
         />
       </div>
     );

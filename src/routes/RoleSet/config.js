@@ -13,9 +13,6 @@ const { TextArea } = Input;
 }))
 @Form.create()
 export default class Modalconfig extends PureComponent {
-  state = {
-    UseCarKey: [],
-  }
   componentWillMount() {
     this.props.dispatch({
       type: 'car/getAllCarList',
@@ -30,12 +27,13 @@ export default class Modalconfig extends PureComponent {
     e.preventDefault();
     this.props.form.validateFields((err, fieldsValue) => {
       if (!err) {
-        const { dispatch } = this.props;
+        const { dispatch, selectCar } = this.props;
         const params = {};
         params.role_name = fieldsValue.role_name;
         params.enable = Boolean(fieldsValue.enable);
         params.description = fieldsValue.description;
-        // console.log(params);
+        params.api_groups = [];
+        params.vehicle_types = selectCar;
         if (this.props.moadlType === '添加') {
           this.props.dispatch({
             type: 'role/addRole',
@@ -67,24 +65,18 @@ export default class Modalconfig extends PureComponent {
     });
   }
 
-  changeRowData = (selectedRowKeys) => {
-    this.setState({
-      UseCarKey: selectedRowKeys,
-    });
-  }
-
   render() {
     const { getFieldDecorator } = this.props.form;
     const {
-      moadlType, record, carList, carLoad,
+      moadlType, record, carList, carLoad, selectCar,
     } = this.props;
     const pagination = {
       pageSize: 5,
       total: carList.length,
     };
     const rowSelection = {
-      selectedRowKeys: this.state.UseCarKey,
-      onChange: this.changeRowData,
+      selectedRowKeys: selectCar,
+      onChange: this.props.changeRowData,
     };
     const columns = [
       {
