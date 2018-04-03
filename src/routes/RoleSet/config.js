@@ -122,6 +122,7 @@ export default class Modalconfig extends PureComponent {
         width={1000}
         footer={null}
         title={`角色${moadlType}`}
+        maskClosable={false}
         onCancel={this.cancelFormModal}
       >
         <Form

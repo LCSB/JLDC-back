@@ -36,27 +36,40 @@ export default class AllPerson extends PureComponent {
   }
 
   revsieUser = (record) => {
+    let roleId = [];
+    if (record.sysuser_roles && record.sysuser_roles.length > 0) {
+      const [roleMes] = record.sysuser_roles;
+      roleId = [roleMes.id];
+    }
     this.setState({
       userVisible: true,
       moadlType: '修改',
-      selectRole: record.role_id ? [record.role_id] : [],
+      selectRole: roleId,
       record,
     });
   }
 
   detailUser = (record) => {
+    let roleId = [];
+    if (record.sysuser_roles && record.sysuser_roles.length > 0) {
+      const [roleMes] = record.sysuser_roles;
+      roleId = [roleMes.id];
+    }
     this.setState({
       userVisible: true,
       moadlType: '详情',
-      selectRole: record.role_id ? [record.role_id] : [],
+      selectRole: roleId,
       record,
     });
   }
 
   forbiddenUser = (record) => {
-    const params = {};
-    params.id = record.id;
-    params.enable = false;
+    const params = {
+      sys_user: {
+        id: record.sys_user.id,
+        enable: false,
+      },
+    };
     const { dispatch } = this.props;
     dispatch({
       type: 'person/revisePerson',
@@ -142,22 +155,22 @@ export default class AllPerson extends PureComponent {
     };
     const columns = [{
       title: '姓名',
-      dataIndex: 'name',
+      dataIndex: 'sys_user.name',
       align: 'center',
       width: 200,
     }, {
       title: '手机号',
-      dataIndex: 'phone',
+      dataIndex: 'sys_user.phone',
       align: 'center',
       width: 200,
     }, {
       title: '警号',
-      dataIndex: 'police_number',
+      dataIndex: 'sys_user.police_number',
       align: 'center',
       width: 200,
     }, {
       title: '部门',
-      dataIndex: 'depart_id',
+      dataIndex: 'sys_user.depart_id',
       align: 'center',
       width: 200,
       filters: orgFilter,
@@ -170,7 +183,7 @@ export default class AllPerson extends PureComponent {
     },
     {
       title: '用户状态',
-      dataIndex: 'enable',
+      dataIndex: 'sys_user.enable',
       align: 'center',
       width: 150,
       render: (val) => {
@@ -197,12 +210,13 @@ export default class AllPerson extends PureComponent {
               编辑
             </span>
             {
-              record.enable &&
+              record.sys_user &&
+              record.sys_user.enable &&
               (
                 <div>
                   <Divider type="vertical" />
                   <Popconfirm
-                    title={`你确认要停用用户${record.name}么?`}
+                    title={`你确认要停用用户${record.sys_user.name}么?`}
                     onConfirm={this.forbiddenUser.bind(this, record)}
                   >
                     停用
@@ -240,7 +254,7 @@ export default class AllPerson extends PureComponent {
         <Table
           dataSource={userDataList}
           columns={columns}
-          rowKey={(record => record.id)}
+          rowKey={(recordMes => recordMes.sys_user.id)}
           loading={ListLoading}
           pagination={pagination}
         />

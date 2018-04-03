@@ -3,7 +3,7 @@ import { connect } from 'dva';
 // import {
 //   Divider,
 // } from 'antd';
-import G from 'geohey-javascript-sdk';
+// import G from 'geohey-javascript-sdk';
 import styles from './index.less';
 import IconCar from '../../../public/car.png';
 // import AddPersonModal from '../PersonMerge/AllPersonConfig';
@@ -62,7 +62,10 @@ export default class home extends PureComponent {
             if (valGpsLat !== oldGpsLat) {
               const regNum = (valGpsLon - oldGpsLon) / (valGpsLat - oldGpsLat);
               carReg = Math.tan(regNum);
-              this[`${val.vehicle_name}rotate`] = carReg + 90;
+              this[`${val.vehicle_name}rotate`] = carReg;
+              if (carReg < 0) {
+                this[`${val.vehicle_name}rotate`] = carReg + 270;
+              }
             } else if (valGpsLon !== oldGpsLon && valGpsLon - oldGpsLon > 0) {
               carReg = 90;
               this[`${val.vehicle_name}rotate`] = carReg;
@@ -71,14 +74,16 @@ export default class home extends PureComponent {
               this[`${val.vehicle_name}rotate`] = carReg;
             }
           }
-          const GArr = G.Proj.Gcj.project(valGpsLon, valGpsLat);
-          const QQLatLng = new qq.maps.LatLng(parseFloat(GArr[1]), parseFloat(GArr[0]));
+          // const GArr = G.Proj.Gcj.project(valGpsLon, valGpsLat);
+          // console.log(valGpsLon);
+          // console.log(valGpsLat);
+          const QQLatLng = new qq.maps.LatLng(valGpsLat, valGpsLon);
 
           // 车辆
           if (this[val.vehicle_name]) {
             this[val.vehicle_name].moveTo(QQLatLng, 60);
             if (this[`${val.vehicle_name}rotate`]) {
-              this[val.vehicle_name].setRotation(this[`${val.vehicle_name}rotate`] * 90);
+              this[val.vehicle_name].setRotation(this[`${val.vehicle_name}rotate`]);
             }
           } else {
             this[val.vehicle_name] = new qq.maps.Marker({

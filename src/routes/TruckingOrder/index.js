@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import {
   Form, Table, Divider, Popconfirm, Button,
 } from 'antd';
-import moment from 'moment';
+// import moment from 'moment';
 import styles from './index.less';
 
 const orderStatus = {
@@ -12,7 +12,7 @@ const orderStatus = {
   3: '订单完成',
   4: '取消订单',
 };
-const showFormat = 'YYYY-MM-DD HH:mm:ss';
+// const showFormat = 'YYYY-MM-DD HH:mm:ss';
 
 @connect(({ order }) => ({
   orderList: order.orderList,
@@ -78,8 +78,8 @@ export default class TruckingOrder extends PureComponent {
         width: 250,
         align: 'center',
         render: (val) => {
-          const timeVal = moment(new Date(val));
-          return timeVal.format(showFormat);
+          const valMes = val.replace(/[T|Z]/g, ' ');
+          return valMes;
         },
       },
       {
@@ -100,8 +100,8 @@ export default class TruckingOrder extends PureComponent {
         width: 250,
         align: 'center',
         render: (val) => {
-          const timeVal = moment(new Date(val));
-          return timeVal.format(showFormat);
+          const valMes = val.replace(/[T|Z]/g, ' ');
+          return valMes;
         },
       },
       {

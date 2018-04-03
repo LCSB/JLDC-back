@@ -30,20 +30,21 @@ export default class Modalconfig extends PureComponent {
       if (!err) {
         const { dispatch, record, selectRole } = this.props;
         const params = {};
-        params.name = fieldsValue.name;
-        params.police_number = fieldsValue.police_number;
-        params.enable = fieldsValue.enable;
-        params.Phone = fieldsValue.Phone;
-        params.depart_id = fieldsValue.depart_id;
+        params.sys_user = {};
+        params.sys_user.name = fieldsValue.name;
+        params.sys_user.police_number = fieldsValue.police_number;
+        params.sys_user.enable = fieldsValue.enable;
+        params.sys_user.Phone = fieldsValue.Phone;
+        params.sys_user.depart_id = fieldsValue.depart_id;
         if (selectRole.length > 0) {
           [params.role_id] = selectRole;
         } else {
           params.role_id = 0;
         }
         if (this.props.moadlType === '添加') {
-          params.password = '123456';
-          params.income = '12';
-          params.vehicle_depart_id = 1;
+          params.sys_user.password = '123456';
+          params.sys_user.income = '12';
+          params.sys_user.vehicle_depart_id = 1;
           dispatch({
             type: 'person/addPerson',
             payload: params,
@@ -55,10 +56,10 @@ export default class Modalconfig extends PureComponent {
           });
         }
         if (this.props.moadlType === '修改') {
-          params.id = record.id;
-          params.password = '123456';
-          params.income = record.income;
-          params.vehicle_depart_id = record.vehicle_depart_id;
+          params.sys_user.id = record.sys_user.id;
+          params.sys_user.password = '123456';
+          params.sys_user.income = record.income;
+          params.sys_user.vehicle_depart_id = record.vehicle_depart_id;
           dispatch({
             type: 'person/revisePerson',
             payload: params,
@@ -137,6 +138,12 @@ export default class Modalconfig extends PureComponent {
         );
       },
     }];
+
+    let sysUser = record.sys_user;
+    if (sysUser === undefined) {
+      sysUser = {};
+    }
+
     return (
       <Modal
         visible={this.props.userVisible}
@@ -155,7 +162,7 @@ export default class Modalconfig extends PureComponent {
           >
             {getFieldDecorator('name', {
               rules: [{ required: true, message: '请输入用户名称' }],
-              initialValue: moadlType === '添加' ? '' : record.name,
+              initialValue: moadlType === '添加' ? '' : sysUser.name,
             })(
               <Input
                 disabled={moadlType === '详情'}
@@ -168,7 +175,7 @@ export default class Modalconfig extends PureComponent {
           >
             {getFieldDecorator('police_number', {
               rules: [{ required: true, message: '请输入警号' }],
-              initialValue: moadlType === '添加' ? '' : record.police_number,
+              initialValue: moadlType === '添加' ? '' : sysUser.police_number,
             })(
               <Input
                 disabled={moadlType === '详情'}
@@ -181,7 +188,7 @@ export default class Modalconfig extends PureComponent {
           >
             {getFieldDecorator('enable', {
               rules: [{ required: true, message: '请选择用户状态' }],
-              initialValue: moadlType === '添加' ? '' : record.enable,
+              initialValue: moadlType === '添加' ? '' : sysUser.enable,
             })(
               <RadioGroup
                 disabled={moadlType === '详情'}
@@ -196,7 +203,7 @@ export default class Modalconfig extends PureComponent {
           >
             {getFieldDecorator('Phone', {
               rules: [{ required: true, message: '请输入用户电话' }],
-              initialValue: moadlType === '添加' ? '' : record.phone,
+              initialValue: moadlType === '添加' ? '' : sysUser.phone,
             })(
               <Input
                 disabled={moadlType !== '添加'}
@@ -209,7 +216,7 @@ export default class Modalconfig extends PureComponent {
           >
             {getFieldDecorator('depart_id', {
               rules: [{ required: true, message: '请选择所属部门' }],
-              initialValue: moadlType === '添加' ? '' : record.depart_id,
+              initialValue: moadlType === '添加' ? '' : sysUser.depart_id,
             })(
               <Select
                 disabled={moadlType === '详情'}
@@ -234,7 +241,7 @@ export default class Modalconfig extends PureComponent {
           >
             {getFieldDecorator('vehicle_depart_id', {
               rules: [{ required: true, message: '请选择所属部门' }],
-              initialValue: moadlType === '添加' ? '' : record.vehicle_depart_id,
+              initialValue: moadlType === '添加' ? '' : sysUser.vehicle_depart_id,
             })(
               <Select
                 disabled={moadlType === '详情'}
@@ -261,7 +268,7 @@ export default class Modalconfig extends PureComponent {
                 label="系统用户"
               >
                 {getFieldDecorator('is_system', {
-                  initialValue: record.is_system,
+                  initialValue: sysUser.is_system,
                 })(
                   <RadioGroup
                     disabled

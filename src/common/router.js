@@ -110,7 +110,7 @@ export const getRouterData = (app) => {
       component: dynamicWrapper(app, ['order'], () => import('../routes/TruckingOrder')),
     },
     '/carMes/orderDetail': {
-      component: dynamicWrapper(app, ['orderDetail', 'car', 'person'], () => import('../routes/DetailOrder')),
+      component: dynamicWrapper(app, ['orderDetail', 'car', 'person', 'driver'], () => import('../routes/DetailOrder')),
     },
     '/dashboard/analysis': {
       component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),

@@ -44,13 +44,13 @@ export default {
             AvailableVehicles: responseAvailable,
           });
         }
-        const responseDrivers = yield call(getAvailableDriver, params);
-        if (responseDrivers && responseDrivers.error.code === 0) {
-          yield put({
-            type: 'saveAvailableDriver',
-            AvailableDriver: responseDrivers['vehicle-driver'],
-          });
-        }
+        // const responseDrivers = yield call(getAvailableDriver, params);
+        // if (responseDrivers && responseDrivers.error.code === 0) {
+        //   yield put({
+        //     type: 'saveAvailableDriver',
+        //     AvailableDriver: responseDrivers['vehicle-driver'],
+        //   });
+        // }
       }
       yield put({
         type: 'changeListLoading',

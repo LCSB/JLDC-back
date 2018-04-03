@@ -26,7 +26,7 @@ const statusCar = {
   4: '取消订单',
 };
 
-@connect(({ orderDetail, car, person }) => ({
+@connect(({ orderDetail, car, person, driver }) => ({
   carList: car.carList,
   userList: person.userList,
   detailList: orderDetail.detailList,
@@ -34,6 +34,7 @@ const statusCar = {
   reasonList: orderDetail.reasonList,
   AvailableVehicles: orderDetail.AvailableVehicles,
   AvailableDriver: orderDetail.AvailableDriver,
+  driverList: driver.driverList,
 }))
 @Form.create()
 export default class DetailOrder extends PureComponent {
@@ -57,6 +58,9 @@ export default class DetailOrder extends PureComponent {
         idKey: id,
       });
     }
+    this.props.dispatch({
+      type: 'driver/getDriverList',
+    });
     this.props.dispatch({
       type: 'person/getAllList',
     });
@@ -85,7 +89,7 @@ export default class DetailOrder extends PureComponent {
       end_time: getFieldValue('end_time'),
     };
     params[paramsItem] = data;
-    if (!!params.user_id && !!params.start_time && !!params.end_time) {
+    if (!!params.user_id && !!params.start_time && !!params.end_time && this.state.status === 1) {
       params.start_time = params.start_time.format(getCarDate);
       params.end_time = params.end_time.format(getCarDate);
       this.props.dispatch({
@@ -149,8 +153,13 @@ export default class DetailOrder extends PureComponent {
     const { status } = this.state;
     const {
       detailList, form, reasonList, userList, AvailableVehicles,
-      detailLoading, AvailableDriver,
+      detailLoading, AvailableDriver, driverList,
     } = this.props;
+    let DriverSelectData = driverList;
+    if (AvailableDriver.length > 0) {
+      DriverSelectData = AvailableDriver;
+    }
+    // console.log(DriverSelectData);
     const { getFieldDecorator, getFieldValue } = form;
     // moment(detailList.vehicle_order.end_time, showDate)
     const realityTime = [];
@@ -224,10 +233,10 @@ export default class DetailOrder extends PureComponent {
                         userList.map((val) => {
                           return (
                             <Option
-                              value={val.id}
-                              key={val.id}
+                              value={val.sys_user.id}
+                              key={val.sys_user.id}
                             >
-                              {val.name}
+                              {val.sys_user.name}
                             </Option>
                           );
                         })
@@ -243,7 +252,7 @@ export default class DetailOrder extends PureComponent {
                   {getFieldDecorator('start_time', {
                     rules: [{ required: true, message: '请输入预计出车时间' }],
                     initialValue: detailList.vehicle_order ?
-                    moment(new Date(detailList.vehicle_order.start_time), getCarDate) : undefined,
+                    moment(detailList.vehicle_order.start_time, getCarDate) : undefined,
                   })(
                     <DatePicker
                       showTime
@@ -259,7 +268,7 @@ export default class DetailOrder extends PureComponent {
                   {getFieldDecorator('end_time', {
                     rules: [{ required: true, message: '请输入预计结束时间' }],
                     initialValue: detailList.vehicle_order ?
-                    moment(new Date(detailList.vehicle_order.end_time), getCarDate) : undefined,
+                    moment(detailList.vehicle_order.end_time, getCarDate) : undefined,
                   })(
                     <DatePicker
                       showTime
@@ -306,27 +315,25 @@ export default class DetailOrder extends PureComponent {
                 getFieldValue('originator') !== '' &&
                 getFieldValue('start_time') !== undefined &&
                 getFieldValue('end_time') !== undefined &&
-                AvailableDriver instanceof Array &&
-                detailList.vehicle_order &&
-                detailList.vehicle_order.driver !== 0 &&
                 (
                   <FormItem
                     label="司机"
                   >
                     {getFieldDecorator('driver', {
-                      initialValue: detailList.vehicle_order ? detailList.vehicle_order.driver : '',
+                      initialValue: detailList.vehicle_order ?
+                      (detailList.vehicle_order.driver === 0 ? '' : detailList.vehicle_order.driver) : '',
                     })(
                       <Select
                         disabled={status === 2}
                       >
                         {
-                          AvailableDriver.map((val) => {
+                          DriverSelectData.map((val) => {
                             return (
                               <Option
-                                value={val.id}
-                                key={val.id}
+                                value={val.sys_user.id}
+                                key={val.sys_user.id}
                               >
-                                {val.name}
+                                {val.sys_user.name}
                               </Option>
                             );
                           })

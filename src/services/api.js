@@ -93,7 +93,7 @@ export async function getCarStatusCoord() {
 
 // 查找用户
 export async function getAllUserList() {
-  return request('/api/admin/sysuser/sys_user_get_all', {
+  return request('/api/admin/sysuser/sys_user_ext_get_all', {
     method: 'POST',
     headers: {
       'x-token': getAuthority(),
@@ -114,7 +114,7 @@ export async function addUser(params) {
 
 // 修改用户
 export async function reviseUser(params) {
-  return request(`/api/admin/sysuser/sys_user_update?id=${params.id}`, {
+  return request(`/api/admin/sysuser/sys_user_update?id=${params.sys_user.id}`, {
     method: 'POST',
     body: params,
     headers: {
