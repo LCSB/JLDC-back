@@ -1,13 +1,14 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import {
-  Table, Input, Icon,
+  Table, Input, Icon, DatePicker,
 } from 'antd';
 import moment from 'moment';
 import styles from './index.less';
 
 // const { Search } = Input;
 const requestFormat = 'YYYY-MM-DD';
+// const { RangePicker } = DatePicker;
 
 @connect(({ carDispatch }) => ({
   StatusList: carDispatch.StatusList,
@@ -18,13 +19,15 @@ export default class CarStatusList extends PureComponent {
     filterDropdownVisible: false,
     data: [],
     filtered: '',
+    DateMoment: moment(new Date(), requestFormat),
   }
   componentWillMount() {
-    // const TodayDate = moment(new Date());
-    // const startDate = `${TodayDate.format(requestFormat)} 00:00:00`;
-    // const endDate = `${TodayDate.add(6, 'days').format(requestFormat)} 00:00:00`;
-    const startDate = '2018-03-28 00:00:00';
-    const endDate = '2018-04-03 00:00:00';
+    const { DateMoment } = this.state;
+    const initDate = DateMoment.format(requestFormat);
+    const startDate = `${moment(initDate).format(requestFormat)} 00:00:00`;
+    const endDate = `${moment(initDate).add(6, 'days').format(requestFormat)} 00:00:00`;
+    // const startDate = '2018-03-28 00:00:00';
+    // const endDate = '2018-04-03 00:00:00';
     this.props.dispatch({
       type: 'carDispatch/getCarStatusList',
       payload: {
@@ -43,6 +46,22 @@ export default class CarStatusList extends PureComponent {
     });
   }
 
+  changeList = (dates) => {
+    this.setState({
+      DateMoment: dates,
+    });
+    const initDate = dates.format(requestFormat);
+    const startDate = `${moment(initDate).format(requestFormat)} 00:00:00`;
+    const endDate = `${moment(initDate).add(6, 'days').format(requestFormat)} 00:00:00`;
+    this.props.dispatch({
+      type: 'carDispatch/getCarStatusList',
+      payload: {
+        start_time: startDate,
+        end_time: endDate,
+      },
+    });
+  }
+
   showOrder = (id) => {
     this.props.history.push(`/carMes/orderDetail?id=${id}&status=2`);
   }
@@ -53,9 +72,14 @@ export default class CarStatusList extends PureComponent {
 
   render() {
     const { StatusList, StatusLoad } = this.props;
-    const { data } = this.state;
+    const { data, DateMoment } = this.state;
+
+    const initDate = DateMoment.format(requestFormat);
+
+    const TodayDate = moment(initDate, requestFormat);
+    const WeekDate = moment(initDate, requestFormat).add(6, 'days');
     let StatusListData = [];
-    // console.log(StatusList);
+
     if (data && data.length > 0) {
       StatusListData = data;
     } else {
@@ -65,8 +89,6 @@ export default class CarStatusList extends PureComponent {
       pageSize: 8,
       total: StatusList.length,
     };
-
-    const TodayDate = moment(new Date());
 
     const columns = [{
       title: '车牌号',
@@ -91,7 +113,7 @@ export default class CarStatusList extends PureComponent {
       },
     },
     {
-      title: TodayDate.add(1, 'days').format(requestFormat),
+      title: TodayDate.format(requestFormat),
       align: 'center',
       key: '1',
       width: 200,
@@ -115,6 +137,17 @@ export default class CarStatusList extends PureComponent {
                   );
                 })
               }
+              <div
+                onClick={this.addOrder}
+              >
+                <Icon
+                  type="plus"
+                  style={{
+                    fontSize: 32,
+                    cursor: 'pointer',
+                  }}
+                />
+              </div>
             </div>
           );
         } else {
@@ -159,6 +192,17 @@ export default class CarStatusList extends PureComponent {
                   );
                 })
               }
+              <div
+                onClick={this.addOrder}
+              >
+                <Icon
+                  type="plus"
+                  style={{
+                    fontSize: 32,
+                    cursor: 'pointer',
+                  }}
+                />
+              </div>
             </div>
           );
         } else {
@@ -203,6 +247,17 @@ export default class CarStatusList extends PureComponent {
                   );
                 })
               }
+              <div
+                onClick={this.addOrder}
+              >
+                <Icon
+                  type="plus"
+                  style={{
+                    fontSize: 32,
+                    cursor: 'pointer',
+                  }}
+                />
+              </div>
             </div>
           );
         } else {
@@ -247,6 +302,17 @@ export default class CarStatusList extends PureComponent {
                   );
                 })
               }
+              <div
+                onClick={this.addOrder}
+              >
+                <Icon
+                  type="plus"
+                  style={{
+                    fontSize: 32,
+                    cursor: 'pointer',
+                  }}
+                />
+              </div>
             </div>
           );
         } else {
@@ -291,6 +357,17 @@ export default class CarStatusList extends PureComponent {
                   );
                 })
               }
+              <div
+                onClick={this.addOrder}
+              >
+                <Icon
+                  type="plus"
+                  style={{
+                    fontSize: 32,
+                    cursor: 'pointer',
+                  }}
+                />
+              </div>
             </div>
           );
         } else {
@@ -332,6 +409,17 @@ export default class CarStatusList extends PureComponent {
                   );
                 })
               }
+              <div
+                onClick={this.addOrder}
+              >
+                <Icon
+                  type="plus"
+                  style={{
+                    fontSize: 32,
+                    cursor: 'pointer',
+                  }}
+                />
+              </div>
             </div>
           );
         } else {
@@ -373,6 +461,17 @@ export default class CarStatusList extends PureComponent {
                   );
                 })
               }
+              <div
+                onClick={this.addOrder}
+              >
+                <Icon
+                  type="plus"
+                  style={{
+                    fontSize: 32,
+                    cursor: 'pointer',
+                  }}
+                />
+              </div>
             </div>
           );
         } else {
@@ -391,7 +490,27 @@ export default class CarStatusList extends PureComponent {
     }];
     return (
       <div className={styles.carType}>
-        <h2>车辆调度调控</h2>
+        <div className={styles.titleContent}>
+          <h2>车辆调度调控</h2>
+          <div className={styles.titleTimes}>
+            <div>
+              <span>开始时间：</span>
+              <DatePicker
+                defaultValue={DateMoment}
+                format={requestFormat}
+                onChange={this.changeList}
+              />
+            </div>
+            <div>
+              <span>结束时间：</span>
+              <DatePicker
+                value={WeekDate}
+                format={requestFormat}
+                disabled
+              />
+            </div>
+          </div>
+        </div>
         <Table
           dataSource={StatusListData}
           columns={columns}

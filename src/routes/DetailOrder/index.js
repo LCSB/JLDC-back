@@ -48,15 +48,6 @@ export default class DetailOrder extends PureComponent {
     this.setState({
       status: parseInt(status, 10),
     });
-    this.props.dispatch({
-      type: 'person/getAllList',
-    });
-    this.props.dispatch({
-      type: 'car/getAllCarList',
-    });
-    this.props.dispatch({
-      type: 'orderDetail/getUseCarReason',
-    });
     if (id) {
       this.props.dispatch({
         type: 'orderDetail/getOrderList',
@@ -66,6 +57,15 @@ export default class DetailOrder extends PureComponent {
         idKey: id,
       });
     }
+    this.props.dispatch({
+      type: 'person/getAllList',
+    });
+    this.props.dispatch({
+      type: 'car/getAllCarList',
+    });
+    this.props.dispatch({
+      type: 'orderDetail/getUseCarReason',
+    });
   }
 
   componentWillUnmount() {
@@ -165,6 +165,22 @@ export default class DetailOrder extends PureComponent {
         showCarList = AvailableMes.vehicle_exts;
       }
     }
+
+    // console.log(AvailableDriver);
+    // console.log(reasonList);
+
+    // const DriverNameById = {};
+    // AvailableDriver.map((val) => {
+    //   DriverNameById[val.id] = DriverNameById[val.name];
+    //   return val;
+    // });
+    // console.log(DriverNameById);
+
+    // const reasonById = {};
+    // reasonList.map((val) => {
+    //   reasonById[val.id] = reasonById[val.prototype_name];
+    //   return val;
+    // });
 
     return (
       <div className={styles.detailOrder}>
@@ -291,6 +307,8 @@ export default class DetailOrder extends PureComponent {
                 getFieldValue('start_time') !== undefined &&
                 getFieldValue('end_time') !== undefined &&
                 AvailableDriver instanceof Array &&
+                detailList.vehicle_order &&
+                detailList.vehicle_order.driver !== 0 &&
                 (
                   <FormItem
                     label="司机"
@@ -396,7 +414,7 @@ export default class DetailOrder extends PureComponent {
                 {
                   getFieldDecorator('prototype_id', {
                     rules: [{ required: true, message: '请输入用车原因' }],
-                    initialValue: detailList.vehicle_order ? parseInt(detailList.vehicle_order.prototype_id, 10) : '',
+                    initialValue: detailList.vehicle_order ? detailList.vehicle_order.prototype_id : '',
                   })(
                     <Select
                       disabled={status === 2}

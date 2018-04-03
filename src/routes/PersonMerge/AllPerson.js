@@ -48,17 +48,33 @@ export default class AllPerson extends PureComponent {
     });
   }
 
-  deleteUser = (record) => {
-    this.props.dispatch({
-      type: 'person/deleteUser',
-      payload: record.id,
+  forbiddenUser = (record) => {
+    const params = {};
+    params.id = record.id;
+    params.enable = false;
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'person/revisePerson',
+      payload: params,
       callback: () => {
-        this.props.dispatch({
+        dispatch({
           type: 'person/getAllList',
         });
       },
     });
   }
+
+  // deleteUser = (record) => {
+  //   this.props.dispatch({
+  //     type: 'person/deleteUser',
+  //     payload: record.id,
+  //     callback: () => {
+  //       this.props.dispatch({
+  //         type: 'person/getAllList',
+  //       });
+  //     },
+  //   });
+  // }
 
   cancelModal = () => {
     this.setState({
@@ -71,7 +87,7 @@ export default class AllPerson extends PureComponent {
       userList, ListLoading, orgById, orgFilter, orgList,
     } = this.props;
     const pagination = {
-      pageSize: 8,
+      pageSize: 10,
       total: userList.length,
     };
     const columns = [{
@@ -102,11 +118,16 @@ export default class AllPerson extends PureComponent {
         );
       },
     },
-    // {
-    //   title: '用车单位',
-    //   dataIndex: 'age',
-    //   width: 150,
-    // },
+    {
+      title: '用户状态',
+      dataIndex: 'enable',
+      align: 'center',
+      width: 150,
+      render: (val) => {
+        const valMes = val ? '正常' : '停用';
+        return valMes;
+      },
+    },
     {
       title: '操作',
       align: 'center',
@@ -125,13 +146,20 @@ export default class AllPerson extends PureComponent {
             >
               编辑
             </span>
-            <Divider type="vertical" />
-            <Popconfirm
-              title={`你确认要删除用户${record.name}么?`}
-              onConfirm={this.deleteUser.bind(this, record)}
-            >
-              删除
-            </Popconfirm>
+            {
+              record.enable &&
+              (
+                <div>
+                  <Divider type="vertical" />
+                  <Popconfirm
+                    title={`你确认要停用用户${record.name}么?`}
+                    onConfirm={this.forbiddenUser.bind(this, record)}
+                  >
+                    停用
+                  </Popconfirm>
+                </div>
+              )
+            }
           </div>
         );
       },
@@ -167,7 +195,7 @@ export default class AllPerson extends PureComponent {
           userVisible={this.state.userVisible}
           moadlType={this.state.moadlType}
           record={this.state.record}
-          dispatch={this.props.dispatch}
+          // dispatch={this.props.dispatch}
           cancelModal={this.cancelModal}
           orgList={orgList}
           // form={this.props.form}

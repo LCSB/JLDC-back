@@ -163,10 +163,16 @@ export default {
         RouterLoad,
       };
     },
-    saveReasons(state, { HistortyRoutes }) {
+    saveRoutes(state, { HistortyRoutes }) {
       return {
         ...state,
         HistortyRoutes,
+      };
+    },
+    saveReasons(state, { reasonList }) {
+      return {
+        ...state,
+        reasonList,
       };
     },
     saveAvailableVehicles(state, { AvailableVehicles }) {

@@ -51,7 +51,7 @@ export default class OrgMerge extends PureComponent {
   render() {
     const { List, ListLoading } = this.props;
     const pagination = {
-      pageSize: 8,
+      pageSize: 10,
       total: List.length,
     };
     const orgById = {};

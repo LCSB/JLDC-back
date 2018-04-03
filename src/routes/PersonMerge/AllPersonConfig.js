@@ -1,14 +1,29 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'dva';
 import {
-  Button, Input, Modal, Form, Radio, Select,
+  Button, Input, Modal, Form, Radio, Select, Table,
 } from 'antd';
 
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 const { Option } = Select;
 // const { TextArea } = Input;
+@connect(({ role }) => ({
+  roleList: role.roleList,
+  ListLoading: role.ListLoading,
+}))
 @Form.create()
 export default class Modalconfig extends PureComponent {
+  state = {
+    selectRole: [],
+  }
+
+  componentWillMount() {
+    this.props.dispatch({
+      type: 'role/getList',
+    });
+  }
+
   cancelModalForm = () => {
     this.props.form.resetFields();
     this.props.cancelModal();
@@ -58,9 +73,75 @@ export default class Modalconfig extends PureComponent {
       }
     });
   }
+
+  changeRowData = (selectedRowKeys) => {
+    this.setState({
+      selectRole: selectedRowKeys,
+    });
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { moadlType, record, orgList } = this.props;
+    const {
+      moadlType, record, orgList, roleList,
+      ListLoading,
+    } = this.props;
+    const rowSelection = {
+      selectedRowKeys: this.state.selectRole,
+      type: 'radio',
+      onChange: this.changeRowData,
+    };
+    const pagination = {
+      pageSize: 5,
+      total: roleList.length,
+    };
+    const columns = [{
+      title: '角色名称',
+      dataIndex: 'role_name',
+      width: 200,
+      align: 'center',
+    }, {
+      title: '系统用户',
+      dataIndex: 'is_system',
+      width: 200,
+      align: 'center',
+      render: (val) => {
+        return (
+          <div>
+            {
+              val &&
+              <span>是</span>
+            }
+            {
+              !val &&
+              <span>否</span>
+            }
+          </div>
+        );
+      },
+    },
+    {
+      title: '角色描述',
+      dataIndex: 'description',
+      width: 200,
+      align: 'center',
+    }, {
+      title: '角色状态',
+      dataIndex: 'enable',
+      width: 150,
+      align: 'center',
+      render: (val) => {
+        return (
+          <div> { val &&
+          <span >可用</span>
+                }
+            {!val &&
+            <span>不可用</span>
+                }
+          </div>
+        );
+      },
+    }];
     return (
       <Modal
         visible={this.props.userVisible}
@@ -69,6 +150,7 @@ export default class Modalconfig extends PureComponent {
         title={`用户${moadlType}`}
         maskClosable={false}
         onCancel={this.cancelModalForm}
+        style={{ top: 10 }}
       >
         <Form
           onSubmit={this.handleSubmit}
@@ -152,6 +234,31 @@ export default class Modalconfig extends PureComponent {
               </Select>
             )}
           </FormItem>
+          <FormItem
+            label="用车部门"
+          >
+            {getFieldDecorator('vehicle_depart_id', {
+              rules: [{ required: true, message: '请选择所属部门' }],
+              initialValue: moadlType === '添加' ? '' : record.vehicle_depart_id,
+            })(
+              <Select
+                disabled={moadlType === '详情'}
+              >
+                {
+                  orgList.map((val) => {
+                    return (
+                      <Option
+                        key={val.organization.id}
+                        value={val.organization.id}
+                      >
+                        {val.organization.org_name}
+                      </Option>
+                    );
+                  })
+                }
+              </Select>
+            )}
+          </FormItem>
           {
             moadlType === '详情' &&
             (
@@ -171,6 +278,14 @@ export default class Modalconfig extends PureComponent {
               </FormItem>
             )
           }
+          <Table
+            dataSource={roleList}
+            columns={columns}
+            rowKey={(recordMes => recordMes.id)}
+            loading={ListLoading}
+            pagination={pagination}
+            rowSelection={rowSelection}
+          />
           {
             moadlType !== '详情' &&
             (

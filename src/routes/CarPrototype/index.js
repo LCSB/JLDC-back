@@ -64,7 +64,7 @@ export default class CarModalList extends PureComponent {
     const { List, ListLoading } = this.props;
     const { prototypeType, record } = this.state;
     const pagination = {
-      pageSize: 8,
+      pageSize: 10,
       total: List.length,
     };
     const columns = [{

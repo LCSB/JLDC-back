@@ -65,6 +65,10 @@ export default class OrgMerge extends PureComponent {
   }
   render() {
     const { roleList, ListLoading } = this.props;
+    const pagination = {
+      pageSize: 10,
+      total: roleList.length,
+    };
     const columns = [{
       title: '角色名称',
       dataIndex: 'role_name',
@@ -130,7 +134,7 @@ export default class OrgMerge extends PureComponent {
               详情
             </span>
             {
-              record.role_type !== 1 &&
+              !record.is_system &&
               (
                 <div className="SysNoBtns">
                   <Divider type="vertical" />
@@ -172,12 +176,13 @@ export default class OrgMerge extends PureComponent {
           columns={columns}
           rowKey={(record => record.id)}
           loading={ListLoading}
+          pagination={pagination}
         />
         <ModalConfig
           roleVisible={this.state.roleVisible}
           moadlType={this.state.moadlType}
           record={this.state.record}
-          dispatch={this.props.dispatch}
+          // dispatch={this.props.dispatch}
           cancelModal={this.cancelModal}
           roleList={roleList}
         />

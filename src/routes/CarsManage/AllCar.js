@@ -83,13 +83,17 @@ export default class AllPerson extends PureComponent {
     });
   }
 
+  changeRowData = () => {
+
+  }
+
   render() {
     const {
       carList, carLoad, orgById, orgFilter, orgList,
       typeList, ModalList,
     } = this.props;
     const pagination = {
-      pageSize: 8,
+      pageSize: 10,
       total: carList.length,
     };
     const columns = [{

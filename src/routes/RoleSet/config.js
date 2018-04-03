@@ -1,14 +1,26 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'dva';
 import {
-  Button, Input, Modal, Form, Radio,
+  Button, Input, Modal, Form, Radio, Table,
 } from 'antd';
 
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 const { TextArea } = Input;
-
+@connect(({ car }) => ({
+  carList: car.carList,
+  carLoad: car.carListLoading,
+}))
 @Form.create()
 export default class Modalconfig extends PureComponent {
+  state = {
+    UseCarKey: [],
+  }
+  componentWillMount() {
+    this.props.dispatch({
+      type: 'car/getAllCarList',
+    });
+  }
   cancelFormModal = () => {
     this.props.form.resetFields();
     this.props.cancelModal();
@@ -21,9 +33,7 @@ export default class Modalconfig extends PureComponent {
         const { dispatch } = this.props;
         const params = {};
         params.role_name = fieldsValue.role_name;
-        params.is_system = Boolean(fieldsValue.is_system);
         params.enable = Boolean(fieldsValue.enable);
-        params.role_type = fieldsValue.role_type;
         params.description = fieldsValue.description;
         // console.log(params);
         if (this.props.moadlType === '添加') {
@@ -56,9 +66,64 @@ export default class Modalconfig extends PureComponent {
       }
     });
   }
+
+  changeRowData = (selectedRowKeys) => {
+    this.setState({
+      UseCarKey: selectedRowKeys,
+    });
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { moadlType, record } = this.props;
+    const {
+      moadlType, record, carList, carLoad,
+    } = this.props;
+    const pagination = {
+      pageSize: 5,
+      total: carList.length,
+    };
+    const rowSelection = {
+      selectedRowKeys: this.state.UseCarKey,
+      onChange: this.changeRowData,
+    };
+    const columns = [
+      {
+        title: '车牌号',
+        dataIndex: 'vehicle.vehicle_number',
+        width: 200,
+        align: 'center',
+      },
+      {
+        title: '车型',
+        dataIndex: 'vehicle_model_name',
+        width: 200,
+        align: 'center',
+      },
+      {
+        title: '车型用途',
+        dataIndex: 'vehicle_type_name',
+        width: 200,
+        align: 'center',
+      },
+      {
+        title: '座位数',
+        dataIndex: 'vehicle.seat_number',
+        width: 200,
+        align: 'center',
+      },
+      {
+        title: '部门',
+        dataIndex: 'vehicle.depart_id',
+        width: 200,
+        align: 'center',
+      },
+      {
+        title: '车辆状态',
+        dataIndex: 'vehicle.vehicle_status',
+        width: 200,
+        align: 'center',
+      },
+    ];
     return (
       <Modal
         visible={this.props.roleVisible}
@@ -81,19 +146,6 @@ export default class Modalconfig extends PureComponent {
             )}
           </FormItem>
           <FormItem
-            label="系统用户"
-          >
-            {getFieldDecorator('is_system', {
-              rules: [{ required: true, message: '请选择是否为系统用户' }],
-              initialValue: moadlType === '添加' ? false : record.is_system,
-            })(
-              <RadioGroup disabled={moadlType === '详情'} >
-                <Radio value>是</Radio>
-                <Radio value={false}>否</Radio>
-              </RadioGroup>
-            )}
-          </FormItem>
-          <FormItem
             label="角色状态"
           >
             {getFieldDecorator('enable', {
@@ -107,23 +159,6 @@ export default class Modalconfig extends PureComponent {
             )}
           </FormItem>
           <FormItem
-            label="角色属性"
-          >
-            {getFieldDecorator('role_type', {
-              rules: [{ required: true, message: '请选择角色属性' }],
-              initialValue: moadlType === '添加' ? '' : record.role_type,
-            })(
-              <RadioGroup disabled={moadlType === '详情'} >
-                <Radio value={1}>系统管理员</Radio>
-                <Radio value={2}>调度员</Radio>
-                <Radio value={3}>领导</Radio>
-                <Radio value={4}>仓库管理员</Radio>
-                <Radio value={5}>普通警员</Radio>
-                <Radio value={6}>司机</Radio>
-              </RadioGroup>
-            )}
-          </FormItem>
-          <FormItem
             label="角色描述"
           >
             {getFieldDecorator('description', {
@@ -133,6 +168,14 @@ export default class Modalconfig extends PureComponent {
               <TextArea />
             )}
           </FormItem>
+          <Table
+            dataSource={carList}
+            columns={columns}
+            rowKey={(recordMes => recordMes.vehicle.id)}
+            loading={carLoad}
+            pagination={pagination}
+            rowSelection={rowSelection}
+          />
           {
             moadlType !== '详情' &&
             (

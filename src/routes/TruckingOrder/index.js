@@ -54,7 +54,7 @@ export default class TruckingOrder extends PureComponent {
   render() {
     const { orderList, ListLoading } = this.props;
     const pagination = {
-      pageSize: 8,
+      pageSize: 10,
       total: orderList.length,
     };
     const columns = [
