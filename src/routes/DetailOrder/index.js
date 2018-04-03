@@ -89,7 +89,8 @@ export default class DetailOrder extends PureComponent {
       end_time: getFieldValue('end_time'),
     };
     params[paramsItem] = data;
-    if (!!params.user_id && !!params.start_time && !!params.end_time && this.state.status === 1) {
+    const { status } = this.state;
+    if (!!params.user_id && !!params.start_time && !!params.end_time && status !== 2) {
       params.start_time = params.start_time.format(getCarDate);
       params.end_time = params.end_time.format(getCarDate);
       this.props.dispatch({
@@ -108,23 +109,29 @@ export default class DetailOrder extends PureComponent {
     this.props.form.validateFields((err, fieldsValue) => {
       if (!err) {
         const { status } = this.state;
+        const params = {};
+        if (fieldsValue.driver instanceof Number) {
+          params.driver = fieldsValue.driver;
+        } else {
+          params.driver = 0;
+        }
+        params.originator = fieldsValue.originator;
+        params.start_time = fieldsValue.start_time;
+        params.end_time = fieldsValue.end_time;
+        params.vehicle_id = fieldsValue.vehicle_id;
+        params.start_place = fieldsValue.start_place;
+        params.end_place = fieldsValue.end_place;
+        params.prototype_id = fieldsValue.prototype_id;
+        params.order_status = fieldsValue.order_status;
         if (status === 1) {
           this.props.dispatch({
             type: 'orderDetail/createOrder',
-            payload: fieldsValue,
+            payload: params,
           });
         }
         if (status === 3) {
           const { detailList } = this.props;
-          const params = {};
           params.id = detailList.vehicle_order.id;
-          params.originator = fieldsValue.originator;
-          params.end_time = fieldsValue.end_time;
-          params.vehicle_id = fieldsValue.vehicle_id;
-          params.start_place = fieldsValue.start_place;
-          params.end_place = fieldsValue.end_place;
-          params.prototype_id = fieldsValue.prototype_id;
-          params.order_status = fieldsValue.order_status;
           this.props.dispatch({
             type: 'orderDetail/reviseOrder',
             payload: params,
@@ -153,7 +160,7 @@ export default class DetailOrder extends PureComponent {
     const { status } = this.state;
     const {
       detailList, form, reasonList, userList, AvailableVehicles,
-      detailLoading, AvailableDriver, driverList,
+      detailLoading, AvailableDriver, driverList, carList,
     } = this.props;
     let DriverSelectData = driverList;
     if (AvailableDriver.length > 0) {
@@ -173,6 +180,8 @@ export default class DetailOrder extends PureComponent {
       if (AvailableMes.vehicle_exts instanceof Array) {
         showCarList = AvailableMes.vehicle_exts;
       }
+    } else {
+      showCarList = carList;
     }
 
     // console.log(AvailableDriver);
@@ -289,7 +298,7 @@ export default class DetailOrder extends PureComponent {
                   >
                     {getFieldDecorator('vehicle_id', {
                       rules: [{ required: true, message: '请选择车牌号' }],
-                      initialValue: detailList.vehicle_order ? detailList.vehicle_number : '',
+                      initialValue: detailList.vehicle_order ? detailList.vehicle_order.vehicle_id : '',
                     })(
                       <Select
                         disabled={status === 2}

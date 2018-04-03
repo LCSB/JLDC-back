@@ -64,7 +64,7 @@ export default class home extends PureComponent {
               carReg = Math.tan(regNum);
               this[`${val.vehicle_name}rotate`] = carReg;
               if (carReg < 0) {
-                this[`${val.vehicle_name}rotate`] = carReg + 270;
+                this[`${val.vehicle_name}rotate`] = carReg + 180;
               }
             } else if (valGpsLon !== oldGpsLon && valGpsLon - oldGpsLon > 0) {
               carReg = 90;

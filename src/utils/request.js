@@ -64,8 +64,8 @@ export default function request(url, options) {
       };
     }
   }
-  const root = `https://www.superdata-tech.com${url}`;
-  // const root = `http://192.144.129.105${url}`;
+  // const root = `https://www.superdata-tech.com${url}`;
+  const root = `http://192.144.129.105${url}`;
   return fetch(root, newOptions)
     .then(checkStatus)
     .then((response) => {

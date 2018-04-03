@@ -1,5 +1,5 @@
 import { routerRedux } from 'dva/router';
-import moment from 'moment';
+// import moment from 'moment';
 import {
   getOrderDatail, getUseCarReason, getAvailableVehicles, createOrder, reviseOrder,
   getAvailableDriver, getOrderHistory,
@@ -30,20 +30,20 @@ export default {
           type: 'saveList',
           detailList: response.vehicleOrderExt,
         });
-        const orderMes = response.vehicleOrderExt.vehicle_order;
-        const getCarDate = 'YYYY-MM-DD HH:mm:ss';
-        const params = {
-          user_id: orderMes.originator,
-          start_time: moment(orderMes.start_time).format(getCarDate),
-          end_time: moment(orderMes.end_time).format(getCarDate),
-        };
-        const responseAvailable = yield call(getAvailableVehicles, params);
-        if (responseAvailable && responseAvailable.error.code === 0) {
-          yield put({
-            type: 'saveAvailableVehicles',
-            AvailableVehicles: responseAvailable,
-          });
-        }
+        // const orderMes = response.vehicleOrderExt.vehicle_order;
+        // const getCarDate = 'YYYY-MM-DD HH:mm:ss';
+        // const params = {
+        //   user_id: orderMes.originator,
+        //   start_time: moment(orderMes.start_time).format(getCarDate),
+        //   end_time: moment(orderMes.end_time).format(getCarDate),
+        // };
+        // const responseAvailable = yield call(getAvailableVehicles, params);
+        // if (responseAvailable && responseAvailable.error.code === 0) {
+        //   yield put({
+        //     type: 'saveAvailableVehicles',
+        //     AvailableVehicles: responseAvailable,
+        //   });
+        // }
         // const responseDrivers = yield call(getAvailableDriver, params);
         // if (responseDrivers && responseDrivers.error.code === 0) {
         //   yield put({
