@@ -78,7 +78,7 @@ export default class OrgMerge extends PureComponent {
       align: 'center',
     }, {
       title: '上级单位ID',
-      dataIndex: 'organization.parent_id',
+      dataIndex: 'parent_name',
       width: 200,
       align: 'center',
     }, {

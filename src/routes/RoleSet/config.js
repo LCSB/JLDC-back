@@ -4,18 +4,25 @@ import {
   Button, Input, Modal, Form, Radio, Table,
 } from 'antd';
 
+// const carStatus = {
+//   1: '空闲',
+//   2: '占用',
+//   3: '维修',
+//   4: '停用',
+// };
+
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 const { TextArea } = Input;
-@connect(({ car }) => ({
-  carList: car.carList,
-  carLoad: car.carListLoading,
+@connect(({ carModal }) => ({
+  List: carModal.List,
+  ListLoading: carModal.ListLoading,
 }))
 @Form.create()
 export default class Modalconfig extends PureComponent {
   componentWillMount() {
     this.props.dispatch({
-      type: 'car/getAllCarList',
+      type: 'carModal/getCarModalList',
     });
   }
   cancelFormModal = () => {
@@ -68,11 +75,11 @@ export default class Modalconfig extends PureComponent {
   render() {
     const { getFieldDecorator } = this.props.form;
     const {
-      moadlType, record, carList, carLoad, selectCar,
+      moadlType, record, List, ListLoading, selectCar,
     } = this.props;
     const pagination = {
       pageSize: 5,
-      total: carList.length,
+      total: List.length,
     };
     const rowSelection = {
       selectedRowKeys: selectCar,
@@ -80,40 +87,44 @@ export default class Modalconfig extends PureComponent {
     };
     const columns = [
       {
-        title: '车牌号',
-        dataIndex: 'vehicle.vehicle_number',
-        width: 200,
-        align: 'center',
-      },
-      {
         title: '车型',
         dataIndex: 'vehicle_model_name',
-        width: 200,
+        width: 310,
         align: 'center',
       },
-      {
-        title: '车型用途',
-        dataIndex: 'vehicle_type_name',
-        width: 200,
-        align: 'center',
-      },
-      {
-        title: '座位数',
-        dataIndex: 'vehicle.seat_number',
-        width: 200,
-        align: 'center',
-      },
-      {
-        title: '部门',
-        dataIndex: 'vehicle.depart_id',
-        width: 200,
-        align: 'center',
-      },
+      // {
+      //   title: '车牌号',
+      //   dataIndex: 'vehicle.vehicle_number',
+      //   width: 200,
+      //   align: 'center',
+      // },
+      // {
+      //   title: '车型用途',
+      //   dataIndex: 'vehicle_type_name',
+      //   width: 200,
+      //   align: 'center',
+      // },
+      // {
+      //   title: '座位数',
+      //   dataIndex: 'vehicle.seat_number',
+      //   width: 200,
+      //   align: 'center',
+      // },
+      // {
+      //   title: '部门',
+      //   dataIndex: 'vehicle.depart_id',
+      //   width: 200,
+      //   align: 'center',
+      // },
       {
         title: '车辆状态',
-        dataIndex: 'vehicle.vehicle_status',
-        width: 200,
+        dataIndex: 'enable',
+        width: 310,
         align: 'center',
+        render: (val) => {
+          const valMes = val ? '可用' : '不可用';
+          return valMes;
+        },
       },
     ];
     return (
@@ -162,10 +173,10 @@ export default class Modalconfig extends PureComponent {
             )}
           </FormItem>
           <Table
-            dataSource={carList}
+            dataSource={List}
             columns={columns}
-            rowKey={(recordMes => recordMes.vehicle.id)}
-            loading={carLoad}
+            rowKey={(recordMes => recordMes.id)}
+            loading={ListLoading}
             pagination={pagination}
             rowSelection={rowSelection}
           />

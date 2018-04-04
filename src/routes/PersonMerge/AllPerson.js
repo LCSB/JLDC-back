@@ -117,9 +117,12 @@ export default class AllPerson extends PureComponent {
     const filterList = [];
     userList.map((item) => {
       if (
-        item.name.indexOf(value) >= 0 ||
-        item.phone.indexOf(value) >= 0 ||
-        item.police_number.indexOf(value) >= 0
+        item.sys_user &&
+        (
+          item.sys_user.name.indexOf(value) >= 0 ||
+          item.sys_user.phone.indexOf(value) >= 0 ||
+          item.sys_user.police_number.indexOf(value) >= 0
+        )
       ) {
         filterList.push(item);
       }

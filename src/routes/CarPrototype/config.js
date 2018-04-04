@@ -87,8 +87,8 @@ export default class Prototypeconfig extends PureComponent {
               initialValue: prototypeType === '修改' ? record.enable : true,
             })(
               <RadioGroup>
-                <Radio value>是</Radio>
-                <Radio value={false}>否</Radio>
+                <Radio value>可用</Radio>
+                <Radio value={false}>不可用</Radio>
               </RadioGroup>
             )}
           </FormItem>

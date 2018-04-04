@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import {
-  Table, Button, Input,
+  Table, Input,
 } from 'antd';
 // import PrototypeConfig from './config';
 import styles from './index.less';
@@ -97,13 +97,13 @@ export default class CarModalList extends PureComponent {
             style={{ width: 400 }}
             enterButton
           />
-          <Button
+          {/* <Button
             type="primary"
             icon="plus"
             onClick={this.addPrototype}
           >
             添加司机
-          </Button>
+          </Button> */}
         </div>
         <Table
           dataSource={driverList}

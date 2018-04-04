@@ -58,9 +58,9 @@ export default class DetailOrder extends PureComponent {
         idKey: id,
       });
     }
-    this.props.dispatch({
-      type: 'driver/getDriverList',
-    });
+    // this.props.dispatch({
+    //   type: 'driver/getDriverList',
+    // });
     this.props.dispatch({
       type: 'person/getAllList',
     });
@@ -110,26 +110,34 @@ export default class DetailOrder extends PureComponent {
       if (!err) {
         const { status } = this.state;
         const params = {};
-        if (fieldsValue.driver instanceof Number) {
-          params.driver = fieldsValue.driver;
-        } else {
-          params.driver = 0;
-        }
+
         params.originator = fieldsValue.originator;
         params.start_time = fieldsValue.start_time;
         params.end_time = fieldsValue.end_time;
-        params.vehicle_id = fieldsValue.vehicle_id;
+
         params.start_place = fieldsValue.start_place;
         params.end_place = fieldsValue.end_place;
         params.prototype_id = fieldsValue.prototype_id;
         params.order_status = fieldsValue.order_status;
         if (status === 1) {
+          params.vehicle_id = fieldsValue.vehicle_id;
+          if (fieldsValue.driver !== '') {
+            params.driver = fieldsValue.driver;
+          } else {
+            params.driver = 0;
+          }
           this.props.dispatch({
             type: 'orderDetail/createOrder',
             payload: params,
           });
         }
         if (status === 3) {
+          if (!isNaN(parseInt(fieldsValue.vehicle_id, 10))) {
+            params.vehicle_id = fieldsValue.vehicle_id;
+          }
+          if (!isNaN(parseInt(fieldsValue.driver, 10))) {
+            params.driver = fieldsValue.driver;
+          }
           const { detailList } = this.props;
           params.id = detailList.vehicle_order.id;
           this.props.dispatch({
@@ -162,10 +170,10 @@ export default class DetailOrder extends PureComponent {
       detailList, form, reasonList, userList, AvailableVehicles,
       detailLoading, AvailableDriver, driverList, carList,
     } = this.props;
-    let DriverSelectData = driverList;
-    if (AvailableDriver.length > 0) {
-      DriverSelectData = AvailableDriver;
-    }
+    // let DriverSelectData = driverList;
+    // if (AvailableDriver.length > 0) {
+    //   DriverSelectData = AvailableDriver;
+    // }
     // console.log(DriverSelectData);
     const { getFieldDecorator, getFieldValue } = form;
     // moment(detailList.vehicle_order.end_time, showDate)
@@ -298,7 +306,7 @@ export default class DetailOrder extends PureComponent {
                   >
                     {getFieldDecorator('vehicle_id', {
                       rules: [{ required: true, message: '请选择车牌号' }],
-                      initialValue: detailList.vehicle_order ? detailList.vehicle_order.vehicle_id : '',
+                      initialValue: detailList.vehicle_order ? detailList.vehicle_number : '',
                     })(
                       <Select
                         disabled={status === 2}
@@ -330,19 +338,33 @@ export default class DetailOrder extends PureComponent {
                   >
                     {getFieldDecorator('driver', {
                       initialValue: detailList.vehicle_order ?
-                      (detailList.vehicle_order.driver === 0 ? '' : detailList.vehicle_order.driver) : '',
+                      (detailList.vehicle_order.driver === 0 ? '' : detailList.driver_name) : '',
                     })(
                       <Select
                         disabled={status === 2}
                       >
                         {
-                          DriverSelectData.map((val) => {
+                          AvailableDriver.length <= 0 &&
+                          driverList.map((val) => {
                             return (
                               <Option
                                 value={val.sys_user.id}
                                 key={val.sys_user.id}
                               >
                                 {val.sys_user.name}
+                              </Option>
+                            );
+                          })
+                        }
+                        {
+                          AvailableDriver.length > 0 &&
+                          AvailableDriver.map((val) => {
+                            return (
+                              <Option
+                                value={val.id}
+                                key={val.id}
+                              >
+                                {val.name}
                               </Option>
                             );
                           })
@@ -509,19 +531,19 @@ export default class DetailOrder extends PureComponent {
                           </div>
                         )
                       }
-                      {
-                        detailList.vehicle_order &&
-                        detailList.vehicle_order.order_status === 2 &&
-                        (
-                          <Button
-                            type="primary"
-                            onClick={this.changeOrderStatus.bind(this, 3)}
-                          >
-                            还钥匙
-                          </Button>
-                        )
-                      }
                     </div>
+                  )
+                }
+                {
+                  detailList.vehicle_order &&
+                  detailList.vehicle_order.order_status === 2 &&
+                  (
+                    <Button
+                      type="primary"
+                      onClick={this.changeOrderStatus.bind(this, 3)}
+                    >
+                      还钥匙
+                    </Button>
                   )
                 }
               </div>

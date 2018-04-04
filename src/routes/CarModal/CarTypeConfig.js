@@ -87,8 +87,8 @@ export default class Modalconfig extends PureComponent {
               initialValue: modalType === '添加' ? true : recordMes.enable,
             })(
               <RadioGroup>
-                <Radio value>是</Radio>
-                <Radio value={false}>否</Radio>
+                <Radio value>可用</Radio>
+                <Radio value={false}>不可用</Radio>
               </RadioGroup>
             )}
           </FormItem>

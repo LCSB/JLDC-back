@@ -83,7 +83,7 @@ export const getRouterData = (app) => {
       component: dynamicWrapper(app, ['org'], () => import('../routes/OrgMerge')),
     },
     '/basic/roleSet': {
-      component: dynamicWrapper(app, ['role', 'car'], () => import('../routes/RoleSet')),
+      component: dynamicWrapper(app, ['role', 'carModal'], () => import('../routes/RoleSet')),
     },
     '/basic/driver': {
       component: dynamicWrapper(app, ['driver'], () => import('../routes/DriverManage')),

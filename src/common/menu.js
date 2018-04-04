@@ -27,7 +27,7 @@ const menuData = [{
   path: 'basic',
   children: [
     {
-      name: '人员',
+      name: '用车人员',
       path: 'person',
     },
     {
@@ -51,12 +51,16 @@ const menuData = [{
   path: 'carMes',
   children: [
     {
-      name: '车辆信息',
-      path: 'car',
+      name: '派车单',
+      path: 'order',
     },
     {
       name: '车辆调度调控',
       path: 'CarDispatch',
+    },
+    {
+      name: '车辆信息',
+      path: 'car',
     },
     {
       name: '基础数据',
@@ -75,10 +79,6 @@ const menuData = [{
     //   name: '用车原因',
     //   path: 'CarPrototype',
     // },
-    {
-      name: '派车单',
-      path: 'order',
-    },
     {
       name: '派车单详情',
       path: 'orderDetail',

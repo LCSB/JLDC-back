@@ -38,10 +38,10 @@ export default class TruckingOrder extends PureComponent {
     this.props.history.replace('/carMes/orderDetail?status=1');
   }
 
-  cancelOrder = (id) => {
+  changeOrderStatus = (id, status) => {
     const params = {};
     params.id = id;
-    params.order_status = 4;
+    params.order_status = status;
     this.props.dispatch({
       type: 'order/reviseOrder',
       payload: params,
@@ -136,11 +136,26 @@ export default class TruckingOrder extends PureComponent {
                     <Divider type="vertical" />
                     <Popconfirm
                       title={`你确认要取消${record.originator_name}的订单么?`}
-                      onConfirm={this.cancelOrder.bind(this, record.vehicle_order.id)}
+                      onConfirm={this.changeOrderStatus.bind(this, record.vehicle_order.id, 4)}
                     >
                       取消
                     </Popconfirm>
                   </div>
+                )
+              }
+              {
+                record.vehicle_order.order_status === 2 &&
+                (
+                <div>
+                  <Divider type="vertical" />
+                  <Popconfirm
+                    title={`你确认${record.originator_name}订单已完成么?`}
+                    onConfirm={this.changeOrderStatus.bind(this, record.vehicle_order.id, 3)}
+
+                  >
+                    完成
+                  </Popconfirm>
+                </div>
                 )
               }
             </div>

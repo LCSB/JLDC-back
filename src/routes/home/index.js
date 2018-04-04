@@ -61,16 +61,27 @@ export default class home extends PureComponent {
             const oldGpsLat = parseFloat(oldValue.gps_lat);
             if (valGpsLat !== oldGpsLat) {
               const regNum = (valGpsLon - oldGpsLon) / (valGpsLat - oldGpsLat);
-              carReg = Math.tan(regNum);
+              carReg = Math.atan(regNum) * 57.2957795;
               this[`${val.vehicle_name}rotate`] = carReg;
-              if (carReg < 0) {
-                this[`${val.vehicle_name}rotate`] = carReg + 180;
+              if (regNum > 0 && valGpsLat - oldGpsLat > 0) {
+                this[`${val.vehicle_name}rotate`] = 270 - carReg;
               }
-            } else if (valGpsLon !== oldGpsLon && valGpsLon - oldGpsLon > 0) {
-              carReg = 90;
-              this[`${val.vehicle_name}rotate`] = carReg;
-            } else if (valGpsLon !== oldGpsLon && valGpsLon - oldGpsLon < 0) {
+              if (regNum < 0 && valGpsLat - oldGpsLat > 0) {
+                this[`${val.vehicle_name}rotate`] = 270 + carReg;
+              }
+              if (regNum > 0 && valGpsLat - oldGpsLat < 0) {
+                this[`${val.vehicle_name}rotate`] = carReg;
+              }
+              if (regNum < 0 && valGpsLat - oldGpsLat < 0) {
+                this[`${val.vehicle_name}rotate`] = carReg + 90;
+              }
+            }
+            if (valGpsLat === oldGpsLat && valGpsLon - oldGpsLon > 0) {
               carReg = 270;
+              this[`${val.vehicle_name}rotate`] = carReg;
+            }
+            if (valGpsLat === oldGpsLat && valGpsLon - oldGpsLon < 0) {
+              carReg = 90;
               this[`${val.vehicle_name}rotate`] = carReg;
             }
           }
